@@ -1,0 +1,170 @@
+.home-page {
+  position: relative;
+  padding: 40px 48px 32px;
+  min-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.home-orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(33,150,243,0.18) 0%, transparent 70%);
+  top: -150px; left: -100px;
+  animation: floatUp 8s ease-in-out infinite;
+}
+
+.home-orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,188,212,0.12) 0%, transparent 70%);
+  bottom: -100px; right: -80px;
+  animation: floatUp 10s ease-in-out infinite reverse;
+}
+
+.home-hero {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero-badge {
+  display: inline-block;
+  background: rgba(33,150,243,0.1);
+  border: 1px solid rgba(33,150,243,0.25);
+  color: var(--primary-light);
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.home-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.home-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* ─── Grid ─────────────────────────────────────────────────────────────────── */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .home-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─── Card ─────────────────────────────────────────────────────────────────── */
+.home-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  text-align: left;
+  animation: fadeIn 0.4s ease both;
+}
+
+.home-card:hover {
+  border-color: var(--card-color);
+  box-shadow: 0 8px 32px var(--card-glow);
+  transform: translateY(-3px) scale(1.01);
+}
+
+.home-card:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.home-card-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--card-color);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.home-card:hover .home-card-bg {
+  opacity: 0.06;
+}
+
+.home-card-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: transform 0.25s;
+}
+
+.home-card:hover .home-card-icon {
+  transform: scale(1.15);
+}
+
+.home-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 1;
+}
+
+.home-card-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.home-card-sublabel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.home-card-arrow {
+  color: var(--card-color);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.home-card:hover .home-card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Left accent bar */
+.home-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--card-color);
+  opacity: 0;
+  transition: opacity 0.25s;
+  border-radius: 0 2px 2px 0;
+}
+
+.home-card:hover::before {
+  opacity: 1;
+}

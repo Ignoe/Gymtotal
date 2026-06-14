@@ -1,0 +1,33 @@
+.validation-page { min-height: calc(100vh - 120px); display: flex; align-items: flex-start; justify-content: center; padding: 40px 24px; }
+.validation-content { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 32px; }
+.validation-header { text-align: center; }
+.validation-icon { font-size: 3.5rem; margin-bottom: 12px; }
+.validation-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.validation-header p { color: var(--text-muted); font-size: 1.05rem; }
+.validation-keypad-area { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.validation-result { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.validation-result-card {
+  width: 100%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.result-ok { border-color: rgba(0,230,118,0.4); background: rgba(0,230,118,0.04); }
+.result-error { border-color: rgba(244,67,54,0.4); background: rgba(244,67,54,0.04); }
+.result-icon-big { font-size: 4rem; }
+.result-name { font-size: 1.8rem; font-weight: 800; }
+.result-id { color: var(--text-muted); font-size: 0.9rem; }
+.result-badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.result-details { width: 100%; background: var(--surface-2); border-radius: var(--radius); padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+.result-detail-row { display: flex; justify-content: space-between; font-size: 0.9rem; }
+.result-detail-row span:first-child { color: var(--text-muted); }
+.result-detail-row span:last-child { font-weight: 600; }
+.result-message { width: 100%; padding: 14px 20px; border-radius: var(--radius); font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+.result-message-ok { background: rgba(0,230,118,0.12); color: var(--success); border: 1px solid rgba(0,230,118,0.3); }
+.result-message-error { background: rgba(244,67,54,0.12); color: var(--danger); border: 1px solid rgba(244,67,54,0.3); }

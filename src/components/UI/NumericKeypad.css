@@ -1,0 +1,109 @@
+.keypad-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.keypad-display {
+  width: 100%;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 70px;
+  transition: border-color 0.2s;
+}
+
+.keypad-display:focus-within,
+.keypad-display.has-value {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(33,150,243,0.12);
+}
+
+.keypad-display-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.15em;
+  flex: 1;
+}
+
+.keypad-placeholder {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: normal;
+}
+
+.keypad-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 36px;
+  background: var(--primary-light);
+  border-radius: 2px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.keypad-btn {
+  aspect-ratio: 1.4;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keypad-btn:hover {
+  background: var(--surface-3);
+  border-color: var(--primary-light);
+  transform: scale(1.04);
+}
+
+.keypad-btn:active {
+  transform: scale(0.95);
+  background: rgba(33,150,243,0.15);
+}
+
+.keypad-btn-confirm {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-color: var(--primary-light);
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 16px rgba(33,150,243,0.35);
+}
+
+.keypad-btn-confirm:hover {
+  box-shadow: 0 6px 24px rgba(33,150,243,0.5);
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+.keypad-btn-delete {
+  color: var(--danger-light);
+  border-color: rgba(244,67,54,0.2);
+  font-size: 1.4rem;
+}
+
+.keypad-btn-delete:hover {
+  background: rgba(244,67,54,0.1);
+  border-color: var(--danger);
+}

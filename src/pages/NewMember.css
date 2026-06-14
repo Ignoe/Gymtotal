@@ -1,0 +1,26 @@
+.newmember-page { min-height: calc(100vh - 120px); display: flex; justify-content: center; padding: 32px 24px; }
+.newmember-content { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 28px; }
+.newmember-header { text-align: center; }
+.newmember-header h1 { font-size: 2rem; font-weight: 800; margin: 8px 0 6px; }
+.newmember-header p { color: var(--text-muted); }
+.newmember-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 28px; display: flex; flex-direction: column; gap: 20px; }
+.field-error { font-size: 0.78rem; color: var(--danger); margin-top: 2px; }
+.input-error { border-color: var(--danger) !important; }
+.newmember-plan { display: flex; flex-direction: column; gap: 20px; }
+.newmember-user-bar { display: flex; align-items: center; justify-content: space-between; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 20px; font-weight: 600; }
+.plans-grid-new { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.plan-card-new {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px 16px;
+  cursor: pointer; transition: var(--transition);
+  text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center;
+}
+.plan-card-new:hover { border-color: var(--pc); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.plan-new-selected { border-color: var(--pc) !important; background: rgba(255,255,255,0.04); }
+.newmember-done { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 32px 20px; text-align: center; }
+.newmember-done h2 { font-size: 2rem; font-weight: 800; }
+.newmember-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; }
+.nm-card-row { display: flex; justify-content: space-between; font-size: 0.95rem; padding: 6px 0; border-bottom: 1px solid var(--border-light); }
+.nm-card-row:last-child { border-bottom: none; }
+.nm-card-row span:first-child { color: var(--text-muted); }
+.nm-card-row span:last-child { font-weight: 600; }
