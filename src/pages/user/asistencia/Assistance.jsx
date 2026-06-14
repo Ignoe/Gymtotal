@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { KioskLayout } from '../components/Layout/KioskLayout';
-import { NumericKeypad } from '../components/UI/NumericKeypad';
-import { BackButton } from '../components/UI/BackButton';
-import { useApp } from '../context/AppContext';
+import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { NumericKeypad } from '../../../components/UI/NumericKeypad';
+import { BackButton } from '../../../components/UI/BackButton';
+import { useApp } from '../../../context/AppContext';
 import './Assistance.css';
 
 const TYPES = [

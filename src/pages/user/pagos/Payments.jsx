@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { KioskLayout } from '../components/Layout/KioskLayout';
-import { NumericKeypad } from '../components/UI/NumericKeypad';
-import { BackButton } from '../components/UI/BackButton';
-import { Modal } from '../components/UI/Modal';
-import { Ticket } from '../components/UI/Ticket';
-import { useApp } from '../context/AppContext';
-import plansData from '../data/plans.json';
+import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { NumericKeypad } from '../../../components/UI/NumericKeypad';
+import { BackButton } from '../../../components/UI/BackButton';
+import { Modal } from '../../../components/UI/Modal';
+import { Ticket } from '../../../components/UI/Ticket';
+import { useApp } from '../../../context/AppContext';
+import plansData from '../../../data/plans.json';
 import './Payments.css';
 
 const STEPS = { DNI: 'dni', SELECT: 'select', PROCESSING: 'processing', DONE: 'done' };

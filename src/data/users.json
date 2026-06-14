@@ -95,5 +95,20 @@
     "historialPagos": [
       { "id": "PAY-007", "fecha": "2026-02-15", "monto": 40000, "concepto": "Cuota Trimestral - Feb/May 2026", "metodo": "terminal" }
     ]
+  },
+  {
+    "id": "USR-ADMIN",
+    "dni": "99999999",
+    "nombre": "Admin GymTotal",
+    "email": "admin@gymtotal.com",
+    "telefono": "1199999999",
+    "plan": "pase libre",
+    "fechaAlta": "2026-01-01",
+    "fechaVencimiento": "2027-12-31",
+    "habilitado": true,
+    "saldo": 0,
+    "rol": "admin",
+    "rutina": [],
+    "historialPagos": []
   }
 ]

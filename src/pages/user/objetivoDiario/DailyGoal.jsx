@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { KioskLayout } from '../components/Layout/KioskLayout';
-import { BackButton } from '../components/UI/BackButton';
-import exercisesData from '../data/exercises.json';
+import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { BackButton } from '../../../components/UI/BackButton';
+import exercisesData from '../../../data/exercises.json';
 import './DailyGoal.css';
 
 const GOALS = [

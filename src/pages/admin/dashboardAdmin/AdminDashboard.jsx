@@ -1,4 +1,4 @@
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../../context/AppContext';
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {

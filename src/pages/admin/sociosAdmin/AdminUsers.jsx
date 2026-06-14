@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { StatusBadge } from '../../components/UI/StatusBadge';
-import { Modal } from '../../components/UI/Modal';
-import plansData from '../../data/plans.json';
+import { useApp } from '../../../context/AppContext';
+import { StatusBadge } from '../../../components/UI/StatusBadge';
+import { Modal } from '../../../components/UI/Modal';
+import plansData from '../../../data/plans.json';
 import './AdminUsers.css';
 
 export default function AdminUsers() {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { StatusBadge } from '../../components/UI/StatusBadge';
+import { useApp } from '../../../context/AppContext';
+import { StatusBadge } from '../../../components/UI/StatusBadge';
 
 export default function AdminAssistance() {
   const { assistance, updateAssistance } = useApp();

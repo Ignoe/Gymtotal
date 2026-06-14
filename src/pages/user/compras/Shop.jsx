@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { KioskLayout } from '../components/Layout/KioskLayout';
-import { BackButton } from '../components/UI/BackButton';
-import { Modal } from '../components/UI/Modal';
-import { Ticket } from '../components/UI/Ticket';
-import { useApp } from '../context/AppContext';
+import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { BackButton } from '../../../components/UI/BackButton';
+import { Modal } from '../../../components/UI/Modal';
+import { Ticket } from '../../../components/UI/Ticket';
+import { useApp } from '../../../context/AppContext';
 import './Shop.css';
 
 const CATS = ['Todos', 'Ropa', 'Accesorios', 'Suplementos'];

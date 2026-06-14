@@ -16,7 +16,7 @@ export default function AdminLayout() {
 
   const handleLogout = () => {
     adminAuth.logout();
-    navigate('/admin/login');
+    navigate('/validacion');
   };
 
   return (

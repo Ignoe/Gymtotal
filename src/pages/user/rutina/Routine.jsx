@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { KioskLayout } from '../components/Layout/KioskLayout';
-import { NumericKeypad } from '../components/UI/NumericKeypad';
-import { BackButton } from '../components/UI/BackButton';
-import { useApp } from '../context/AppContext';
-import exercisesData from '../data/exercises.json';
+import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { NumericKeypad } from '../../../components/UI/NumericKeypad';
+import { BackButton } from '../../../components/UI/BackButton';
+import { useApp } from '../../../context/AppContext';
+import exercisesData from '../../../data/exercises.json';
 import './Routine.css';
 
 const STEPS = { DNI: 'dni', VIEW: 'view', BUILD: 'build', SAVED: 'saved' };

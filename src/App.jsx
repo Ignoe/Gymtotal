@@ -3,14 +3,14 @@ import { AppProvider } from './context/AppContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
 
 // Kiosk pages
-import Home from './pages/Home';
-import Validation from './pages/Validation';
-import Payments from './pages/Payments';
-import Routine from './pages/Routine';
-import DailyGoal from './pages/DailyGoal';
-import Assistance from './pages/Assistance';
-import NewMember from './pages/NewMember';
-import Shop from './pages/Shop';
+import Home from './pages/user/home/Home';
+import Validation from './pages/user/validacion/Validation';
+import Payments from './pages/user/pagos/Payments';
+import Routine from './pages/user/rutina/Routine';
+import DailyGoal from './pages/user/objetivoDiario/DailyGoal';
+import Assistance from './pages/user/asistencia/Assistance';
+import NewMember from './pages/user/nuevoUser/NewMember';
+import Shop from './pages/user/compras/Shop';
 
 // Admin pages
 import AdminLogin from './pages/admin/AdminLogin';
@@ -26,17 +26,17 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* ── Kiosk routes ── */}
-          <Route path="/"             element={<Home />} />
-          <Route path="/validation"   element={<Validation />} />
-          <Route path="/payments"     element={<Payments />} />
-          <Route path="/routine"      element={<Routine />} />
-          <Route path="/daily-goal"   element={<DailyGoal />} />
-          <Route path="/assistance"   element={<Assistance />} />
-          <Route path="/new-member"   element={<NewMember />} />
-          <Route path="/shop"         element={<Shop />} />
+          <Route path="/" element={<Validation />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/routine" element={<Routine />} />
+          <Route path="/daily-goal" element={<DailyGoal />} />
+          <Route path="/assistance" element={<Assistance />} />
+          <Route path="/new-member" element={<NewMember />} />
+          <Route path="/shop" element={<Shop />} />
 
           {/* ── Admin routes ── */}
-          <Route path="/admin/login"  element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin"
             element={
@@ -45,10 +45,10 @@ export default function App() {
               </ProtectedRoute>
             }
           >
-            <Route index                element={<AdminDashboard />} />
-            <Route path="users"         element={<AdminUsers />} />
-            <Route path="assistance"    element={<AdminAssistance />} />
-            <Route path="payments"      element={<AdminPayments />} />
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="assistance" element={<AdminAssistance />} />
+            <Route path="payments" element={<AdminPayments />} />
           </Route>
 
           {/* Catch-all */}

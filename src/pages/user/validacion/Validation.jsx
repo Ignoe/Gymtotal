@@ -1,24 +1,51 @@
-import { useState } from 'react';
-import { KioskLayout } from '../components/Layout/KioskLayout';
-import { NumericKeypad } from '../components/UI/NumericKeypad';
-import { BackButton } from '../components/UI/BackButton';
-import { StatusBadge } from '../components/UI/StatusBadge';
-import { useApp } from '../context/AppContext';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { NumericKeypad } from '../../../components/UI/NumericKeypad';
+// import { BackButton } from '../../../components/UI/BackButton';
+import { StatusBadge } from '../../../components/UI/StatusBadge';
+import { Modal } from '../../../components/UI/Modal';
+import { useApp } from '../../../context/AppContext';
+import { adminAuth } from '../../../middleware/adminAuth';
 import './Validation.css';
 
 export default function Validation() {
+  const navigate = useNavigate();
   const { findUserByDni, setCurrentUser } = useApp();
   const [dni, setDni] = useState('');
   const [result, setResult] = useState(null); // null | 'found' | 'not_found'
   const [user, setUser] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (showSuccessModal) {
+      timer = setTimeout(() => {
+        navigate('/home');
+      }, 2500);
+    }
+    return () => clearTimeout(timer);
+  }, [showSuccessModal, navigate]);
 
   const handleSearch = () => {
-    if (dni.length < 7) return;
+    if (dni.length < 8) {
+      setResult('errorDNI');
+      return;
+    }
     const found = findUserByDni(dni);
+    if (dni === '99999999' || (found && found.rol === 'admin')) {
+      adminAuth.login('admin', 'gymtotal2026');
+      navigate('/admin');
+      return;
+    }
     if (found) {
       setUser(found);
       setCurrentUser(found);
-      setResult('found');
+      if (found.habilitado && !isVencido(found)) {
+        setShowSuccessModal(true);
+      } else {
+        setResult('found');
+      }
     } else {
       setUser(null);
       setResult('not_found');
@@ -41,7 +68,7 @@ export default function Validation() {
     <KioskLayout>
       <div className="validation-page page-enter">
         <div className="validation-content">
-          <BackButton />
+          {/* <BackButton /> */}
 
           <div className="validation-header">
             <div className="validation-icon">🪪</div>
@@ -49,24 +76,23 @@ export default function Validation() {
             <p>Ingresá tu DNI para verificar tu habilitación</p>
           </div>
 
-          {!result ? (
+          {!result || result === 'errorDNI' ? (
             <div className="validation-keypad-area">
               <NumericKeypad
                 value={dni}
-                onChange={setDni}
+                onChange={(val) => {
+                  setDni(val);
+                  if (result === 'errorDNI') setResult(null);
+                }}
                 onConfirm={handleSearch}
                 maxLength={8}
                 placeholder="Tu DNI (sin puntos)"
               />
-              <button
-                className="btn btn-primary btn-xl btn-full"
-                style={{ maxWidth: 340 }}
-                onClick={handleSearch}
-                disabled={dni.length < 7}
-                id="btn-validate"
-              >
-                Verificar acceso
-              </button>
+              {result === 'errorDNI' && (
+                <div style={{ color: 'var(--danger, #f44336)', fontWeight: 'bold', marginTop: '12px', textAlign: 'center' }} className="anim-fade-in">
+                  El DNI debe tener 8 caracteres
+                </div>
+              )}
             </div>
           ) : (
             <div className="validation-result anim-fade-in-scale">
@@ -104,12 +130,21 @@ export default function Validation() {
                       <span>✓</span> Acceso habilitado — podés ingresar al gimnasio
                     </div>
                   ) : (
-                    <div className="result-message result-message-error">
-                      <span>✕</span>{' '}
-                      {!user.habilitado
-                        ? 'Tu cuenta está suspendida. Consultá en recepción.'
-                        : 'Tu cuota está vencida. Realizá el pago para acceder.'}
-                    </div>
+                    <>
+                      <div className="result-message result-message-error">
+                        <span>✕</span>{' '}
+                        {!user.habilitado
+                          ? 'Tu cuenta está suspendida. Consultá en recepción.'
+                          : 'Tu cuota está vencida. Realizá el pago para acceder.'}
+
+                      </div>
+                      <div>
+
+                        <button className="btn btn-ghost btn-lg" onClick={handleReset} id="btn-try-again">
+                          Intentar con otro DNI
+                        </button>
+                      </div>
+                    </>
                   )}
                 </div>
               ) : (
@@ -120,17 +155,44 @@ export default function Validation() {
                     No encontramos un socio con el DNI <strong>{dni}</strong>.
                     Si sos nuevo, usá la opción "Soy Nuevo".
                   </p>
+                  <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <button className="btn btn-ghost btn-lg" onClick={handleReset} id="btn-try-again">
+                      Intentar con otro DNI
+                    </button>
+                    <button className="btn btn-ghost btn-lg" onClick={() => navigate('/new-member')} id="btn-try-again">
+                      Soy Nuevo
+                    </button>
+                  </div>
                 </div>
               )}
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                <button className="btn btn-ghost btn-lg" onClick={handleReset} id="btn-try-again">
-                  Intentar con otro DNI
-                </button>
-              </div>
+
             </div>
           )}
         </div>
       </div>
+
+      <Modal 
+        isOpen={showSuccessModal} 
+        onClose={() => navigate('/home')} 
+        title="Acceso Autorizado"
+        maxWidth={400}
+      >
+        <div style={{ textAlign: 'center', padding: '20px 10px' }}>
+          <div style={{ fontSize: '4.5rem', marginBottom: '20px' }}>✅</div>
+          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '8px' }}>
+            ¡Bienvenido, {user?.nombre}!
+          </h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
+            Tu acceso ha sido verificado correctamente. Redirigiendo...
+          </p>
+          <button 
+            className="btn btn-primary btn-lg btn-full" 
+            onClick={() => navigate('/home')}
+          >
+            Ingresar
+          </button>
+        </div>
+      </Modal>
     </KioskLayout>
   );
 }
