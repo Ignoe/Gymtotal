@@ -12,7 +12,7 @@ export function ProtectedRoute({ children }) {
   if (!adminAuth.isAuthenticated()) {
     return (
       <Navigate
-        to="/admin/login"
+        to="/"
         state={{ from: location }}
         replace
       />

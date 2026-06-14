@@ -1,39 +1,79 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import usersData from '../data/users.json';
-import productsData from '../data/products.json';
-import assistanceData from '../data/assistance_requests.json';
+import { db } from '../config/firebase';
+import { collection, onSnapshot, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { seedDatabaseIfEmpty } from '../utils/dbSeeder';
 
 const AppContext = createContext(null);
 
-const STORAGE_KEYS = {
-  users: 'gymtotal_users',
-  assistance: 'gymtotal_assistance',
-  purchases: 'gymtotal_purchases',
-};
-
-function loadOrInit(key, fallback) {
-  try {
-    const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : fallback;
-  } catch {
-    return fallback;
-  }
-}
-
-function persist(key, data) {
-  localStorage.setItem(key, JSON.stringify(data));
-}
-
 export function AppProvider({ children }) {
-  const [users, setUsers] = useState(() => loadOrInit(STORAGE_KEYS.users, usersData));
-  const [assistance, setAssistance] = useState(() => loadOrInit(STORAGE_KEYS.assistance, assistanceData));
-  const [purchases, setPurchases] = useState(() => loadOrInit(STORAGE_KEYS.purchases, []));
+  const [users, setUsers] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [assistance, setAssistance] = useState([]);
+  const [purchases, setPurchases] = useState([]);
   const [cart, setCart] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => { persist(STORAGE_KEYS.users, users); }, [users]);
-  useEffect(() => { persist(STORAGE_KEYS.assistance, assistance); }, [assistance]);
-  useEffect(() => { persist(STORAGE_KEYS.purchases, purchases); }, [purchases]);
+  useEffect(() => {
+    let active = true;
+    let unsubscribes = [];
+
+    async function init() {
+      // Seed if empty
+      await seedDatabaseIfEmpty();
+
+      if (!active) return;
+
+      // Realtime subscription to Users
+      const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setUsers(list);
+      }, (err) => console.error('Error fetching users:', err));
+      unsubscribes.push(unsubUsers);
+
+      // Realtime subscription to Products
+      const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setProducts(list);
+      }, (err) => console.error('Error fetching products:', err));
+      unsubscribes.push(unsubProducts);
+
+      // Realtime subscription to Assistance Requests
+      const unsubAssistance = onSnapshot(collection(db, 'assistance'), (snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setAssistance(list);
+      }, (err) => console.error('Error fetching assistance requests:', err));
+      unsubscribes.push(unsubAssistance);
+
+      // Realtime subscription to Purchases
+      const unsubPurchases = onSnapshot(collection(db, 'purchases'), (snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setPurchases(list);
+      }, (err) => console.error('Error fetching purchases:', err));
+      unsubscribes.push(unsubPurchases);
+
+      setLoading(false);
+    }
+
+    init();
+
+    return () => {
+      active = false;
+      unsubscribes.forEach((unsub) => unsub());
+    };
+  }, []);
 
   // ── User CRUD ──────────────────────────────────────────────────────────────
   const findUserByDni = (dni) =>
@@ -43,8 +83,9 @@ export function AppProvider({ children }) {
     users.find((u) => u.id === id) || null;
 
   const addUser = (userData) => {
+    const id = `USR-${String(Date.now()).slice(-6)}`;
     const newUser = {
-      id: `USR-${String(Date.now()).slice(-6)}`,
+      id,
       habilitado: true,
       saldo: 0,
       rutina: [],
@@ -52,61 +93,75 @@ export function AppProvider({ children }) {
       fechaAlta: new Date().toISOString().slice(0, 10),
       ...userData,
     };
-    setUsers((prev) => [...prev, newUser]);
+    
+    setDoc(doc(db, 'users', id), newUser).catch((err) =>
+      console.error('Error adding user to Firestore:', err)
+    );
+    
     return newUser;
   };
 
   const updateUser = (id, changes) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, ...changes } : u))
+    updateDoc(doc(db, 'users', id), changes).catch((err) =>
+      console.error('Error updating user in Firestore:', err)
     );
   };
 
   const toggleUserStatus = (id) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, habilitado: !u.habilitado } : u))
-    );
+    const user = users.find((u) => u.id === id);
+    if (user) {
+      updateDoc(doc(db, 'users', id), { habilitado: !user.habilitado }).catch((err) =>
+        console.error('Error toggling user status in Firestore:', err)
+      );
+    }
   };
 
   const addPaymentToUser = (userId, payment) => {
+    const user = users.find((u) => u.id === userId);
+    if (!user) return null;
+
     const newPayment = {
       id: `PAY-${String(Date.now()).slice(-6)}`,
       fecha: new Date().toISOString().slice(0, 10),
       metodo: 'terminal',
       ...payment,
     };
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === userId
-          ? { ...u, historialPagos: [...(u.historialPagos || []), newPayment], saldo: 0 }
-          : u
-      )
-    );
+
+    updateDoc(doc(db, 'users', userId), {
+      historialPagos: [...(user.historialPagos || []), newPayment],
+      saldo: 0
+    }).catch((err) => console.error('Error adding payment in Firestore:', err));
+
     return newPayment;
   };
 
   const saveRoutine = (userId, routine) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, rutina: routine } : u))
+    updateDoc(doc(db, 'users', userId), { rutina: routine }).catch((err) =>
+      console.error('Error saving routine in Firestore:', err)
     );
   };
 
   // ── Assistance ─────────────────────────────────────────────────────────────
   const addAssistanceRequest = (request) => {
+    const id = `AST-${String(Date.now()).slice(-6)}`;
     const newReq = {
-      id: `AST-${String(Date.now()).slice(-6)}`,
+      id,
       fecha: new Date().toISOString(),
       estado: 'pendiente',
       atendidoPor: null,
       ...request,
     };
-    setAssistance((prev) => [...prev, newReq]);
+    
+    setDoc(doc(db, 'assistance', id), newReq).catch((err) =>
+      console.error('Error adding assistance request in Firestore:', err)
+    );
+    
     return newReq;
   };
 
   const updateAssistance = (id, changes) => {
-    setAssistance((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, ...changes } : a))
+    updateDoc(doc(db, 'assistance', id), changes).catch((err) =>
+      console.error('Error updating assistance in Firestore:', err)
     );
   };
 
@@ -132,14 +187,19 @@ export function AppProvider({ children }) {
 
   const checkout = (userId) => {
     const total = cart.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
+    const id = `COMP-${String(Date.now()).slice(-6)}`;
     const purchase = {
-      id: `COMP-${String(Date.now()).slice(-6)}`,
+      id,
       fecha: new Date().toISOString(),
       usuarioId: userId || 'anonimo',
       items: [...cart],
       total,
     };
-    setPurchases((prev) => [...prev, purchase]);
+    
+    setDoc(doc(db, 'purchases', id), purchase).catch((err) =>
+      console.error('Error creating purchase in Firestore:', err)
+    );
+    
     clearCart();
     return purchase;
   };
@@ -152,7 +212,7 @@ export function AppProvider({ children }) {
       value={{
         // Data
         users,
-        products: productsData,
+        products,
         assistance,
         purchases,
         cart,
@@ -160,6 +220,7 @@ export function AppProvider({ children }) {
         cartCount,
         currentUser,
         setCurrentUser,
+        loading,
         // User ops
         findUserByDni,
         findUserById,
