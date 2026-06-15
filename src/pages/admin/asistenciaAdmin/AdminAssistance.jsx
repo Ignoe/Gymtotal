@@ -9,8 +9,8 @@ export default function AdminAssistance() {
   const filtered = assistance.filter(a => filter === 'todos' || a.estado === filter);
   const sorted = [...filtered].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
-  const typeLabel = { tecnica: 'Corrección técnica', nueva_rutina: 'Nueva rutina', lesion: 'Lesión/Molestia', general: 'Consulta general' };
-  const typeIcon  = { tecnica: '🎯', nueva_rutina: '📋', lesion: '🩹', general: '💬' };
+  const typeLabel = { tecnica: 'Corrección técnica', nueva_rutina: 'Nueva rutina', lesion: 'Lesión/Molestia', general: 'Consulta general', administrativo: 'Ayuda Administrativa' };
+  const typeIcon  = { tecnica: '🎯', nueva_rutina: '📋', lesion: '🩹', general: '💬', administrativo: '💼' };
 
   return (
     <div className="anim-fade-in" style={{ maxWidth: 1000 }}>

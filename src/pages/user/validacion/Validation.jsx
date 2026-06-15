@@ -13,7 +13,7 @@ import './Validation.css';
 
 export default function Validation() {
   const navigate = useNavigate();
-  const { findUserByDni, setCurrentUser, updateUser, addPaymentToUser } = useApp();
+  const { findUserByDni, setCurrentUser, updateUser, addPaymentToUser, addAssistanceRequest } = useApp();
   const [dni, setDni] = useState('');
   const [result, setResult] = useState(null); // null | 'found' | 'not_found'
   const [user, setUser] = useState(null);
@@ -23,6 +23,22 @@ export default function Validation() {
   const [selectedPlanId, setSelectedPlanId] = useState('mensual');
   const [ticket, setTicket] = useState(null);
   const [showTicketModal, setShowTicketModal] = useState(false);
+  const [showNuevoModal, setShowNuevoModal] = useState(false);
+
+  const handleSoyNuevo = () => {
+    // Dispara solicitud de asistencia administrativa (igual que profesores)
+    addAssistanceRequest({
+      usuarioId: 'anonimo',
+      usuarioNombre: 'Visitante sin registro',
+      tipo: 'administrativo',
+      descripcion: 'Un visitante solicita información en el tótem. Por favor acercarse a recepción.',
+    });
+    setShowNuevoModal(true);
+    // Auto-cierre a los 3 segundos
+    setTimeout(() => {
+      setShowNuevoModal(false);
+    }, 3000);
+  };
 
   const handleProcessPayment = () => {
     if (!user) return;
@@ -150,6 +166,14 @@ export default function Validation() {
                   El DNI debe tener 8 caracteres
                 </div>
               )}
+              <button
+                className="btn btn-ghost"
+                style={{ marginTop: 8, gap: 8 }}
+                onClick={handleSoyNuevo}
+                id="btn-soy-nuevo-validation"
+              >
+                👋 Soy nuevo, nunca vine al gimnasio
+              </button>
             </div>
           ) : (
             <div className="validation-result anim-fade-in-scale">
@@ -368,6 +392,26 @@ export default function Validation() {
       {/* Modal del Ticket de Comprobante */}
       <Modal isOpen={showTicketModal} onClose={() => setShowTicketModal(false)} title="Comprobante de pago" maxWidth={420}>
         <Ticket type="payment" data={ticket || {}} onClose={() => setShowTicketModal(false)} />
+      </Modal>
+
+      {/* Modal "Soy Nuevo" — aviso de 3 segundos + dispara asistencia administrativa */}
+      <Modal isOpen={showNuevoModal} onClose={() => setShowNuevoModal(false)} maxWidth={440}>
+        <div style={{ textAlign: 'center', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
+          <div style={{ fontSize: '4rem' }}>👋</div>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, lineHeight: 1.2 }}>
+            ¡Hola, bienvenido!<br />
+            <span className="text-gradient">GymTotal</span>
+          </h2>
+          <p style={{ fontSize: '1.05rem', color: 'var(--text)', fontWeight: 500, lineHeight: 1.6, maxWidth: 340 }}>
+            Por favor esperá aquí,<br />
+            en breve un colaborador vendrá a ayudarte.
+          </p>
+          <div style={{ display: 'flex', gap: 6 }}>
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out infinite', display: 'inline-block' }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out 0.2s infinite', display: 'inline-block' }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out 0.4s infinite', display: 'inline-block' }} />
+          </div>
+        </div>
       </Modal>
     </KioskLayout>
   );
