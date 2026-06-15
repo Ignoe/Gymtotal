@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
+import { BackButton, HomeButton } from '../../../components/UI/BackButton';
 import { NumericKeypad } from '../../../components/UI/NumericKeypad';
-import { BackButton } from '../../../components/UI/BackButton';
 import { useApp } from '../../../context/AppContext';
 import exercisesData from '../../../data/exercises.json';
 import './Routine.css';
@@ -9,13 +9,13 @@ import './Routine.css';
 const STEPS = { DNI: 'dni', VIEW: 'view', BUILD: 'build', SAVED: 'saved' };
 
 export default function Routine() {
-  const { findUserByDni, saveRoutine } = useApp();
-  const [step, setStep] = useState(STEPS.DNI);
-  const [dni, setDni] = useState('');
-  const [user, setUser] = useState(null);
+  const { findUserByDni, saveRoutine, currentUser, setCurrentUser } = useApp();
+  const [step, setStep] = useState(currentUser ? STEPS.VIEW : STEPS.DNI);
+  const [dni, setDni] = useState(currentUser?.dni || '');
+  const [user, setUser] = useState(currentUser || null);
   const [error, setError] = useState('');
   const [activeGroup, setActiveGroup] = useState(null);
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(currentUser?.rutina || []);
   const [mode, setMode] = useState('view'); // view | build
 
   const handleDni = () => {
@@ -33,6 +33,16 @@ export default function Routine() {
     );
   };
 
+  const handleDeleteExercise = (nombre) => {
+    const updated = selected.filter(e => e !== nombre);
+    setSelected(updated);
+    saveRoutine(user.id, updated);
+    setUser(prev => prev ? { ...prev, rutina: updated } : null);
+    if (currentUser && currentUser.id === user.id) {
+      setCurrentUser(prev => prev ? { ...prev, rutina: updated } : null);
+    }
+  };
+
   const handleSave = () => {
     saveRoutine(user.id, selected);
     setStep(STEPS.SAVED);
@@ -47,7 +57,7 @@ export default function Routine() {
           <BackButton />
 
           <div className="routine-header">
-            <div className="routine-icon">🏋️</div>
+
             <h1>Mi Rutina</h1>
             <p>Armá y gestioná tu rutina de entrenamiento</p>
           </div>
@@ -93,10 +103,19 @@ export default function Routine() {
                         return (
                           <div key={i} className="routine-exercise-item">
                             <span className="routine-ex-num">{i + 1}</span>
-                            <div>
+                            <div style={{ flex: 1 }}>
                               <p style={{ fontWeight: 600 }}>{nombre}</p>
                               {ex && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{ex.series} series · {ex.reps} reps · Descanso: {ex.descanso}</p>}
                             </div>
+                            <button
+                              className="btn btn-ghost btn-sm"
+                              style={{ color: 'var(--danger)', fontSize: '1.1rem', padding: '4px 8px', minWidth: 'unset' }}
+                              onClick={() => handleDeleteExercise(nombre)}
+                              id={`btn-del-ex-${i}`}
+                              title="Eliminar ejercicio"
+                            >
+                              ✕
+                            </button>
                           </div>
                         );
                       })}
@@ -154,9 +173,12 @@ export default function Routine() {
               <div style={{ fontSize: '4rem' }}>💾</div>
               <h2>¡Rutina guardada!</h2>
               <p style={{ color: 'var(--text-muted)' }}>Tu rutina de {selected.length} ejercicios fue actualizada.</p>
-              <button className="btn btn-primary btn-lg" onClick={() => { setStep(STEPS.VIEW); setMode('view'); }}>
-                Ver mi rutina
-              </button>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button className="btn btn-primary btn-lg" onClick={() => { setStep(STEPS.VIEW); setMode('view'); }}>
+                  Ver mi rutina
+                </button>
+                <HomeButton />
+              </div>
             </div>
           )}
         </div>

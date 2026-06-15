@@ -1,34 +1,52 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useApp } from '../../context/AppContext';
 import './KioskLayout.css';
 
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  // dateStr is YYYY-MM-DD, convert to DD-MM-AAAA avoiding timezone shift
+  const [y, m, d] = dateStr.split('-');
+  return `${d}-${m}-${y}`;
+}
+
 export function KioskLayout({ children }) {
+  const { currentUser } = useApp();
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const update = () =>
+      setTime(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+    update();
+    const t = setInterval(update, 1000);
+    return () => clearInterval(t);
+  }, []);
+
   return (
     <div className="kiosk-layout bg-mesh">
       <header className="kiosk-header">
-        <Link to="/" className="kiosk-brand">
+        <Link to="/home" className="kiosk-brand">
           <div className="kiosk-brand-badge">GT</div>
           <span className="kiosk-brand-name">GYMTOTAL</span>
         </Link>
-        <div className="kiosk-header-right">
-          <div className="kiosk-time" id="kiosk-clock" />
-          {/*
-          Personita para user admin
-          <Link to="/admin/login" className="kiosk-admin-link" title="Panel Admin">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 15c3.314 0 6-2.686 6-6S15.314 3 12 3 6 5.686 6 9s2.686 6 6 6z"/>
-              <path d="M2.906 18.5c.682-2.75 3.136-4.5 9.094-4.5s8.412 1.75 9.094 4.5"/>
-            </svg>
-          </Link> */}
+        <div className='kiosk-user'>
+          {currentUser && (
+            <div className="kiosk-user-status">
+              <span className="kiosk-welcome-text">
+                Bienvenido, <strong>{currentUser.nombre}</strong>
+              </span>
+              <span>Tu pase vence el {formatDate(currentUser.fechaVencimiento)}</span>
+            </div>
+          )}
+          <div className="kiosk-header-right">
+            <div className="kiosk-time">{time}</div>
+          </div>
         </div>
       </header>
       <main className="kiosk-main">
         {children}
       </main>
-      <footer className="kiosk-footer">
-        <span>GymTotal © 2026</span>
-        <span className="kiosk-footer-dot">•</span>
-        <span>Toca una opción para comenzar</span>
-      </footer>
+
     </div>
   );
 }

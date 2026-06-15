@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
 import { NumericKeypad } from '../../../components/UI/NumericKeypad';
-import { BackButton } from '../../../components/UI/BackButton';
+import { BackButton,HomeButton } from '../../../components/UI/BackButton';
 import { Modal } from '../../../components/UI/Modal';
 import { Ticket } from '../../../components/UI/Ticket';
 import { useApp } from '../../../context/AppContext';
@@ -11,10 +11,10 @@ import './Payments.css';
 const STEPS = { DNI: 'dni', SELECT: 'select', PROCESSING: 'processing', DONE: 'done' };
 
 export default function Payments() {
-  const { findUserByDni, addPaymentToUser } = useApp();
-  const [step, setStep] = useState(STEPS.DNI);
-  const [dni, setDni] = useState('');
-  const [user, setUser] = useState(null);
+  const { findUserByDni, addPaymentToUser, updateUser, currentUser } = useApp();
+  const [step, setStep] = useState(currentUser ? STEPS.SELECT : STEPS.DNI);
+  const [dni, setDni] = useState(currentUser?.dni || '');
+  const [user, setUser] = useState(currentUser || null);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [ticket, setTicket] = useState(null);
   const [showTicket, setShowTicket] = useState(false);
@@ -43,7 +43,12 @@ export default function Payments() {
         concepto: `${plan.nombre} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       });
 
-      // Update vencimiento
+      // Update vencimiento in database
+      updateUser(user.id, {
+        fechaVencimiento: vto.toISOString().slice(0, 10),
+        plan: plan.id,
+        habilitado: true
+      });
       const newTicket = {
         ...payment,
         nombre: user.nombre,
@@ -57,9 +62,15 @@ export default function Payments() {
   };
 
   const handleReset = () => {
-    setStep(STEPS.DNI);
-    setDni('');
-    setUser(null);
+    if (currentUser) {
+      setStep(STEPS.SELECT);
+      setDni(currentUser.dni || '');
+      setUser(currentUser);
+    } else {
+      setStep(STEPS.DNI);
+      setDni('');
+      setUser(null);
+    }
     setSelectedPlan(null);
     setTicket(null);
     setShowTicket(false);
@@ -75,19 +86,11 @@ export default function Payments() {
           <div className="payments-header">
             <div className="payments-icon">💳</div>
             <h1>Pagos</h1>
-            <p>Pagá tu cuota desde el totem</p>
           </div>
 
           {/* Step indicators */}
-          <div className="payments-steps">
-            {['Tu DNI', 'Seleccioná plan', 'Confirmar'].map((s, i) => (
-              <div key={i} className={`step-item ${Object.values(STEPS).indexOf(step) > i ? 'step-done' : Object.values(STEPS).indexOf(step) === i ? 'step-active' : ''}`}>
-                <div className="step-dot">{Object.values(STEPS).indexOf(step) > i ? '✓' : i + 1}</div>
-                <span>{s}</span>
-              </div>
-            ))}
-          </div>
-
+       
+         
           {step === STEPS.DNI && (
             <div className="payments-step anim-fade-in">
               <NumericKeypad value={dni} onChange={setDni} onConfirm={handleDniConfirm} maxLength={8} placeholder="Tu DNI" />
@@ -159,9 +162,7 @@ export default function Payments() {
                 <button className="btn btn-primary btn-lg" onClick={() => setShowTicket(true)} id="btn-show-ticket">
                   🖨️ Ver ticket
                 </button>
-                <button className="btn btn-ghost btn-lg" onClick={handleReset}>
-                  Nueva operación
-                </button>
+        <HomeButton/>
               </div>
             </div>
           )}

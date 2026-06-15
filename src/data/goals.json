@@ -1,0 +1,8 @@
+[
+  { "id": "fuerza", "label": "Fuerza", "icon": "💪", "desc": "Desarrollar músculo y potencia", "groups": ["pecho", "espalda", "piernas", "hombros", "brazos"] },
+  { "id": "cardio", "label": "Cardio", "icon": "🏃", "desc": "Quemar calorías y mejorar resistencia", "groups": ["cardio"] },
+  { "id": "flexibilidad", "label": "Flexibilidad", "icon": "🧘", "desc": "Elongación y movilidad articular", "groups": ["core"] },
+  { "id": "gluteos", "label": "Glúteos", "icon": "🍑", "desc": "Enfoque en glúteos y piernas", "groups": ["gluteos", "piernas"] },
+  { "id": "core", "label": "Core / Abs", "icon": "⬛", "desc": "Fortalecer el centro del cuerpo", "groups": ["core"] },
+  { "id": "fullbody", "label": "Full Body", "icon": "🔥", "desc": "Trabajo completo de todo el cuerpo", "groups": ["pecho", "espalda", "piernas", "core"] }
+]

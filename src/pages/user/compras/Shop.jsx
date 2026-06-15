@@ -9,12 +9,36 @@ import './Shop.css';
 const CATS = ['Todos', 'Ropa', 'Accesorios', 'Suplementos'];
 
 export default function Shop() {
-  const { products, cart, cartTotal, cartCount, addToCart, removeFromCart, clearCart, checkout, currentUser } = useApp();
+  const { products, cart, cartTotal, cartCount, addToCart, removeFromCart, updateCartQty, clearCart, checkout, currentUser } = useApp();
   const [cat, setCat] = useState('Todos');
   const [showCart, setShowCart] = useState(false);
   const [showTicket, setShowTicket] = useState(false);
   const [lastPurchase, setLastPurchase] = useState(null);
   const [processing, setProcessing] = useState(false);
+
+  const getQuantityInCart = (productId) => {
+    const item = cart.find(i => i.id === productId);
+    return item ? item.cantidad : 0;
+  };
+
+  const handleIncrement = (product) => {
+    const qty = getQuantityInCart(product.id);
+    if (qty === 0) {
+      addToCart(product);
+    } else {
+      const item = cart.find(i => i.id === product.id);
+      if (item && qty < product.stock) {
+        updateCartQty(item.key, qty + 1);
+      }
+    }
+  };
+
+  const handleDecrement = (product) => {
+    const item = cart.find(i => i.id === product.id);
+    if (item) {
+      updateCartQty(item.key, item.cantidad - 1);
+    }
+  };
 
   const filtered = cat === 'Todos' ? products : products.filter(p => p.categoria === cat);
 
@@ -44,17 +68,11 @@ export default function Shop() {
 
           <div className="shop-header">
             <div style={{ fontSize: '3rem' }}>🛍️</div>
-            <h1>Tienda GymTotal</h1>
-            <p>Ropa, accesorios y suplementos</p>
+            <h1>Tienda</h1>
+
           </div>
 
-          <div className="shop-cats">
-            {CATS.map(c => (
-              <button key={c} className={`cat-chip ${cat === c ? 'cat-active' : ''}`} onClick={() => setCat(c)} id={`btn-cat-${c}`}>
-                {c}
-              </button>
-            ))}
-          </div>
+   
 
           <div className="products-grid">
             {filtered.map((p, i) => (
@@ -65,9 +83,25 @@ export default function Shop() {
                 <p className="product-desc">{p.descripcion}</p>
                 <div className="product-footer">
                   <span className="product-price">${p.precio.toLocaleString('es-AR')}</span>
-                  <button className="btn btn-primary btn-sm" onClick={() => addToCart(p)} id={`btn-add-${p.id}`}>
-                    + Agregar
-                  </button>
+                  <div className="product-qty-selector">
+                    <button
+                      className="btn-qty-change"
+                      onClick={() => handleDecrement(p)}
+                      disabled={getQuantityInCart(p.id) === 0}
+                      id={`btn-dec-${p.id}`}
+                    >
+                      -
+                    </button>
+                    <span className="product-qty-value">{getQuantityInCart(p.id)}</span>
+                    <button
+                      className="btn-qty-change"
+                      onClick={() => handleIncrement(p)}
+                      disabled={getQuantityInCart(p.id) >= p.stock}
+                      id={`btn-inc-${p.id}`}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
                 {p.stock <= 5 && <div className="product-stock-warn">⚠️ Últimas {p.stock} unidades</div>}
               </div>
@@ -90,9 +124,42 @@ export default function Shop() {
                 <span className="cart-item-emoji">{item.emoji}</span>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: 600, fontSize: '0.95rem' }}>{item.nombre}</p>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>x{item.cantidad} · ${(item.precio * item.cantidad).toLocaleString('es-AR')}</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>${item.precio.toLocaleString('es-AR')} c/u</p>
                 </div>
-                <button className="btn btn-ghost btn-sm" onClick={() => removeFromCart(item.key)}>✕</button>
+                
+                {/* Quantity Control inside the Cart */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 16 }}>
+                  <button 
+                    className="btn-qty-change" 
+                    onClick={() => updateCartQty(item.key, item.cantidad - 1)}
+                    id={`btn-cart-dec-${item.id}`}
+                  >
+                    -
+                  </button>
+                  <span style={{ fontWeight: 800, minWidth: 20, textAlign: 'center' }}>{item.cantidad}</span>
+                  <button 
+                    className="btn-qty-change" 
+                    onClick={() => updateCartQty(item.key, item.cantidad + 1)}
+                    disabled={item.cantidad >= item.stock}
+                    id={`btn-cart-inc-${item.id}`}
+                  >
+                    +
+                  </button>
+                </div>
+
+                <div style={{ fontWeight: 700, minWidth: 80, textAlign: 'right', marginRight: 12 }}>
+                  ${(item.precio * item.cantidad).toLocaleString('es-AR')}
+                </div>
+
+                <button 
+                  className="btn btn-ghost btn-sm" 
+                  style={{ color: 'var(--danger)', fontSize: '1.2rem', padding: '4px 8px' }} 
+                  onClick={() => removeFromCart(item.key)}
+                  id={`btn-cart-del-${item.id}`}
+                  title="Eliminar item"
+                >
+                  🗑️
+                </button>
               </div>
             ))}
             <div className="divider" />

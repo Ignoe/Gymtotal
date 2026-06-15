@@ -1,21 +1,16 @@
 import { useState } from 'react';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
-import { BackButton } from '../../../components/UI/BackButton';
+import { BackButton, HomeButton } from '../../../components/UI/BackButton';
+import { Modal } from '../../../components/UI/Modal';
+import { Ticket } from '../../../components/UI/Ticket';
 import exercisesData from '../../../data/exercises.json';
+import GOALS from '../../../data/goals.json';
 import './DailyGoal.css';
-
-const GOALS = [
-  { id: 'fuerza',       label: 'Fuerza',        icon: '💪', desc: 'Desarrollar músculo y potencia', groups: ['pecho','espalda','piernas','hombros','brazos'] },
-  { id: 'cardio',       label: 'Cardio',         icon: '🏃', desc: 'Quemar calorías y mejorar resistencia', groups: ['cardio'] },
-  { id: 'flexibilidad', label: 'Flexibilidad',   icon: '🧘', desc: 'Elongación y movilidad articular', groups: ['core'] },
-  { id: 'gluteos',      label: 'Glúteos',        icon: '🍑', desc: 'Enfoque en glúteos y piernas', groups: ['gluteos','piernas'] },
-  { id: 'core',         label: 'Core / Abs',     icon: '⬛', desc: 'Fortalecer el centro del cuerpo', groups: ['core'] },
-  { id: 'fullbody',     label: 'Full Body',      icon: '🔥', desc: 'Trabajo completo de todo el cuerpo', groups: ['pecho','espalda','piernas','core'] },
-];
 
 export default function DailyGoal() {
   const [goal, setGoal] = useState(null);
   const [exercises, setExercises] = useState([]);
+  const [showTicket, setShowTicket] = useState(false);
 
   const handleSelect = (g) => {
     setGoal(g);
@@ -26,6 +21,13 @@ export default function DailyGoal() {
     const picked = all.slice(0, 5);
     setExercises(picked);
   };
+
+  const routineTicketData = goal ? {
+    goalIcon: goal.icon,
+    goalLabel: goal.label,
+    goalDesc: goal.desc,
+    exercises,
+  } : {};
 
   return (
     <KioskLayout>
@@ -79,14 +81,21 @@ export default function DailyGoal() {
                 <button className="btn btn-ghost btn-lg" onClick={() => { setGoal(null); setExercises([]); }}>
                   Cambiar objetivo
                 </button>
-                <button className="btn btn-primary btn-lg" onClick={() => { setGoal(null); setExercises([]); }}>
-                  ¡Vamos! 💪
+                <button className="btn btn-accent btn-lg" onClick={() => setShowTicket(true)} id="btn-print-routine">
+                  🖨️ Imprimir rutina
                 </button>
+            
+                <HomeButton/>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      <Modal isOpen={showTicket} onClose={() => setShowTicket(false)} title="Tu sesión de hoy" maxWidth={420}>
+        <Ticket type="routine" data={routineTicketData} onClose={() => setShowTicket(false)} />
+      </Modal>
     </KioskLayout>
   );
 }
+

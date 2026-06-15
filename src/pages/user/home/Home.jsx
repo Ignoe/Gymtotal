@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
 import { Modal } from '../../../components/UI/Modal';
@@ -11,9 +11,10 @@ const MENU_ITEMS = [
   { id: 'routine',     icon: '🏋️', label: 'Mi Rutina',       sublabel: 'Armar y ver ejercicios', path: '/routine',     color: '#1565C0', glow: 'rgba(21,101,192,0.35)' },
   { id: 'daily-goal',  icon: '🎯', label: 'Objetivo Diario', sublabel: 'Sesión libre',           path: '/daily-goal',  color: '#4DD0E1', glow: 'rgba(77,208,225,0.35)' },
   { id: 'assistance',  icon: '🆘', label: 'Asistencia',      sublabel: 'Llamar al entrenador',  path: '/assistance',  color: '#FF6B35', glow: 'rgba(255,107,53,0.35)' },
-  { id: 'new-member',  icon: '👋', label: 'Soy Nuevo',       sublabel: 'Registrarme',           path: '/new-member',  color: '#00E676', glow: 'rgba(0,230,118,0.35)'  },
+  // { id: 'new-member',  icon: '👋', label: 'Soy Nuevo',       sublabel: 'Registrarme',           path: '/new-member',  color: '#00E676', glow: 'rgba(0,230,118,0.35)'  },
   { id: 'shop',        icon: '🛍️', label: 'Compras',         sublabel: 'Tienda GymTotal',       path: '/shop',        color: '#E040FB', glow: 'rgba(224,64,251,0.35)' },
   { id: 'ingreso',     icon: '🚪', label: 'Ingreso',         sublabel: 'Habilitar molinete',    path: '/validation',  color: '#fbf540ff', glow: 'rgba(251, 170, 64, 0.35)' },
+  { id: 'salir',       icon: '↩️', label: 'Salir',           sublabel: 'Cerrar sesión',         path: '/',            color: '#FF5252', glow: 'rgba(255, 82, 82, 0.35)' },
   // { id: 'admin',       icon: '⚙️', label: 'Panel Admin',     sublabel: 'Gestión interna',       path: '/admin',       color: '#78909C', glow: 'rgba(120,144,156,0.25)' },
 ];
 
@@ -22,18 +23,6 @@ export default function Home() {
   const { currentUser, setCurrentUser } = useApp();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  // Reloj en el header
-  useEffect(() => {
-    const update = () => {
-      const el = document.getElementById('kiosk-clock');
-      if (el) {
-        el.textContent = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
-      }
-    };
-    update();
-    const t = setInterval(update, 1000);
-    return () => clearInterval(t);
-  }, []);
 
   const handleCloseSuccess = () => {
     setShowSuccessModal(false);
@@ -46,7 +35,7 @@ export default function Home() {
     if (showSuccessModal) {
       timer = setTimeout(() => {
         handleCloseSuccess();
-      }, 2500);
+      }, 3500);
     }
     return () => clearTimeout(timer);
   }, [showSuccessModal]);
@@ -54,6 +43,9 @@ export default function Home() {
   const handleItemClick = (item) => {
     if (item.id === 'ingreso') {
       setShowSuccessModal(true);
+    } else if (item.id === 'salir') {
+      setCurrentUser(null);
+      navigate('/');
     } else {
       navigate(item.path);
     }
@@ -67,7 +59,7 @@ export default function Home() {
         <div className="bg-orb home-orb-2" />
 
         <div className="home-hero">
-          <div className="home-hero-badge">Bienvenido al Totem</div>
+         
           <h1 className="home-title">
             ¿Qué querés <span className="text-gradient">hacer hoy?</span>
           </h1>
@@ -119,12 +111,7 @@ export default function Home() {
           <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
             Molinete habilitado. ¡Que tengas un buen entrenamiento{currentUser ? `, ${currentUser.nombre}` : ''}!
           </p>
-          <button 
-            className="btn btn-primary btn-lg btn-full" 
-            onClick={handleCloseSuccess}
-          >
-            Aceptar
-          </button>
+        
         </div>
       </Modal>
     </KioskLayout>

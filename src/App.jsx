@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
+import { UserProtectedRoute } from './middleware/UserProtectedRoute';
 import { useApp } from './context/AppContext';
 
 // Kiosk pages
@@ -55,13 +56,13 @@ function AppRoutes() {
       <Routes>
         {/* ── Kiosk routes ── */}
         <Route path="/" element={<Validation />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/payments" element={<Payments />} />
-        <Route path="/routine" element={<Routine />} />
-        <Route path="/daily-goal" element={<DailyGoal />} />
-        <Route path="/assistance" element={<Assistance />} />
+        <Route path="/home" element={<UserProtectedRoute><Home /></UserProtectedRoute>} />
+        <Route path="/payments" element={<UserProtectedRoute><Payments /></UserProtectedRoute>} />
+        <Route path="/routine" element={<UserProtectedRoute><Routine /></UserProtectedRoute>} />
+        <Route path="/daily-goal" element={<UserProtectedRoute><DailyGoal /></UserProtectedRoute>} />
+        <Route path="/assistance" element={<UserProtectedRoute><Assistance /></UserProtectedRoute>} />
         <Route path="/new-member" element={<NewMember />} />
-        <Route path="/shop" element={<Shop />} />
+        <Route path="/shop" element={<UserProtectedRoute><Shop /></UserProtectedRoute>} />
 
         {/* ── Admin routes ── */}
         <Route

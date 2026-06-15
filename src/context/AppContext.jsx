@@ -167,10 +167,12 @@ export function AppProvider({ children }) {
 
   // ── Cart & Shop ────────────────────────────────────────────────────────────
   const addToCart = (product, options = {}) => {
+    if (product.stock <= 0) return;
     setCart((prev) => {
       const key = `${product.id}-${JSON.stringify(options)}`;
       const existing = prev.find((item) => item.key === key);
       if (existing) {
+        if (existing.cantidad >= product.stock) return prev;
         return prev.map((item) =>
           item.key === key ? { ...item, cantidad: item.cantidad + 1 } : item
         );
@@ -181,6 +183,20 @@ export function AppProvider({ children }) {
 
   const removeFromCart = (key) => {
     setCart((prev) => prev.filter((item) => item.key !== key));
+  };
+
+  const updateCartQty = (key, qty) => {
+    setCart((prev) => {
+      if (qty <= 0) {
+        return prev.filter((item) => item.key !== key);
+      }
+      const item = prev.find((i) => i.key === key);
+      if (!item) return prev;
+      const targetQty = Math.min(qty, item.stock);
+      return prev.map((i) =>
+        i.key === key ? { ...i, cantidad: targetQty } : i
+      );
+    });
   };
 
   const clearCart = () => setCart([]);
@@ -199,10 +215,43 @@ export function AppProvider({ children }) {
     setDoc(doc(db, 'purchases', id), purchase).catch((err) =>
       console.error('Error creating purchase in Firestore:', err)
     );
+
+    // Update stock in Firestore for each purchased item
+    cart.forEach((item) => {
+      const productRef = doc(db, 'products', item.id);
+      const newStock = Math.max(0, item.stock - item.cantidad);
+      updateDoc(productRef, { stock: newStock }).catch((err) =>
+        console.error(`Error updating stock for product ${item.id}:`, err)
+      );
+    });
     
     clearCart();
     return purchase;
   };
+
+  // Real-time cart stock synchronization
+  useEffect(() => {
+    if (products.length === 0 || cart.length === 0) return;
+    let changed = false;
+    const updatedCart = cart.map((item) => {
+      const dbProd = products.find((p) => p.id === item.id);
+      if (dbProd) {
+        if (item.cantidad > dbProd.stock) {
+          changed = true;
+          return { ...item, cantidad: dbProd.stock, stock: dbProd.stock };
+        }
+        if (item.stock !== dbProd.stock) {
+          changed = true;
+          return { ...item, stock: dbProd.stock };
+        }
+      }
+      return item;
+    }).filter((item) => item.cantidad > 0);
+
+    if (changed) {
+      setCart(updatedCart);
+    }
+  }, [products]);
 
   const cartTotal = cart.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
   const cartCount = cart.reduce((sum, item) => sum + item.cantidad, 0);
@@ -235,6 +284,7 @@ export function AppProvider({ children }) {
         // Shop ops
         addToCart,
         removeFromCart,
+        updateCartQty,
         clearCart,
         checkout,
       }}

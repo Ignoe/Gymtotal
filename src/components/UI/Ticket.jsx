@@ -114,6 +114,37 @@ export function Ticket({ type = 'payment', data, onClose, onPrint }) {
               </div>
             </>
           )}
+
+          {type === 'routine' && (
+            <>
+              <div className="ticket-field">
+                <span className="ticket-field-label">Objetivo</span>
+                <span className="ticket-field-value">{data.goalIcon} {data.goalLabel}</span>
+              </div>
+              <div className="ticket-field">
+                <span className="ticket-field-label">Descripción</span>
+                <span className="ticket-field-value">{data.goalDesc}</span>
+              </div>
+              <div className="ticket-divider-dashed" />
+              <div style={{ marginTop: 6 }}>
+                <p style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, color: '#999' }}>
+                  Ejercicios de la sesión
+                </p>
+                {data.exercises?.map((ex, i) => (
+                  <div key={i} style={{ marginBottom: 10, paddingBottom: 8, borderBottom: i < data.exercises.length - 1 ? '1px dashed #eee' : 'none' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{i + 1}. {ex.nombre}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, marginTop: 3, fontSize: '0.75rem', color: '#666' }}>
+                      <span>📊 {ex.series} series</span>
+                      <span>🔁 {ex.reps} reps</span>
+                      <span>⏱ {ex.descanso}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="ticket-divider-dashed" />
