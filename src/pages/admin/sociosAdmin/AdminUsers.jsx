@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { StatusBadge } from '../../../components/UI/StatusBadge';
 import { Modal } from '../../../components/UI/Modal';
-import plansData from '../../../data/plans.json';
 import './AdminUsers.css';
 
 export default function AdminUsers() {
-  const { users, toggleUserStatus, addUser, updateUser } = useApp();
+  const { users, toggleUserStatus, addUser, updateUser, plans } = useApp();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('todos');
   const [showAdd, setShowAdd] = useState(false);
@@ -33,9 +32,9 @@ export default function AdminUsers() {
 
   const handleAdd = () => {
     if (!validate()) return;
-    const plan = plansData.find(p => p.id === form.plan);
+    const plan = plans.find(p => p.id === form.plan) || { duracionDias: 30 };
     const vto = new Date();
-    vto.setDate(vto.getDate() + plan.duracionDias);
+    vto.setDate(vto.getDate() + (plan.duracionDias || 30));
     addUser({ ...form, fechaVencimiento: vto.toISOString().slice(0, 10) });
     setShowAdd(false);
     setForm({ nombre: '', dni: '', email: '', telefono: '', plan: 'mensual' });
@@ -133,7 +132,7 @@ export default function AdminUsers() {
           <div className="form-group">
             <label className="form-label">Plan</label>
             <select className="form-select" value={form.plan} onChange={e => setForm(f => ({...f,plan:e.target.value}))}>
-              {plansData.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
+              {plans.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
             </select>
           </div>
           <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>

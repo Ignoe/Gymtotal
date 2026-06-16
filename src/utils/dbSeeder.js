@@ -92,16 +92,77 @@ const INITIAL_ASSISTANCE = [
   { id: 'AST-003', usuarioId: 'USR-002', usuarioNombre: 'María González', tipo: 'lesion', descripcion: 'Siento molestias en el hombro derecho al hacer press', estado: 'en_curso', fecha: '2026-05-26T11:00:00', atendidoPor: 'Prof. Laura Sánchez' }
 ];
 
+const INITIAL_PLANS = [
+  {
+    id: 'mensual',
+    nombre: 'Plan Mensual',
+    precio: 15000,
+    duracionDias: 30,
+    descripcion: 'Acceso completo al gimnasio por 30 días.',
+    beneficios: [
+      'Acceso ilimitado a todas las máquinas',
+      '1 clase grupal por semana',
+      'Evaluación física inicial',
+      'Vestuarios y duchas'
+    ],
+    color: '#2196F3',
+    popular: false
+  },
+  {
+    id: 'trimestral',
+    nombre: 'Plan Trimestral',
+    precio: 40000,
+    duracionDias: 90,
+    descripcion: 'Acceso completo por 3 meses con descuento especial.',
+    beneficios: [
+      'Acceso ilimitado a todas las máquinas',
+      '3 clases grupales por semana',
+      'Evaluación física + seguimiento mensual',
+      'Vestuarios y duchas',
+      '10% descuento en tienda'
+    ],
+    color: '#00BCD4',
+    popular: true
+  },
+  {
+    id: 'anual',
+    nombre: 'Plan Anual',
+    precio: 140000,
+    duracionDias: 365,
+    descripcion: 'El mejor precio por todo un año de entrenamiento.',
+    beneficios: [
+      'Acceso ilimitado a todas las máquinas',
+      'Clases grupales ilimitadas',
+      'Evaluaciones físicas trimestrales',
+      'Sesión con entrenador personal (1/mes)',
+      'Vestuarios y duchas',
+      '20% descuento en tienda',
+      'Remera GymTotal de regalo'
+    ],
+    color: '#1565C0',
+    popular: false
+  }
+];
+
 export async function seedDatabaseIfEmpty() {
   try {
-    const usersSnapshot = await getDocs(collection(db, 'users'));
+    // 1. Verificar y sembrar planes de forma independiente (siempre requerido si es una colección nueva)
+    const plansSnapshot = await getDocs(collection(db, 'plans'));
+    if (plansSnapshot.empty) {
+      console.log('Colección "plans" vacía. Cargando planes iniciales...');
+      const planWrites = INITIAL_PLANS.map((p) => setDoc(doc(db, 'plans', p.id), p));
+      await Promise.all(planWrites);
+      console.log('Planes sembrados con éxito.');
+    }
 
+    // 2. Verificar y sembrar otros datos iniciales
+    const usersSnapshot = await getDocs(collection(db, 'users'));
     if (!usersSnapshot.empty) {
-      console.log('Firestore ya tiene datos. Saltando seeder.');
+      console.log('Firestore ya tiene datos de usuarios. Saltando resto de la siembra.');
       return;
     }
 
-    console.log('Firestore vacío. Cargando datos iniciales...');
+    console.log('Firestore vacío. Cargando resto de datos iniciales...');
 
     const writes = [
       ...INITIAL_USERS.map((u) => setDoc(doc(db, 'users', u.id), u)),
@@ -110,7 +171,7 @@ export async function seedDatabaseIfEmpty() {
     ];
 
     await Promise.all(writes);
-    console.log('Siembra completada con éxito.');
+    console.log('Siembra de datos de usuario/productos completada con éxito.');
   } catch (error) {
     console.error('Error durante la siembra:', error);
   }

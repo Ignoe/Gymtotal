@@ -8,12 +8,11 @@ import { Modal } from '../../../components/UI/Modal';
 import { useApp } from '../../../context/AppContext';
 import { adminAuth } from '../../../middleware/adminAuth';
 import { Ticket } from '../../../components/UI/Ticket';
-import plansData from '../../../data/plans.json';
 import './Validation.css';
 
 export default function Validation() {
   const navigate = useNavigate();
-  const { findUserByDni, setCurrentUser, updateUser, addPaymentToUser, addAssistanceRequest } = useApp();
+  const { findUserByDni, setCurrentUser, updateUser, addPaymentToUser, addAssistanceRequest, plans } = useApp();
   const [dni, setDni] = useState('');
   const [result, setResult] = useState(null); // null | 'found' | 'not_found'
   const [user, setUser] = useState(null);
@@ -46,16 +45,16 @@ export default function Validation() {
 
     // Simulate processing for 2 seconds
     setTimeout(() => {
-      const plan = plansData.find(p => p.id === selectedPlanId);
+      const plan = plans.find(p => p.id === selectedPlanId);
       const today = new Date();
       const vto = new Date(today);
-      vto.setDate(vto.getDate() + plan.duracionDias);
+      vto.setDate(vto.getDate() + (plan?.duracionDias || 30));
       const vtoString = vto.toISOString().slice(0, 10);
 
       // 1. Add payment record to user's payment history in Firestore
       const payment = addPaymentToUser(user.id, {
-        monto: plan.precio,
-        concepto: `${plan.nombre} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
+        monto: plan?.precio || 0,
+        concepto: `${plan?.nombre || 'Plan'} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       });
 
       // 2. Update user expiration, plan and active status in Firestore
@@ -81,8 +80,8 @@ export default function Validation() {
         ...payment,
         nombre: user.nombre,
         dni: user.dni,
-        monto: plan.precio,
-        concepto: `${plan.nombre} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
+        monto: plan?.precio || 0,
+        concepto: `${plan?.nombre || 'Plan'} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       };
       setTicket(newTicket);
 
@@ -289,64 +288,74 @@ export default function Validation() {
         title="Pagar Cuota Vencida"
         maxWidth={500}
       >
-        {paymentStep === 'select' && (
-          <div className="validation-payment-modal anim-fade-in" style={{ padding: '10px 0' }}>
-            <p style={{ color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center' }}>
-              Seleccioná un plan para renovar tu membresía de GymTotal:
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
-              {plansData.map((plan) => (
-                <button
-                  key={plan.id}
-                  className={`plan-card-mini ${selectedPlanId === plan.id ? 'plan-selected' : ''}`}
-                  onClick={() => setSelectedPlanId(plan.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    borderRadius: 12,
-                    border: selectedPlanId === plan.id ? '2px solid var(--primary)' : '1px solid var(--border)',
-                    background: selectedPlanId === plan.id ? 'var(--primary-light-alpha, rgba(33, 150, 243, 0.05))' : 'var(--card-bg, #ffffff)',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    width: '100%',
-                    transition: 'all 0.2s ease',
-                  }}
-                  id={`btn-val-plan-${plan.id}`}
-                >
-                  <div>
-                    <div style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
-                      {plan.nombre} {plan.popular && <span style={{ color: 'var(--warning)', fontSize: '0.75rem', fontWeight: 900 }}>⭐ MÁS POPULAR</span>}
+        {paymentStep === 'select' && (() => {
+            const planSeleccionado = plans.find(p => p.id === selectedPlanId);
+            return (
+              <div className="validation-payment-modal anim-fade-in" style={{ padding: '10px 0' }}>
+                <p style={{ color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center' }}>
+                  Seleccioná un plan para renovar tu membresía de GymTotal:
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
+                  {plans.map((plan) => (
+                    <div
+                      key={plan.id}
+                      role="button"
+                      tabIndex={0}
+                      className={`plan-card-mini ${selectedPlanId === plan.id ? 'plan-selected' : ''}`}
+                      onClick={() => setSelectedPlanId(plan.id)}
+                      onKeyDown={(e) => e.key === 'Enter' && setSelectedPlanId(plan.id)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '16px 20px',
+                        borderRadius: 12,
+                        border: selectedPlanId === plan.id ? '2px solid var(--primary)' : '1px solid var(--border)',
+                        background: selectedPlanId === plan.id ? 'var(--primary-light-alpha, rgba(33, 150, 243, 0.05))' : 'var(--card-bg, #ffffff)',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        width: '100%',
+                        transition: 'all 0.2s ease',
+                        boxSizing: 'border-box',
+                      }}
+                      id={`btn-val-plan-${plan.id}`}
+                    >
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
+                          {plan.nombre} {plan.popular && <span style={{ color: 'var(--warning)', fontSize: '0.75rem', fontWeight: 900 }}>⭐ MÁS POPULAR</span>}
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 2 }}>{plan.duracionDias || 30} días · {plan.descripcion}</div>
+                      </div>
+                      <div style={{ fontWeight: 900, fontSize: '1.2rem', color: selectedPlanId === plan.id ? 'var(--primary)' : 'var(--text)', marginLeft: 12, whiteSpace: 'nowrap' }}>
+                        ${(plan.precio || 0).toLocaleString('es-AR')}
+                      </div>
                     </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 2 }}>{plan.duracionDias} días · {plan.descripcion}</div>
-                  </div>
-                  <div style={{ fontWeight: 900, fontSize: '1.2rem', color: selectedPlanId === plan.id ? 'var(--primary)' : 'var(--text)' }}>
-                    ${plan.precio.toLocaleString('es-AR')}
-                  </div>
-                </button>
-              ))}
-            </div>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <button
-                className="btn btn-ghost"
-                style={{ flex: 1 }}
-                onClick={() => setShowPaymentModal(false)}
-                id="btn-val-pay-cancel"
-              >
-                Cancelar
-              </button>
-              <button
-                className="btn btn-primary"
-                style={{ flex: 2 }}
-                onClick={handleProcessPayment}
-                id="btn-val-pay-confirm"
-              >
-                💳 Procesar Pago
-              </button>
-            </div>
-          </div>
-        )}
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <button
+                    className="btn btn-ghost"
+                    style={{ flex: 1 }}
+                    onClick={() => setShowPaymentModal(false)}
+                    id="btn-val-pay-cancel"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    style={{ flex: 2 }}
+                    onClick={handleProcessPayment}
+                    disabled={!selectedPlanId}
+                    id="btn-val-pay-confirm"
+                  >
+                    {planSeleccionado
+                      ? `💳 Procesar · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
+                      : '💳 Procesar Pago'}
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
 
         {paymentStep === 'processing' && (
           <div style={{ textAlign: 'center', padding: '30px 10px' }} className="anim-fade-in">

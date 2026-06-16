@@ -10,6 +10,7 @@ export function AppProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [assistance, setAssistance] = useState([]);
   const [purchases, setPurchases] = useState([]);
+  const [plans, setPlans] = useState([]);
   const [cart, setCart] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,6 +64,18 @@ export function AppProvider({ children }) {
         setPurchases(list);
       }, (err) => console.error('Error fetching purchases:', err));
       unsubscribes.push(unsubPurchases);
+
+      // Realtime subscription to Plans
+      const unsubPlans = onSnapshot(collection(db, 'plans'), (snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        // Sort by duration in ascending order (Monthly -> Quarterly -> Yearly)
+        list.sort((a, b) => (a.duracionDias || 0) - (b.duracionDias || 0));
+        setPlans(list);
+      }, (err) => console.error('Error fetching plans:', err));
+      unsubscribes.push(unsubPlans);
 
       setLoading(false);
     }
@@ -264,6 +277,7 @@ export function AppProvider({ children }) {
         products,
         assistance,
         purchases,
+        plans,
         cart,
         cartTotal,
         cartCount,

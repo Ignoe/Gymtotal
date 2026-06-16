@@ -4,13 +4,12 @@ import { BackButton } from '../../../components/UI/BackButton';
 import { Modal } from '../../../components/UI/Modal';
 import { Ticket } from '../../../components/UI/Ticket';
 import { useApp } from '../../../context/AppContext';
-import plansData from '../../../data/plans.json';
 import './NewMember.css';
 
 const STEPS = { FORM: 'form', PLAN: 'plan', DONE: 'done' };
 
 export default function NewMember() {
-  const { addUser } = useApp();
+  const { addUser, plans } = useApp();
   const [step, setStep] = useState(STEPS.FORM);
   const [form, setForm] = useState({ nombre: '', dni: '', email: '', telefono: '' });
   const [plan, setPlan] = useState('mensual');
@@ -31,9 +30,9 @@ export default function NewMember() {
   const handleNext = () => { if (validate()) setStep(STEPS.PLAN); };
 
   const handleRegister = () => {
-    const selectedPlan = plansData.find(p => p.id === plan);
+    const selectedPlan = plans.find(p => p.id === plan);
     const vto = new Date();
-    vto.setDate(vto.getDate() + selectedPlan.duracionDias);
+    vto.setDate(vto.getDate() + (selectedPlan?.duracionDias || 30));
 
     const user = addUser({
       ...form,
@@ -93,7 +92,7 @@ export default function NewMember() {
               </div>
               <h3 style={{ textAlign: 'center' }}>Elegí tu plan</h3>
               <div className="plans-grid-new">
-                {plansData.map(p => (
+                {plans.map(p => (
                   <button
                     key={p.id}
                     className={`plan-card-new ${plan === p.id ? 'plan-new-selected' : ''} ${p.popular ? 'plan-popular' : ''}`}
@@ -103,10 +102,10 @@ export default function NewMember() {
                   >
                     {p.popular && <div style={{ fontSize: '0.7rem', color: 'var(--warning)', fontWeight: 700, marginBottom: 4 }}>⭐ MÁS ELEGIDO</div>}
                     <div style={{ fontSize: '1.1rem', fontWeight: 800 }}>{p.nombre}</div>
-                    <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--pc)' }}>${p.precio.toLocaleString('es-AR')}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{p.duracionDias} días</div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--pc)' }}>${(p.precio || 0).toLocaleString('es-AR')}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{p.duracionDias || 30} días</div>
                     <ul style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {p.beneficios.map((b, i) => (
+                      {(p.beneficios || []).map((b, i) => (
                         <li key={i} style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textAlign: 'left' }}>✓ {b}</li>
                       ))}
                     </ul>

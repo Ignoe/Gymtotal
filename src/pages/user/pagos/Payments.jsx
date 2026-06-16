@@ -5,13 +5,12 @@ import { BackButton,HomeButton } from '../../../components/UI/BackButton';
 import { Modal } from '../../../components/UI/Modal';
 import { Ticket } from '../../../components/UI/Ticket';
 import { useApp } from '../../../context/AppContext';
-import plansData from '../../../data/plans.json';
 import './Payments.css';
 
 const STEPS = { DNI: 'dni', SELECT: 'select', PROCESSING: 'processing', DONE: 'done' };
 
 export default function Payments() {
-  const { findUserByDni, addPaymentToUser, updateUser, currentUser } = useApp();
+  const { findUserByDni, addPaymentToUser, updateUser, currentUser, plans } = useApp();
   const [step, setStep] = useState(currentUser ? STEPS.SELECT : STEPS.DNI);
   const [dni, setDni] = useState(currentUser?.dni || '');
   const [user, setUser] = useState(currentUser || null);
@@ -33,14 +32,14 @@ export default function Payments() {
     if (!selectedPlan) return;
     setStep(STEPS.PROCESSING);
     setTimeout(() => {
-      const plan = plansData.find(p => p.id === selectedPlan);
+      const plan = plans.find(p => p.id === selectedPlan);
       const today = new Date();
       const vto = new Date(today);
-      vto.setDate(vto.getDate() + plan.duracionDias);
+      vto.setDate(vto.getDate() + (plan?.duracionDias || 30));
 
       const payment = addPaymentToUser(user.id, {
-        monto: plan.precio,
-        concepto: `${plan.nombre} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
+        monto: plan?.precio || 0,
+        concepto: `${plan?.nombre || 'Plan'} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       });
 
       // Update vencimiento in database
@@ -53,8 +52,8 @@ export default function Payments() {
         ...payment,
         nombre: user.nombre,
         dni: user.dni,
-        monto: plan.precio,
-        concepto: `${plan.nombre} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
+        monto: plan?.precio || 0,
+        concepto: `${plan?.nombre || 'Plan'} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       };
       setTicket(newTicket);
       setStep(STEPS.DONE);
@@ -101,42 +100,56 @@ export default function Payments() {
             </div>
           )}
 
-          {step === STEPS.SELECT && user && (
-            <div className="payments-step anim-fade-in">
-              <div className="payments-user-info">
-                <span>👤</span>
-                <div>
-                  <p style={{ fontWeight: 700, fontSize: '1.1rem' }}>{user.nombre}</p>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Socio #{user.id} · DNI {user.dni}</p>
+          {step === STEPS.SELECT && user && (() => {
+            const planSeleccionado = plans.find(p => p.id === selectedPlan);
+            return (
+              <div className="payments-step anim-fade-in">
+                <div className="payments-user-info">
+                  <span>👤</span>
+                  <div>
+                    <p style={{ fontWeight: 700, fontSize: '1.1rem' }}>{user.nombre}</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Socio #{user.id} · DNI {user.dni}</p>
+                  </div>
                 </div>
-              </div>
 
-              <h3 style={{ textAlign: 'center', marginBottom: 8 }}>Elegí tu plan</h3>
-              <div className="plans-grid">
-                {plansData.map((plan) => (
-                  <button
-                    key={plan.id}
-                    className={`plan-card ${selectedPlan === plan.id ? 'plan-selected' : ''} ${plan.popular ? 'plan-popular' : ''}`}
-                    style={{ '--plan-color': plan.color }}
-                    onClick={() => setSelectedPlan(plan.id)}
-                    id={`btn-plan-${plan.id}`}
-                  >
-                    {plan.popular && <div className="plan-badge">⭐ MÁS POPULAR</div>}
-                    <div className="plan-name">{plan.nombre}</div>
-                    <div className="plan-price">${plan.precio.toLocaleString('es-AR')}</div>
-                    <div className="plan-duration">{plan.duracionDias} días</div>
-                    <ul className="plan-benefits">
-                      {plan.beneficios.slice(0, 3).map((b, i) => <li key={i}>✓ {b}</li>)}
-                    </ul>
-                  </button>
-                ))}
-              </div>
+                <h3 style={{ textAlign: 'center', marginBottom: 8 }}>Elegí tu plan</h3>
+                <div className="plans-grid">
+                  {plans.map((plan) => (
+                    <div
+                      key={plan.id}
+                      role="button"
+                      tabIndex={0}
+                      className={`plan-card ${selectedPlan === plan.id ? 'plan-selected' : ''} ${plan.popular ? 'plan-popular' : ''}`}
+                      style={{ '--plan-color': plan.color, cursor: 'pointer' }}
+                      onClick={() => setSelectedPlan(plan.id)}
+                      onKeyDown={(e) => e.key === 'Enter' && setSelectedPlan(plan.id)}
+                      id={`btn-plan-${plan.id}`}
+                    >
+                      {plan.popular && <div className="plan-badge">⭐ MÁS POPULAR</div>}
+                      <div className="plan-name">{plan.nombre}</div>
+                      <div className="plan-price">${(plan.precio || 0).toLocaleString('es-AR')}</div>
+                      <div className="plan-duration">{plan.duracionDias || 30} días</div>
+                      <ul className="plan-benefits">
+                        {(plan.beneficios || []).slice(0, 3).map((b, i) => <li key={i}>✓ {b}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
 
-              <button className="btn btn-primary btn-xl" style={{ width: '100%', maxWidth: 480 }} onClick={handlePay} disabled={!selectedPlan} id="btn-pay">
-                💳 Procesar pago · ${selectedPlan ? plansData.find(p => p.id === selectedPlan)?.precio.toLocaleString('es-AR') : '—'}
-              </button>
-            </div>
-          )}
+                <button
+                  className="btn btn-primary btn-xl"
+                  style={{ width: '100%', maxWidth: 480 }}
+                  onClick={handlePay}
+                  disabled={!selectedPlan}
+                  id="btn-pay"
+                >
+                  {planSeleccionado
+                    ? `💳 Procesar pago · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
+                    : '💳 Seleccioná un plan'}
+                </button>
+              </div>
+            );
+          })()}
 
           {step === STEPS.PROCESSING && (
             <div className="payments-processing anim-fade-in-scale">
