@@ -2,23 +2,23 @@
 
 /* ─── Variables ─────────────────────────────────────────────────────────────── */
 :root {
-  --primary:        #1565C0;
-  --primary-light:  #2196F3;
+  --primary:        #3972f0;
+  --primary-light:  #1bb3d9;
   --primary-dark:   #0D47A1;
   --accent:         #00BCD4;
   --accent-light:   #4DD0E1;
   --accent-dark:    #0097A7;
 
-  --bg:             #080C18;
-  --surface:        #0F1629;
-  --surface-2:      #162035;
-  --surface-3:      #1E2D4A;
-  --border:         rgba(33, 150, 243, 0.18);
+  --bg:             #ffffff;
+  --surface:        #3972f0;
+  --surface-2:      #3972f0;
+  --surface-3:      #0D47A1;
+  --border:         rgba(3, 7, 93, 0.597);
   --border-light:   rgba(77, 208, 225, 0.12);
 
-  --text:           #EEF3FF;
-  --text-muted:     #7A8EB8;
-  --text-dim:       #4A5880;
+  --text:           #040a13;
+  --text-muted:     #414d67;
+  --text-dim:       #0f359d;
 
   --success:        #00E676;
   --warning:        #FFB300;
@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.2; }
 p { line-height: 1.6; color: var(--text-muted); }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--primary-light), var(--accent));
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -114,9 +114,10 @@ p { line-height: 1.6; color: var(--text-muted); }
 .btn:active { transform: scale(0.97); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
-  box-shadow: 0 4px 20px rgba(21, 101, 192, 0.4);
+  background: #fff;
+  color: var(--text);
+  /* box-shadow: 0 4px 20px rgba(21, 101, 192, 0.4); */
+  border: 2px solid var(--border);
 }
 .btn-primary:hover { box-shadow: 0 6px 28px rgba(21, 101, 192, 0.55); transform: translateY(-1px); }
 

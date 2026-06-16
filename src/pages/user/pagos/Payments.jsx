@@ -83,7 +83,6 @@ export default function Payments() {
           <BackButton />
 
           <div className="payments-header">
-            <div className="payments-icon">💳</div>
             <h1>Pagos</h1>
           </div>
 

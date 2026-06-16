@@ -1,9 +1,37 @@
-.payments-page { min-height: calc(100vh - 120px); display: flex; align-items: flex-start; justify-content: center; padding: 32px 24px; }
-.payments-content { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 28px; }
-.payments-header { text-align: center; }
-.payments-icon { font-size: 3rem; margin-bottom: 10px; }
-.payments-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 6px; }
-.payments-header p { color: var(--text-muted); }
+.payments-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.payments-content {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.payments-header {
+  text-align: center;
+}
+
+.payments-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.payments-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.payments-header p {
+  color: var(--text-muted);
+}
 
 .payments-steps {
   display: flex;
@@ -11,6 +39,7 @@
   justify-content: center;
   gap: 0;
 }
+
 .step-item {
   display: flex;
   align-items: center;
@@ -19,6 +48,7 @@
   color: var(--text-dim);
   font-weight: 500;
 }
+
 .step-item:not(:last-child)::after {
   content: '';
   display: block;
@@ -27,70 +57,218 @@
   background: var(--border);
   margin: 0 12px;
 }
+
 .step-dot {
-  width: 28px; height: 28px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--surface-2);
   border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem; font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
-.step-active .step-dot { background: var(--primary); border-color: var(--primary); color: white; }
-.step-active { color: var(--text); }
-.step-done .step-dot { background: var(--success); border-color: var(--success); color: white; }
-.step-done { color: var(--success); }
 
-.payments-step { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.payments-error { color: var(--danger); font-size: 0.9rem; text-align: center; }
+.step-active .step-dot {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.step-active {
+  color: var(--text);
+}
+
+.step-done .step-dot {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.step-done {
+  color: var(--success);
+}
+
+.payments-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.payments-error {
+  color: var(--danger);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 .payments-user-info {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px 20px; width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* background: var(--bg); */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  width: 100%;
   font-size: 1.5rem;
 }
 
-.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; }
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
 .plan-card {
   position: relative;
-  background: var(--surface);
+  background: var(--bg);
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 20px 16px;
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
-  display: flex; flex-direction: column; gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-.plan-card:hover { border-color: var(--plan-color); box-shadow: 0 4px 20px rgba(0,0,0,0.3); transform: translateY(-2px); }
-.plan-selected { border-color: var(--plan-color) !important; background: rgba(255,255,255,0.04); box-shadow: 0 0 0 3px rgba(33,150,243,0.15); }
-.plan-popular { border-color: rgba(255,179,0,0.4); }
-.plan-badge { font-size: 0.65rem; font-weight: 700; color: var(--warning); text-transform: uppercase; letter-spacing: 0.05em; }
-.plan-name { font-size: 1rem; font-weight: 700; }
-.plan-price { font-size: 1.5rem; font-weight: 900; color: var(--plan-color); }
-.plan-duration { font-size: 0.75rem; color: var(--text-muted); }
-.plan-benefits { text-align: left; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
-.plan-benefits li { font-size: 0.72rem; color: var(--text-muted); }
+
+.plan-card:hover {
+  border-color: var(--plan-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.plan-selected {
+  border-color: var(--plan-color) !important;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+}
+
+.plan-popular {
+  border-color: rgba(255, 179, 0, 0.4);
+}
+
+.plan-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--warning);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.plan-name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.plan-price {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--plan-color);
+}
+
+.plan-duration {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.plan-benefits {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.plan-benefits li {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
 
 .payments-processing {
-  display: flex; flex-direction: column; align-items: center; gap: 20px;
-  padding: 40px 0; text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 0;
+  text-align: center;
 }
-.processing-animation { position: relative; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; }
+
+.processing-animation {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .processing-ring {
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   border: 3px solid var(--border);
   border-top-color: var(--primary-light);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-.processing-card-icon { font-size: 2.5rem; }
-.processing-dots { display: flex; gap: 8px; }
-.processing-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--primary-light); animation: pulse 1.2s ease-in-out infinite; }
-.processing-dots span:nth-child(2) { animation-delay: 0.2s; }
-.processing-dots span:nth-child(3) { animation-delay: 0.4s; }
-.payments-processing h2 { font-size: 1.5rem; }
-.payments-processing p { color: var(--text-muted); }
 
-.payments-done { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 32px 0; text-align: center; }
-.done-icon { font-size: 4rem; animation: floatUp 2s ease-in-out infinite; }
-.done-amount { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--primary-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.processing-card-icon {
+  font-size: 2.5rem;
+}
+
+.processing-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.processing-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.processing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.processing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.payments-processing h2 {
+  font-size: 1.5rem;
+}
+
+.payments-processing p {
+  color: var(--text-muted);
+}
+
+.payments-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 0;
+  text-align: center;
+}
+
+.done-icon {
+  font-size: 4rem;
+  animation: floatUp 2s ease-in-out infinite;
+}
+
+.done-amount {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

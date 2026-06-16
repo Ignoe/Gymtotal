@@ -33,7 +33,7 @@ export function KioskLayout({ children }) {
           {currentUser && (
             <div className="kiosk-user-status">
               <span className="kiosk-welcome-text">
-                Bienvenido, <strong>{currentUser.nombre}</strong>
+                Bienvenido, <strong>{currentUser.nombre}. </strong>
               </span>
               <span>Tu pase vence el {formatDate(currentUser.fechaVencimiento)}</span>
             </div>

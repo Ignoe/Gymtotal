@@ -75,7 +75,7 @@ export default function Routine() {
           {step === STEPS.VIEW && user && (
             <div className="routine-view anim-fade-in">
               <div className="routine-user-bar">
-                <span>🏋️ {user.nombre}</span>
+                <span> {user.nombre}</span>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button className="btn btn-ghost btn-sm" onClick={() => setMode(mode === 'view' ? 'build' : 'view')}>
                     {mode === 'view' ? '✏️ Editar rutina' : '👁 Ver mi rutina'}

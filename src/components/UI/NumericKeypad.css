@@ -9,7 +9,7 @@
 
 .keypad-display {
   width: 100%;
-  background: var(--surface-2);
+  background: var(--bg);
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 20px 24px;
@@ -22,8 +22,8 @@
 
 .keypad-display:focus-within,
 .keypad-display.has-value {
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(33,150,243,0.12);
+  border-color: var(--border);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.12);
 }
 
 .keypad-display-value {
@@ -45,7 +45,7 @@
   display: inline-block;
   width: 3px;
   height: 36px;
-  background: var(--primary-light);
+  background: var(--bg);
   border-radius: 2px;
   animation: pulse 1s ease-in-out infinite;
 }
@@ -59,7 +59,7 @@
 
 .keypad-btn {
   aspect-ratio: 1.4;
-  background: var(--surface-2);
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   color: var(--text);
@@ -73,15 +73,11 @@
   justify-content: center;
 }
 
-.keypad-btn:hover {
-  background: var(--surface-3);
-  border-color: var(--primary-light);
-  transform: scale(1.04);
-}
+
 
 .keypad-btn:active {
   transform: scale(0.95);
-  background: rgba(33,150,243,0.15);
+  background: rgba(33, 150, 243, 0.15);
 }
 
 .keypad-btn-confirm {
@@ -89,21 +85,14 @@
   border-color: var(--primary-light);
   color: white;
   font-size: 1.2rem;
-  box-shadow: 0 4px 16px rgba(33,150,243,0.35);
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.35);
 }
 
-.keypad-btn-confirm:hover {
-  box-shadow: 0 6px 24px rgba(33,150,243,0.5);
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-}
 
 .keypad-btn-delete {
-  color: var(--danger-light);
-  border-color: rgba(244,67,54,0.2);
+  color: var(--text);
+  background: #fff;
+  /* border-color: rgba(244, 67, 54, 0.564); */
   font-size: 1.4rem;
-}
-
-.keypad-btn-delete:hover {
-  background: rgba(244,67,54,0.1);
-  border-color: var(--danger);
+  font-weight:100;
 }

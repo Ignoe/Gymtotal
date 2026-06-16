@@ -9,10 +9,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 40px;
-  background: rgba(15, 22, 41, 0.9);
+ background: linear-gradient(135deg, var(--primary), var(--primary-light));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  /* border-bottom: 1px solid var(--border); */
   position: sticky;
   top: 0;
   z-index: 50;
@@ -29,24 +29,27 @@
   background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: white;
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 1.4rem;
   padding: 5px 10px;
   border-radius: 8px;
+  border:0.5px solid #ffffff64;
   letter-spacing: 0.05em;
   box-shadow: 0 2px 12px rgba(33,150,243,0.4);
 }
 
 .kiosk-brand-name {
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   color: var(--text);
+  color:white;
 }
 
 .kiosk-user{
   display: flex;
-  width: 550px;
+  width: 600px;
   justify-content: space-between;
+  flex-wrap: nowrap;
 
 }
 .kiosk-header-right {
@@ -56,9 +59,9 @@
 }
 
 .kiosk-time {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text);
   letter-spacing: 0.05em;
 }
 
@@ -101,15 +104,16 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 16px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.1rem;
+  /* background: rgba(255, 255, 255, 0.05); */
+  /* padding: 6px 16px; */
+  /* border-radius: 30px; */
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
 }
 
 .kiosk-welcome-text {
-  font-size: 0.95rem;
-  color: var(--text-muted);
+  /* font-size: 0.95rem;
+  color: var(--text); */
 }
 
 .kiosk-welcome-text strong {

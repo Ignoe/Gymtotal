@@ -143,7 +143,7 @@ export default function Validation() {
           {/* <BackButton /> */}
 
           <div className="validation-header">
-            <div className="validation-icon">🪪</div>
+         
             <h1>Por favor ingresa tu DNI</h1>
           </div>
 
