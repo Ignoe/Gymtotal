@@ -43,7 +43,7 @@ export default function Validation() {
   const handleProcessPayment = () => {
     if (!user) return;
     setPaymentStep('processing');
-    
+
     // Simulate processing for 2 seconds
     setTimeout(() => {
       const plan = plansData.find(p => p.id === selectedPlanId);
@@ -72,7 +72,7 @@ export default function Validation() {
         plan: plan.id,
         habilitado: true,
       };
-      
+
       setUser(updatedUser);
       setCurrentUser(updatedUser);
 
@@ -85,7 +85,7 @@ export default function Validation() {
         concepto: `${plan.nombre} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       };
       setTicket(newTicket);
-      
+
       setPaymentStep('done');
     }, 2000);
   };
@@ -145,8 +145,7 @@ export default function Validation() {
 
           <div className="validation-header">
             <div className="validation-icon">🪪</div>
-            <h1>Validación de Acceso</h1>
-            <p>Ingresá tu DNI para verificar tu habilitación</p>
+            <h1>Por favor ingresa tu DNI</h1>
           </div>
 
           {!result || result === 'errorDNI' ? (
@@ -172,7 +171,7 @@ export default function Validation() {
                 onClick={handleSoyNuevo}
                 id="btn-soy-nuevo-validation"
               >
-                👋 Soy nuevo, nunca vine al gimnasio
+                Soy nuevo, aun no estoy registrado
               </button>
             </div>
           ) : (
@@ -263,9 +262,9 @@ export default function Validation() {
         </div>
       </div>
 
-      <Modal 
-        isOpen={showSuccessModal} 
-        onClose={() => navigate('/home')} 
+      <Modal
+        isOpen={showSuccessModal}
+        onClose={() => navigate('/home')}
         title="Acceso Autorizado"
         maxWidth={400}
       >
