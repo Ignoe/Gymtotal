@@ -36,26 +36,17 @@
 .cat-chip {
     padding: 8px 16px;
     border-radius: var(--radius-full);
-    /* background: var(--surface-2);*/
     background: none;
-
     border: 1.5px solid var(--border);
     color: var(--text-muted);
     font-size: 0.85rem;
     font-weight: 600;
-    /* cursor: pointer; */
     transition: var(--transition);
 }
 
-.cat-chip:hover {
-    border-color: var(--primary-light);
-    color: var(--text);
-}
 
 .cat-active {
-    /* background: rgba(33, 150, 243, 0.12); */
     background: none;
-
     border-color: var(--primary-light);
     color: var(--primary-light);
 }

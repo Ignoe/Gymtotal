@@ -38,8 +38,6 @@
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 28px 20px;
-  /* cursor: pointer; */
-  /* transition: var(--transition); */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -47,7 +45,6 @@
   align-items: center;
 }
 
-/* .goal-card:hover { border-color: var(--accent); box-shadow: var(--glow-cyan); transform: translateY(-3px); } */
 .goal-icon {
   font-size: 2.5rem;
 }
@@ -101,12 +98,10 @@
   transition: var(--transition);
 }
 
-/* .daily-ex-card:hover { border-color: var(--primary-light); transform: translateX(4px); } */
 .daily-ex-num {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  /* background: linear-gradient(135deg, var(--primary), var(--accent)); */
   /* border: 1px solid var(--primary-light); */
   border: 1px solid #357bed;
   color: var(--bg);

@@ -33,7 +33,8 @@ export default function Validation() {
       descripcion: 'Un visitante solicita información en el tótem. Por favor acercarse a recepción.',
     });
     setShowNuevoModal(true);
-    // Auto-cierre a los 3 segundos
+    // Auto-cierre a los 
+    // 3 segundos
     setTimeout(() => {
       setShowNuevoModal(false);
     }, 3000);
@@ -43,7 +44,7 @@ export default function Validation() {
     if (!user) return;
     setPaymentStep('processing');
 
-    // Simulate processing for 2 seconds
+    // Simulacion de proceso 2 segundos
     setTimeout(() => {
       const plan = plans.find(p => p.id === selectedPlanId);
       const today = new Date();
@@ -94,7 +95,7 @@ export default function Validation() {
     if (showSuccessModal) {
       timer = setTimeout(() => {
         navigate('/home');
-      }, 1000);
+      }, 1900);
     }
     return () => clearTimeout(timer);
   }, [showSuccessModal, navigate]);
@@ -157,7 +158,6 @@ export default function Validation() {
                 }}
                 onConfirm={handleSearch}
                 maxLength={8}
-                // placeholder="Ingresa tu DNI"
               />
               {result === 'errorDNI' && (
                 <div style={{ color: 'var(--danger, #f44336)', fontWeight: 'bold', marginTop: '12px', textAlign: 'center' }} className="anim-fade-in">
@@ -312,7 +312,6 @@ export default function Validation() {
                         borderRadius: 12,
                         border: selectedPlanId === plan.id ? '2px solid var(--primary)' : '1px solid var(--border)',
                         background: selectedPlanId === plan.id ? 'var(--primary-light-alpha, rgba(33, 150, 243, 0.05))' : 'var(--card-bg, #ffffff)',
-                        /* cursor: 'pointer', */
                         textAlign: 'left',
                         width: '100%',
                         transition: 'all 0.2s ease',

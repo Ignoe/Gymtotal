@@ -125,7 +125,7 @@ export default function Payments() {
                       role="button"
                       tabIndex={0}
                       className={`plan-card ${selectedPlan === plan.id ? 'plan-selected' : ''} ${plan.popular ? 'plan-popular' : ''}`}
-                      style={{ '--plan-color': plan.color, cursor: 'pointer' }}
+                      style={{ '--plan-color': plan.color}}
                       onClick={() => setSelectedPlan(plan.id)}
                       onKeyDown={(e) => e.key === 'Enter' && setSelectedPlan(plan.id)}
                       id={`btn-plan-${plan.id}`}

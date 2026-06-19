@@ -71,7 +71,6 @@ a {
 
 button {
   font-family: var(--font);
-  /* cursor: pointer; */
   border: none;
   outline: none;
 }
@@ -106,9 +105,7 @@ ol {
   border-radius: var(--radius-full);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
+
 
 /* ─── Typography ─────────────────────────────────────────────────────────────── */
 h1,
@@ -164,10 +161,6 @@ p {
   transition: opacity 0.15s;
 }
 
-.btn:hover::before {
-  /* opacity: 0.06; */
-}
-
 .btn:active::before {
   opacity: 0.12;
 }
@@ -177,15 +170,8 @@ p {
 }
 
 .btn-primary {
-  /* background: #fff; */
   color: var(--text);
-  /* box-shadow: 0 4px 20px rgba(21, 101, 192, 0.4); */
   border: 2px solid var(--border);
-}
-
-.btn-primary:hover {
-  /* box-shadow: 0 6px 28px rgba(21, 101, 192, 0.55);
-  transform: translateY(-1px); */
 }
 
 .btn-accent {
@@ -194,21 +180,10 @@ p {
   box-shadow: 0 4px 20px rgba(0, 188, 212, 0.35);
 }
 
-.btn-accent:hover {
-  box-shadow: 0 6px 28px rgba(0, 188, 212, 0.5);
-  /* transform: translateY(-1px); */
-}
-
 .btn-ghost {
   background: transparent;
   color: var(--text-muted);
   border: 1.5px solid var(--border);
-}
-
-.btn-ghost:hover {
-  /* border-color: var(--primary-light);
-  color: var(--text);
-  background: rgba(33, 150, 243, 0.06); */
 }
 
 .btn-danger {
@@ -265,11 +240,7 @@ p {
   padding: 24px;
 }
 
-.card-hover:hover {
-  border-color: var(--primary-light);
-  box-shadow: var(--glow-blue);
-  transform: translateY(-2px);
-}
+
 
 /* ─── Form Elements ──────────────────────────────────────────────────────────── */
 .form-group {
@@ -316,7 +287,6 @@ p {
   font-size: 1rem;
   transition: var(--transition);
   width: 100%;
-  /* cursor: pointer; */
 }
 
 .form-select:focus {
@@ -591,7 +561,6 @@ p {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  /* pointer-events: none; */
   z-index: 0;
 }
 
@@ -738,10 +707,6 @@ p {
   text-align: left;
 }
 
-.admin-nav-item:hover {
-  background: var(--surface-2);
-  color: var(--text);
-}
 
 .admin-nav-item.active {
   background: rgba(33, 150, 243, 0.15);
@@ -788,9 +753,7 @@ tbody tr {
   transition: background 0.15s;
 }
 
-tbody tr:hover {
-  background: var(--surface-2);
-}
+
 
 /* ─── Modal ──────────────────────────────────────────────────────────────────── */
 .modal-overlay {

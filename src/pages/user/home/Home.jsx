@@ -6,13 +6,13 @@ import { useApp } from '../../../context/AppContext';
 import './Home.css';
 
 const MENU_ITEMS = [
-   { id: 'payments',    label: 'Pagos',           sublabel: 'Pagar cuota',           path: '/payments',    color: '#00BCD4', glow: 'rgba(0,188,212,0.35)'  },
-  { id: 'routine',     label: 'Mi Rutina',       sublabel: 'Armar y ver ejercicios', path: '/routine',     color: '#1565C0', glow: 'rgba(21,101,192,0.35)' },
-  { id: 'daily-goal',  label: 'Objetivo Diario', sublabel: 'Sesión libre',           path: '/daily-goal',  color: '#4DD0E1', glow: 'rgba(77,208,225,0.35)' },
-  { id: 'assistance',  label: 'Asistencia',      sublabel: 'Llamar al entrenador',  path: '/assistance',  color: '#FF6B35', glow: 'rgba(255,107,53,0.35)' },
-  { id: 'shop',        label: 'Compras',         sublabel: 'Tienda GymTotal',       path: '/shop',        color: '#E040FB', glow: 'rgba(224,64,251,0.35)' },
-  { id: 'salir',        label: 'Salir',           sublabel: 'Cerrar sesión',         path: '/',            color: '#FF5252', glow: 'rgba(255, 82, 82, 0.35)' },
-  { id: 'ingreso',     label: 'Ingreso',         sublabel: ' ',    path: '/validation',  color: '#fbf540ff', glow: 'rgba(251, 170, 64, 0.35)' },
+   { id: 'payments',    label: 'Pagos',           sublabel: 'Pagá tu cuota', path: '/payments'},
+  { id: 'routine',     label: 'Mi Rutina',       sublabel: 'Administrá tu rutina', path: '/routine'},
+  { id: 'daily-goal',  label: 'Objetivo Diario', sublabel: 'Elegí tu objetivo de hoy', path: '/daily-goal' },
+  { id: 'assistance',  label: 'Asistencia',      sublabel: 'Solicitá la ayuda del entrenador', path: '/assistance' },
+  { id: 'shop',        label: 'Compras',         sublabel: 'Tienda GymTotal', path: '/shop' },
+  { id: 'salir',       label: 'Salir',           sublabel: 'Cerrar sesión', path: '/' },
+  { id: 'ingreso',     label: 'Ingreso',         sublabel: ' ', path: '/validation' },
  
 ];
 

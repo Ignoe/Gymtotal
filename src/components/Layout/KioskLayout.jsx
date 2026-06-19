@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import './KioskLayout.css';
 
@@ -25,10 +24,10 @@ export function KioskLayout({ children }) {
   return (
     <div className="kiosk-layout bg-mesh">
       <header className="kiosk-header">
-        <Link to="/home" className="kiosk-brand">
+        <div className="kiosk-brand">
           <div className="kiosk-brand-badge">GT</div>
           <span className="kiosk-brand-name">GYMTOTAL</span>
-        </Link>
+        </div>
         <div className='kiosk-user'>
           {currentUser && (
             <div className="kiosk-user-status">

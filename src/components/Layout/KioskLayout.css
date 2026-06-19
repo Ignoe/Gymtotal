@@ -8,11 +8,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 40px;
- background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  padding: 22px 40px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  /* border-bottom: 1px solid var(--border); */
   position: sticky;
   top: 0;
   z-index: 50;
@@ -23,6 +22,9 @@
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
 }
 
 .kiosk-brand-badge {
@@ -47,8 +49,10 @@
 
 .kiosk-user{
   display: flex;
-  width: 600px;
-  justify-content: space-between;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
   flex-wrap: nowrap;
 
 }
@@ -59,9 +63,9 @@
 }
 
 .kiosk-time {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0a0a0a;
   letter-spacing: 0.05em;
 }
 
@@ -73,7 +77,7 @@
   display: flex;
   align-items: center;
 }
-.kiosk-admin-link:hover { color: var(--text-muted); background: var(--surface-2); }
+
 
 .kiosk-main {
   flex: 1;
@@ -104,11 +108,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 1.1rem;
-  /* background: rgba(255, 255, 255, 0.05); */
-  /* padding: 6px 16px; */
-  /* border-radius: 30px; */
-  /* border: 1px solid rgba(255, 255, 255, 0.1); */
+  font-size: 1.25rem;
+  color: #0a0a0a;
 }
 
 .kiosk-welcome-text {
@@ -129,13 +130,16 @@
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 700;
-  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.btn-logout-header:hover {
-  background: rgba(244, 67, 54, 0.3);
-  color: #ff1744;
-  box-shadow: 0 0 8px rgba(244, 67, 54, 0.25);
-}
 
+/* ─── Touchscreen / Totem: sin cursor pointer ───────────────────── */
+/* Aplica a TODA la vista de usuario (KioskLayout). Admin no usa KioskLayout. */
+
+.kiosk-layout,
+.kiosk-layout * {
+  cursor: default !important;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}

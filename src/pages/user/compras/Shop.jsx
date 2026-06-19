@@ -50,7 +50,7 @@ export default function Shop() {
       setProcessing(false);
       setShowCart(false);
       setShowTicket(true);
-    }, 1800);
+    }, 2000);
   };
 
   return (

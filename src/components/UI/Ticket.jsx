@@ -152,17 +152,10 @@ export function Ticket({ type = 'payment', data, onClose, onPrint }) {
           <p>¡Gracias por entrenar con nosotros!</p>
           <p>gymtotal.com.ar — @gymtotal</p>
         </div>
-
-        {/* <div className="ticket-barcode">
-          {Array.from({ length: 28 }).map((_, i) => (
-            <div key={i} className="ticket-bar" style={{ width: Math.random() > 0.5 ? 3 : 2 }} />
-          ))}
-        </div> */}
       </div>
 
       <div className="ticket-actions">
         <button className="btn btn-primary btn-lg" onClick={handlePrint}>
-        
           Imprimir ticket
         </button>
         <button className="btn btn-ghost btn-lg" onClick={onClose}>Cerrar</button>
