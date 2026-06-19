@@ -16,8 +16,8 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 520 }) {
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal" style={{ maxWidth }}>
         {title && (
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 700 }}>{title}</h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+            <h2 style={{ fontSize: '1.3rem', fontWeight: 700, textAlign: 'center' }}>{title}</h2>
           </div>
         )}
         {children}

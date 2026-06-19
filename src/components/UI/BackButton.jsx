@@ -15,10 +15,11 @@ export function BackButton({ to = -1, label = 'Atras' }) {
     </button>
   );
 }
-export function HomeButton({ to = "/home", label = 'Ir a incio' }) { const navigate = useNavigate();
+export function HomeButton({ to = "/home", label = 'Ir a inicio', className="" }) {
+  const navigate = useNavigate();
   return (
     <button
-      className="btn btn-ghost"
+      className={`btn btn-ghost ${className}`}
       style={{ gap: 8, padding: '10px 20px' }}
       onClick={() => navigate(to)}
     >
@@ -27,4 +28,6 @@ export function HomeButton({ to = "/home", label = 'Ir a incio' }) { const navig
       </svg>
       {label}
     </button>
-  );}
+  );
+}
+

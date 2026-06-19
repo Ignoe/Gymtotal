@@ -6,11 +6,51 @@
       "icono": "💪",
       "color": "#2196F3",
       "ejercicios": [
-        { "id": "pecho-1", "nombre": "Press de banca plano", "series": 3, "reps": "10-12", "descanso": "90s", "descripcion": "Acostado en banco, bajar la barra al pecho y empujar hacia arriba.", "imagen": "barbell" },
-        { "id": "pecho-2", "nombre": "Press inclinado con mancuernas", "series": 3, "reps": "10-12", "descanso": "90s", "descripcion": "Banco a 45°, empujar mancuernas desde los costados del pecho.", "imagen": "dumbbell" },
-        { "id": "pecho-3", "nombre": "Aperturas en polea", "series": 3, "reps": "12-15", "descanso": "60s", "descripcion": "Con poleas altas, juntar los brazos frente al cuerpo.", "imagen": "cable" },
-        { "id": "pecho-4", "nombre": "Flexiones", "series": 4, "reps": "15-20", "descanso": "60s", "descripcion": "Cuerpo recto, bajar el pecho al suelo y empujar.", "imagen": "bodyweight" },
-        { "id": "pecho-5", "nombre": "Press en máquina", "series": 3, "reps": "12", "descanso": "75s", "descripcion": "Sentado en máquina de press, empujar hacia adelante.", "imagen": "machine" }
+        {
+          "id": "pecho-1",
+          "nombre": "Press de banca plano",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "90s",
+          "descripcion": "Acostado en banco, bajar la barra al pecho y empujar hacia arriba.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "pecho-2",
+          "nombre": "Press inclinado con mancuernas",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "90s",
+          "descripcion": "Banco a 45°, empujar mancuernas desde los costados del pecho.",
+          "imagen": "dumbbell"
+        },
+        {
+          "id": "pecho-3",
+          "nombre": "Aperturas en polea",
+          "series": 3,
+          "reps": "12-15 reps",
+          "descanso": "60s",
+          "descripcion": "Con poleas altas, juntar los brazos frente al cuerpo.",
+          "imagen": "cable"
+        },
+        {
+          "id": "pecho-4",
+          "nombre": "Flexiones",
+          "series": 4,
+          "reps": "15-20 reps",
+          "descanso": "60s",
+          "descripcion": "Cuerpo recto, bajar el pecho al suelo y empujar.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "pecho-5",
+          "nombre": "Press en máquina",
+          "series": 3,
+          "reps": "12 reps",
+          "descanso": "75s",
+          "descripcion": "Sentado en máquina de press, empujar hacia adelante.",
+          "imagen": "machine"
+        }
       ]
     },
     {
@@ -19,11 +59,51 @@
       "icono": "🔙",
       "color": "#1565C0",
       "ejercicios": [
-        { "id": "esp-1", "nombre": "Dominadas", "series": 3, "reps": "6-10", "descanso": "120s", "descripcion": "Colgado de la barra, subir el mentón por encima de la barra.", "imagen": "bodyweight" },
-        { "id": "esp-2", "nombre": "Remo con barra", "series": 4, "reps": "8-10", "descanso": "90s", "descripcion": "Inclinado hacia adelante, tirar la barra hacia el abdomen.", "imagen": "barbell" },
-        { "id": "esp-3", "nombre": "Jalón al pecho", "series": 3, "reps": "10-12", "descanso": "75s", "descripcion": "Sentado en polea alta, tirar la barra hacia el pecho.", "imagen": "cable" },
-        { "id": "esp-4", "nombre": "Remo en polea baja", "series": 3, "reps": "12", "descanso": "75s", "descripcion": "Sentado, tirar el cable hacia el abdomen con los codos pegados.", "imagen": "cable" },
-        { "id": "esp-5", "nombre": "Peso muerto", "series": 3, "reps": "6-8", "descanso": "120s", "descripcion": "Levantar la barra del suelo manteniendo la espalda recta.", "imagen": "barbell" }
+        {
+          "id": "esp-1",
+          "nombre": "Dominadas",
+          "series": 3,
+          "reps": "6-10 reps",
+          "descanso": "120s",
+          "descripcion": "Colgado de la barra, subir el mentón por encima de la barra.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "esp-2",
+          "nombre": "Remo con barra",
+          "series": 4,
+          "reps": "8-10 reps",
+          "descanso": "90s",
+          "descripcion": "Inclinado hacia adelante, tirar la barra hacia el abdomen.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "esp-3",
+          "nombre": "Jalón al pecho",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "75s",
+          "descripcion": "Sentado en polea alta, tirar la barra hacia el pecho.",
+          "imagen": "cable"
+        },
+        {
+          "id": "esp-4",
+          "nombre": "Remo en polea baja",
+          "series": 3,
+          "reps": "12 reps",
+          "descanso": "75s",
+          "descripcion": "Sentado, tirar el cable hacia el abdomen con los codos pegados.",
+          "imagen": "cable"
+        },
+        {
+          "id": "esp-5",
+          "nombre": "Peso muerto",
+          "series": 3,
+          "reps": "6-8 reps",
+          "descanso": "120s",
+          "descripcion": "Levantar la barra del suelo manteniendo la espalda recta.",
+          "imagen": "barbell"
+        }
       ]
     },
     {
@@ -32,12 +112,60 @@
       "icono": "🦵",
       "color": "#00BCD4",
       "ejercicios": [
-        { "id": "pier-1", "nombre": "Sentadillas con barra", "series": 4, "reps": "8-10", "descanso": "120s", "descripcion": "Con barra en los trapecios, bajar hasta los 90° de rodilla.", "imagen": "barbell" },
-        { "id": "pier-2", "nombre": "Prensa", "series": 3, "reps": "10-12", "descanso": "90s", "descripcion": "En máquina prensa, empujar la plataforma con ambas piernas.", "imagen": "machine" },
-        { "id": "pier-3", "nombre": "Estocadas", "series": 3, "reps": "12 c/pierna", "descanso": "75s", "descripcion": "Dar un paso al frente y bajar la rodilla trasera al suelo.", "imagen": "bodyweight" },
-        { "id": "pier-4", "nombre": "Extensión de cuádriceps", "series": 3, "reps": "15", "descanso": "60s", "descripcion": "En máquina, extender las piernas hacia adelante.", "imagen": "machine" },
-        { "id": "pier-5", "nombre": "Curl femoral", "series": 3, "reps": "12-15", "descanso": "60s", "descripcion": "En máquina, curvar las piernas hacia los glúteos.", "imagen": "machine" },
-        { "id": "pier-6", "nombre": "Pantorrillas de pie", "series": 4, "reps": "20", "descanso": "45s", "descripcion": "De pie en escalón, subir en puntillas y bajar controlado.", "imagen": "bodyweight" }
+        {
+          "id": "pier-1",
+          "nombre": "Sentadillas con barra",
+          "series": 4,
+          "reps": "8-10 reps",
+          "descanso": "120s",
+          "descripcion": "Con barra en los trapecios, bajar hasta los 90° de rodilla.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "pier-2",
+          "nombre": "Prensa",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "90s",
+          "descripcion": "En máquina prensa, empujar la plataforma con ambas piernas.",
+          "imagen": "machine"
+        },
+        {
+          "id": "pier-3",
+          "nombre": "Estocadas",
+          "series": 3,
+          "reps": "12 c/pierna",
+          "descanso": "75s",
+          "descripcion": "Dar un paso al frente y bajar la rodilla trasera al suelo.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "pier-4",
+          "nombre": "Extensión de cuádriceps",
+          "series": 3,
+          "reps": "15 reps",
+          "descanso": "60s",
+          "descripcion": "En máquina, extender las piernas hacia adelante.",
+          "imagen": "machine"
+        },
+        {
+          "id": "pier-5",
+          "nombre": "Curl femoral",
+          "series": 3,
+          "reps": "12-15 reps",
+          "descanso": "60s",
+          "descripcion": "En máquina, curvar las piernas hacia los glúteos.",
+          "imagen": "machine"
+        },
+        {
+          "id": "pier-6",
+          "nombre": "Pantorrillas de pie",
+          "series": 4,
+          "reps": "20 reps",
+          "descanso": "45s",
+          "descripcion": "De pie en escalón, subir en puntillas y bajar controlado.",
+          "imagen": "bodyweight"
+        }
       ]
     },
     {
@@ -46,10 +174,42 @@
       "icono": "🏋️",
       "color": "#4DD0E1",
       "ejercicios": [
-        { "id": "hom-1", "nombre": "Press militar", "series": 4, "reps": "8-10", "descanso": "90s", "descripcion": "De pie o sentado, empujar la barra desde los hombros hacia arriba.", "imagen": "barbell" },
-        { "id": "hom-2", "nombre": "Elevaciones laterales", "series": 3, "reps": "12-15", "descanso": "60s", "descripcion": "Con mancuernas, elevar los brazos lateralmente a la altura del hombro.", "imagen": "dumbbell" },
-        { "id": "hom-3", "nombre": "Elevaciones frontales", "series": 3, "reps": "12", "descanso": "60s", "descripcion": "Con mancuernas, elevar los brazos hacia adelante a la altura del hombro.", "imagen": "dumbbell" },
-        { "id": "hom-4", "nombre": "Pájaro con mancuernas", "series": 3, "reps": "12-15", "descanso": "60s", "descripcion": "Inclinado, elevar los brazos hacia los costados.", "imagen": "dumbbell" }
+        {
+          "id": "hom-1",
+          "nombre": "Press militar",
+          "series": 4,
+          "reps": "8-10 reps",
+          "descanso": "90s",
+          "descripcion": "De pie o sentado, empujar la barra desde los hombros hacia arriba.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "hom-2",
+          "nombre": "Elevaciones laterales",
+          "series": 3,
+          "reps": "12-15 reps",
+          "descanso": "60s",
+          "descripcion": "Con mancuernas, elevar los brazos lateralmente a la altura del hombro.",
+          "imagen": "dumbbell"
+        },
+        {
+          "id": "hom-3",
+          "nombre": "Elevaciones frontales",
+          "series": 3,
+          "reps": "12 reps",
+          "descanso": "60s",
+          "descripcion": "Con mancuernas, elevar los brazos hacia adelante a la altura del hombro.",
+          "imagen": "dumbbell"
+        },
+        {
+          "id": "hom-4",
+          "nombre": "Pájaro con mancuernas",
+          "series": 3,
+          "reps": "12-15 reps",
+          "descanso": "60s",
+          "descripcion": "Inclinado, elevar los brazos hacia los costados.",
+          "imagen": "dumbbell"
+        }
       ]
     },
     {
@@ -58,11 +218,51 @@
       "icono": "💪",
       "color": "#0288D1",
       "ejercicios": [
-        { "id": "bra-1", "nombre": "Curl de bíceps con barra", "series": 3, "reps": "10-12", "descanso": "60s", "descripcion": "De pie, curvar la barra hacia los hombros.", "imagen": "barbell" },
-        { "id": "bra-2", "nombre": "Curl martillo", "series": 3, "reps": "12", "descanso": "60s", "descripcion": "Con mancuernas, curl con agarre neutro.", "imagen": "dumbbell" },
-        { "id": "bra-3", "nombre": "Extensión de tríceps en polea", "series": 3, "reps": "12-15", "descanso": "60s", "descripcion": "De pie frente a polea alta, extender los brazos hacia abajo.", "imagen": "cable" },
-        { "id": "bra-4", "nombre": "Press francés", "series": 3, "reps": "10-12", "descanso": "75s", "descripcion": "Acostado, bajar la barra EZ hacia la frente y extender.", "imagen": "barbell" },
-        { "id": "bra-5", "nombre": "Fondos en banco", "series": 3, "reps": "15-20", "descanso": "60s", "descripcion": "Con manos en banco y pies al frente, bajar y subir el cuerpo.", "imagen": "bodyweight" }
+        {
+          "id": "bra-1",
+          "nombre": "Curl de bíceps con barra",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "60s",
+          "descripcion": "De pie, curvar la barra hacia los hombros.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "bra-2",
+          "nombre": "Curl martillo",
+          "series": 3,
+          "reps": "12 reps",
+          "descanso": "60s",
+          "descripcion": "Con mancuernas, curl con agarre neutro.",
+          "imagen": "dumbbell"
+        },
+        {
+          "id": "bra-3",
+          "nombre": "Extensión de tríceps en polea",
+          "series": 3,
+          "reps": "12-15 reps",
+          "descanso": "60s",
+          "descripcion": "De pie frente a polea alta, extender los brazos hacia abajo.",
+          "imagen": "cable"
+        },
+        {
+          "id": "bra-4",
+          "nombre": "Press francés",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "75s",
+          "descripcion": "Acostado, bajar la barra EZ hacia la frente y extender.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "bra-5",
+          "nombre": "Fondos en banco",
+          "series": 3,
+          "reps": "15-20 reps",
+          "descanso": "60s",
+          "descripcion": "Con manos en banco y pies al frente, bajar y subir el cuerpo.",
+          "imagen": "bodyweight"
+        }
       ]
     },
     {
@@ -71,10 +271,42 @@
       "icono": "🍑",
       "color": "#E91E8C",
       "ejercicios": [
-        { "id": "glu-1", "nombre": "Hip thrust con barra", "series": 4, "reps": "10-12", "descanso": "90s", "descripcion": "Apoyado en banco, empujar la cadera hacia arriba con barra.", "imagen": "barbell" },
-        { "id": "glu-2", "nombre": "Puente de glúteos", "series": 3, "reps": "15-20", "descanso": "60s", "descripcion": "Acostado, elevar la cadera contrayendo los glúteos.", "imagen": "bodyweight" },
-        { "id": "glu-3", "nombre": "Patada de glúteo en polea", "series": 3, "reps": "15 c/pierna", "descanso": "45s", "descripcion": "Con tobillera en polea baja, patear hacia atrás.", "imagen": "cable" },
-        { "id": "glu-4", "nombre": "Abductores en máquina", "series": 3, "reps": "15-20", "descanso": "60s", "descripcion": "En máquina abductora, abrir las piernas hacia afuera.", "imagen": "machine" }
+        {
+          "id": "glu-1",
+          "nombre": "Hip thrust con barra",
+          "series": 4,
+          "reps": "10-12 reps",
+          "descanso": "90s",
+          "descripcion": "Apoyado en banco, empujar la cadera hacia arriba con barra.",
+          "imagen": "barbell"
+        },
+        {
+          "id": "glu-2",
+          "nombre": "Puente de glúteos",
+          "series": 3,
+          "reps": "15-20 reps",
+          "descanso": "60s",
+          "descripcion": "Acostado, elevar la cadera contrayendo los glúteos.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "glu-3",
+          "nombre": "Patada de glúteo en polea",
+          "series": 3,
+          "reps": "15 c/pierna",
+          "descanso": "45s",
+          "descripcion": "Con tobillera en polea baja, patear hacia atrás.",
+          "imagen": "cable"
+        },
+        {
+          "id": "glu-4",
+          "nombre": "Abductores en máquina",
+          "series": 3,
+          "reps": "15-20 reps",
+          "descanso": "60s",
+          "descripcion": "En máquina abductora, abrir las piernas hacia afuera.",
+          "imagen": "machine"
+        }
       ]
     },
     {
@@ -83,11 +315,51 @@
       "icono": "⬛",
       "color": "#607D8B",
       "ejercicios": [
-        { "id": "core-1", "nombre": "Plancha frontal", "series": 3, "reps": "30-60s", "descanso": "45s", "descripcion": "Apoyado en antebrazos y puntas de pies, mantener el cuerpo recto.", "imagen": "bodyweight" },
-        { "id": "core-2", "nombre": "Crunches", "series": 3, "reps": "20", "descanso": "45s", "descripcion": "Acostado, elevar el torso contrayendo el abdomen.", "imagen": "bodyweight" },
-        { "id": "core-3", "nombre": "Elevación de piernas", "series": 3, "reps": "15", "descanso": "45s", "descripcion": "Acostado, elevar las piernas rectas a 90°.", "imagen": "bodyweight" },
-        { "id": "core-4", "nombre": "Rueda abdominal", "series": 3, "reps": "10-12", "descanso": "60s", "descripcion": "Con rueda abdominal, extender y contraer el cuerpo.", "imagen": "tool" },
-        { "id": "core-5", "nombre": "Plancha lateral", "series": 3, "reps": "30s c/lado", "descanso": "45s", "descripcion": "Apoyado en un antebrazo, mantener el cuerpo alineado lateralmente.", "imagen": "bodyweight" }
+        {
+          "id": "core-1",
+          "nombre": "Plancha frontal",
+          "series": 3,
+          "reps": "30-60 seg",
+          "descanso": "45s",
+          "descripcion": "Apoyado en antebrazos y puntas de pies, mantener el cuerpo recto.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "core-2",
+          "nombre": "Crunches",
+          "series": 3,
+          "reps": "20 reps",
+          "descanso": "45s",
+          "descripcion": "Acostado, elevar el torso contrayendo el abdomen.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "core-3",
+          "nombre": "Elevación de piernas",
+          "series": 3,
+          "reps": "15 reps",
+          "descanso": "45s",
+          "descripcion": "Acostado, elevar las piernas rectas a 90°.",
+          "imagen": "bodyweight"
+        },
+        {
+          "id": "core-4",
+          "nombre": "Rueda abdominal",
+          "series": 3,
+          "reps": "10-12 reps",
+          "descanso": "60s",
+          "descripcion": "Con rueda abdominal, extender y contraer el cuerpo.",
+          "imagen": "tool"
+        },
+        {
+          "id": "core-5",
+          "nombre": "Plancha lateral",
+          "series": 3,
+          "reps": "30s c/lado",
+          "descanso": "45s",
+          "descripcion": "Apoyado en un antebrazo, mantener el cuerpo alineado lateralmente.",
+          "imagen": "bodyweight"
+        }
       ]
     },
     {
@@ -96,11 +368,51 @@
       "icono": "🏃",
       "color": "#FF5722",
       "ejercicios": [
-        { "id": "car-1", "nombre": "Cinta caminadora", "series": 1, "reps": "20-30 min", "descanso": "-", "descripcion": "Caminar o trotar a ritmo moderado.", "imagen": "machine" },
-        { "id": "car-2", "nombre": "Bicicleta estática", "series": 1, "reps": "20-30 min", "descanso": "-", "descripcion": "Pedalear a ritmo constante o en intervalos.", "imagen": "machine" },
-        { "id": "car-3", "nombre": "Elíptica", "series": 1, "reps": "20-30 min", "descanso": "-", "descripcion": "Movimiento combinado de piernas y brazos de bajo impacto.", "imagen": "machine" },
-        { "id": "car-4", "nombre": "Remo ergómetro", "series": 5, "reps": "2 min c/u", "descanso": "1 min", "descripcion": "Remar en máquina ergómetro con técnica correcta.", "imagen": "machine" },
-        { "id": "car-5", "nombre": "Salto a la soga", "series": 5, "reps": "1 min", "descanso": "30s", "descripcion": "Saltar la soga de forma continua.", "imagen": "tool" }
+        {
+          "id": "car-1",
+          "nombre": "Cinta caminadora",
+          "series": 1,
+          "reps": "20-30 min",
+          "descanso": "-",
+          "descripcion": "Caminar o trotar a ritmo moderado.",
+          "imagen": "machine"
+        },
+        {
+          "id": "car-2",
+          "nombre": "Bicicleta estática",
+          "series": 1,
+          "reps": "20-30 min",
+          "descanso": "-",
+          "descripcion": "Pedalear a ritmo constante o en intervalos.",
+          "imagen": "machine"
+        },
+        {
+          "id": "car-3",
+          "nombre": "Elíptica",
+          "series": 1,
+          "reps": "20-30 min",
+          "descanso": "-",
+          "descripcion": "Movimiento combinado de piernas y brazos de bajo impacto.",
+          "imagen": "machine"
+        },
+        {
+          "id": "car-4",
+          "nombre": "Remo ergómetro",
+          "series": 5,
+          "reps": "2 min c/u",
+          "descanso": "1 min",
+          "descripcion": "Remar en máquina ergómetro con técnica correcta.",
+          "imagen": "machine"
+        },
+        {
+          "id": "car-5",
+          "nombre": "Salto a la soga",
+          "series": 5,
+          "reps": "1 min",
+          "descanso": "30s",
+          "descripcion": "Saltar la soga de forma continua.",
+          "imagen": "tool"
+        }
       ]
     }
   ]

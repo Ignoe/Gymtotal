@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
 import { NumericKeypad } from '../../../components/UI/NumericKeypad';
-import { BackButton,HomeButton } from '../../../components/UI/BackButton';
+import { BackButton, HomeButton } from '../../../components/UI/BackButton';
 import { Modal } from '../../../components/UI/Modal';
 import { Ticket } from '../../../components/UI/Ticket';
 import { useApp } from '../../../context/AppContext';
@@ -80,15 +80,12 @@ export default function Payments() {
     <KioskLayout>
       <div className="payments-page page-enter">
         <div className="payments-content">
-          <BackButton />
 
-          <div className="payments-header">
-            <h1>Pagos</h1>
-          </div>
+
 
           {/* Step indicators */}
-       
-         
+
+
           {step === STEPS.DNI && (
             <div className="payments-step anim-fade-in">
               <NumericKeypad value={dni} onChange={setDni} onConfirm={handleDniConfirm} maxLength={8} placeholder="Tu DNI" />
@@ -103,6 +100,15 @@ export default function Payments() {
             const planSeleccionado = plans.find(p => p.id === selectedPlan);
             return (
               <div className="payments-step anim-fade-in">
+                <div className="boton-back">
+
+                <BackButton />
+
+                </div>
+                <div className="payments-header">
+                  <h1>Pagos</h1>
+                </div>
+
                 <div className="payments-user-info">
                   <span>👤</span>
                   <div>
@@ -124,13 +130,14 @@ export default function Payments() {
                       onKeyDown={(e) => e.key === 'Enter' && setSelectedPlan(plan.id)}
                       id={`btn-plan-${plan.id}`}
                     >
-                      {plan.popular && <div className="plan-badge">⭐ MÁS POPULAR</div>}
+
                       <div className="plan-name">{plan.nombre}</div>
                       <div className="plan-price">${(plan.precio || 0).toLocaleString('es-AR')}</div>
                       <div className="plan-duration">{plan.duracionDias || 30} días</div>
                       <ul className="plan-benefits">
                         {(plan.beneficios || []).slice(0, 3).map((b, i) => <li key={i}>✓ {b}</li>)}
                       </ul>
+                      {plan.popular && <div className="plan-badge">⭐ MÁS POPULAR</div>}
                     </div>
                   ))}
                 </div>
@@ -143,8 +150,8 @@ export default function Payments() {
                   id="btn-pay"
                 >
                   {planSeleccionado
-                    ? `💳 Procesar pago · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
-                    : '💳 Seleccioná un plan'}
+                    ? `Procesar pago · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
+                    : 'Seleccioná un plan'}
                 </button>
               </div>
             );
@@ -171,10 +178,10 @@ export default function Payments() {
               <p style={{ color: 'var(--text-muted)' }}>Tu cuota fue acreditada correctamente</p>
               <div className="done-amount">${ticket.monto?.toLocaleString('es-AR')}</div>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                <button className="btn btn-primary btn-lg" onClick={() => setShowTicket(true)} id="btn-show-ticket">
-                  🖨️ Ver ticket
+                <button className="btn btn-primary btn-lg btn-grande" onClick={() => setShowTicket(true)} id="btn-show-ticket">
+                  Ver ticket
                 </button>
-        <HomeButton/>
+                <HomeButton />
               </div>
             </div>
           )}

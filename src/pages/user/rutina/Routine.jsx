@@ -102,10 +102,21 @@ export default function Routine() {
                         const ex = groups.flatMap(g => g.ejercicios).find(e => e.nombre === nombre);
                         return (
                           <div key={i} className="routine-exercise-item">
-                            <span className="routine-ex-num">{i + 1}</span>
+                            <span className="daily-ex-num">{i + 1}</span>
                             <div style={{ flex: 1 }}>
-                              <p style={{ fontWeight: 600 }}>{nombre}</p>
-                              {ex && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{ex.series} series · {ex.reps} reps · Descanso: {ex.descanso}</p>}
+                              <div className="daily-ex-tags-rutina">
+                                <p className="daily-ex-name">{ex.nombre}</p>
+                                <p className="daily-ex-detail">{ex.descripcion}</p>
+                                <div className='excercise-detail'>
+
+                                  <span className="badge badge-info badge-info-diario">{ex.series} series</span>
+                                  <span className="badge badge-accent badge-accent-diario">{ex.reps}</span>
+                                </div>
+                              </div>
+                              {/* <p style={{ fontWeight: 600 }}>{nombre}</p>
+                              {ex && <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{ex.series} series · {ex.reps}  </p> 
+                              } */}
+                              {/* Descanso: {ex.descanso}</p> */}
                             </div>
                             <button
                               className="btn btn-ghost btn-sm"

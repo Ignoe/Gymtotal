@@ -157,7 +157,7 @@ export default function Validation() {
                 }}
                 onConfirm={handleSearch}
                 maxLength={8}
-                placeholder="Tu DNI (sin puntos)"
+                // placeholder="Ingresa tu DNI"
               />
               {result === 'errorDNI' && (
                 <div style={{ color: 'var(--danger, #f44336)', fontWeight: 'bold', marginTop: '12px', textAlign: 'center' }} className="anim-fade-in">

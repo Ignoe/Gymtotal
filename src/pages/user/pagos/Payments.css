@@ -109,8 +109,9 @@
   align-items: center;
   gap: 12px;
   /* background: var(--bg); */
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-bottom: 1px solid var(--text-muted);
+  /* border-radius: var(--radius); */
+  
   padding: 14px 20px;
   width: 100%;
   font-size: 1.5rem;
@@ -137,11 +138,11 @@
   gap: 8px;
 }
 
-.plan-card:hover {
+/* .plan-card:hover {
   border-color: var(--plan-color);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
-}
+} */
 
 .plan-selected {
   border-color: var(--plan-color) !important;
@@ -150,13 +151,13 @@
 }
 
 .plan-popular {
-  border-color: rgba(255, 179, 0, 0.4);
+  border-color: #1cb1da;
 }
 
 .plan-badge {
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--warning);
+  color: #2995e4;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -271,4 +272,15 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+#btn-show-ticket{
+  background: none;
+}
+
+.boton-back{
+  width: 100%;
+}
+.boton-back button{
+  width:100%
 }

@@ -60,14 +60,14 @@ export default function Shop() {
           <div className="shop-topbar">
             <BackButton />
             <button className="cart-btn" onClick={() => setShowCart(true)} id="btn-open-cart">
-              🛍️
+              
               <span className="cart-label">Carrito</span>
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </button>
           </div>
 
           <div className="shop-header">
-            <div style={{ fontSize: '3rem' }}>🛍️</div>
+            {/* <div style={{ fontSize: '3rem' }}>🛍️</div> */}
             <h1>Tienda</h1>
 
           </div>
@@ -176,7 +176,7 @@ export default function Shop() {
               <div style={{ display: 'flex', gap: 10 }}>
                 <button className="btn btn-ghost" onClick={clearCart}>Vaciar</button>
                 <button className="btn btn-primary btn-lg" style={{ flex: 1 }} onClick={handleCheckout} id="btn-checkout">
-                  💳 Pagar ${cartTotal.toLocaleString('es-AR')}
+                  Pagar 
                 </button>
               </div>
             )}

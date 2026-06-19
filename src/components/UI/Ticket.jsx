@@ -153,18 +153,16 @@ export function Ticket({ type = 'payment', data, onClose, onPrint }) {
           <p>gymtotal.com.ar — @gymtotal</p>
         </div>
 
-        <div className="ticket-barcode">
+        {/* <div className="ticket-barcode">
           {Array.from({ length: 28 }).map((_, i) => (
             <div key={i} className="ticket-bar" style={{ width: Math.random() > 0.5 ? 3 : 2 }} />
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className="ticket-actions">
         <button className="btn btn-primary btn-lg" onClick={handlePrint}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/>
-          </svg>
+        
           Imprimir ticket
         </button>
         <button className="btn btn-ghost btn-lg" onClick={onClose}>Cerrar</button>

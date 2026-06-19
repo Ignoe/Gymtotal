@@ -2,7 +2,7 @@ import './NumericKeypad.css';
 
 const KEYS = ['1','2','3','4','5','6','7','8','9','⌫','0','✓'];
 
-export function NumericKeypad({ value, onChange, onConfirm, maxLength = 8, placeholder = 'Ingresá tu DNI' }) {
+export function NumericKeypad({ value, onChange, onConfirm, maxLength = 8, placeholder = '' }) {
   const handleKey = (k) => {
     if (k === '⌫') {
       onChange(value.slice(0, -1));

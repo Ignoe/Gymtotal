@@ -35,7 +35,7 @@ export default function DailyGoal() {
         <div className="daily-content">
           <BackButton />
           <div className="daily-header">
-            <div style={{ fontSize: '3rem' }}>🎯</div>
+            {/* <div style={{ fontSize: '3rem' }}>🎯</div> */}
             <h1>Objetivo Diario</h1>
             <p>Elegí el enfoque de tu sesión de hoy</p>
           </div>
@@ -53,7 +53,7 @@ export default function DailyGoal() {
           ) : (
             <div className="daily-result anim-fade-in">
               <div className="daily-result-header">
-                <span style={{ fontSize: '2.5rem' }}>{goal.icon}</span>
+               
                 <div>
                   <h2>Sesión de {goal.label}</h2>
                   <p style={{ color: 'var(--text-muted)' }}>{goal.desc}</p>
@@ -68,9 +68,9 @@ export default function DailyGoal() {
                       <p className="daily-ex-name">{ex.nombre}</p>
                       <p className="daily-ex-detail">{ex.descripcion}</p>
                       <div className="daily-ex-tags">
-                        <span className="badge badge-info">{ex.series} series</span>
-                        <span className="badge badge-accent">{ex.reps} reps</span>
-                        <span className="badge badge-warning">⏱ {ex.descanso}</span>
+                        <span className="badge badge-info badge-info-diario">{ex.series} series</span>
+                        <span className="badge badge-accent badge-accent-diario">{ex.reps}</span>
+                        {/* <span className="badge badge-warning">⏱ {ex.descanso}</span> */}
                       </div>
                     </div>
                   </div>
@@ -78,14 +78,14 @@ export default function DailyGoal() {
               </div>
 
               <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <button className="btn btn-ghost btn-lg" onClick={() => { setGoal(null); setExercises([]); }}>
+                <button className="btn btn-ghost btn-lg btn-grande" onClick={() => { setGoal(null); setExercises([]); }}>
                   Cambiar objetivo
                 </button>
-                <button className="btn btn-accent btn-lg" onClick={() => setShowTicket(true)} id="btn-print-routine">
-                  🖨️ Imprimir rutina
+                <button className="btn btn-accent btn-lg btn-grande" onClick={() => setShowTicket(true)} id="btn-print-routine">
+                  Imprimir rutina
                 </button>
             
-                <HomeButton/>
+                <HomeButton className="btn-grande"/>
               </div>
             </div>
           )}

@@ -51,8 +51,9 @@
   justify-content: space-between;
   /* background: var(--bg); */
 
-  border: 2px solid var(--text-muted);
-  border-radius: var(--radius);
+  /* border: 2px solid var(--text-muted); */
+      border-bottom: 1px solid var(--text-muted);
+  /* border-radius: var(--radius); */
   padding: 12px 20px;
   font-weight: 600;
 }
@@ -137,10 +138,10 @@
   transition: var(--transition);
 }
 
-.group-chip:hover {
+/* .group-chip:hover {
   border-color: var(--g-color);
   color: var(--g-color);
-}
+} */
 
 .group-active {
   border-color: var(--g-color) !important;
@@ -173,10 +174,10 @@
   transition: var(--transition);
 }
 
-.exercise-card:hover {
+/* .exercise-card:hover {
   border-color: var(--primary-light);
   background: var(--surface-3);
-}
+} */
 
 .exercise-selected {
   border-color: var(--accent) !important;
@@ -212,3 +213,18 @@
   background: var(--surface-2);
   border-radius: var(--radius);
 }
+
+.excercise-detail{
+  display: flex;
+  gap: 0.5rem;
+  /* flex-direction: column;
+  gap: 5px; */
+}
+
+.daily-ex-tags-rutina{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
