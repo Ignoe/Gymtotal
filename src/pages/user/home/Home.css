@@ -132,8 +132,8 @@
   background: #fff;
   border: 2.5px solid var(--text-muted);
   border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* cursor: pointer; */
+  /* transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); */
   overflow: hidden;
   text-align: center;
   animation: fadeIn 0.4s ease both;
@@ -156,7 +156,7 @@
   background: var(--card-color);
   opacity: 0;
   transition: opacity 0.25s;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 
 /* .home-card:hover .home-card-bg {

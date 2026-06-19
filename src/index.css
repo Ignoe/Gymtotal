@@ -71,7 +71,7 @@ a {
 
 button {
   font-family: var(--font);
-  cursor: pointer;
+  /* cursor: pointer; */
   border: none;
   outline: none;
 }
@@ -316,7 +316,7 @@ p {
   font-size: 1rem;
   transition: var(--transition);
   width: 100%;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .form-select:focus {
@@ -591,7 +591,7 @@ p {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  pointer-events: none;
+  /* pointer-events: none; */
   z-index: 0;
 }
 

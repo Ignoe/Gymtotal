@@ -81,11 +81,11 @@ export default function DailyGoal() {
                 <button className="btn btn-ghost btn-lg btn-grande" onClick={() => { setGoal(null); setExercises([]); }}>
                   Cambiar objetivo
                 </button>
-                <button className="btn btn-accent btn-lg btn-grande" onClick={() => setShowTicket(true)} id="btn-print-routine">
+                <button className="btn btn-ghost btn-lg btn-grande" onClick={() => setShowTicket(true)} id="btn-print-routine">
                   Imprimir rutina
                 </button>
             
-                <HomeButton className="btn-grande"/>
+                <HomeButton className="btn-lg btn-grande"/>
               </div>
             </div>
           )}

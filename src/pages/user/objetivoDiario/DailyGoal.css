@@ -38,8 +38,8 @@
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 28px 20px;
-  cursor: pointer;
-  transition: var(--transition);
+  /* cursor: pointer; */
+  /* transition: var(--transition); */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -156,9 +156,4 @@
   background: #1cb1da;
 }
 
-#btn-print-routine{
-  background: none;
-  color:var(--text-muted);
-  border:1px solid var(--border);
-  box-shadow: none;
-}
+

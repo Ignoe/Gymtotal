@@ -78,11 +78,11 @@ export default function Routine() {
                 <span> {user.nombre}</span>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button className="btn btn-ghost btn-sm" onClick={() => setMode(mode === 'view' ? 'build' : 'view')}>
-                    {mode === 'view' ? '✏️ Editar rutina' : '👁 Ver mi rutina'}
+                    {mode === 'view' ? '✏️ Editar rutina' : 'Ver mi rutina'}
                   </button>
                   {mode === 'build' && (
                     <button className="btn btn-primary btn-sm" onClick={handleSave} id="btn-save-routine">
-                      💾 Guardar
+                       Guardar
                     </button>
                   )}
                 </div>
@@ -143,7 +143,7 @@ export default function Routine() {
                         style={{ '--g-color': g.color }}
                         onClick={() => setActiveGroup(activeGroup === g.id ? null : g.id)}
                       >
-                        {g.icono} {g.nombre}
+                        {g.nombre}
                       </button>
                     ))}
                   </div>
@@ -181,7 +181,7 @@ export default function Routine() {
 
           {step === STEPS.SAVED && (
             <div className="routine-saved anim-fade-in-scale">
-              <div style={{ fontSize: '4rem' }}>💾</div>
+              {/* <div style={{ fontSize: '4rem' }}>💾</div> */}
               <h2>¡Rutina guardada!</h2>
               <p style={{ color: 'var(--text-muted)' }}>Tu rutina de {selected.length} ejercicios fue actualizada.</p>
               <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>

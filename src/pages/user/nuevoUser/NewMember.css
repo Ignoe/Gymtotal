@@ -12,7 +12,7 @@
 .plan-card-new {
   background: var(--surface); border: 2px solid var(--border);
   border-radius: var(--radius-lg); padding: 20px 16px;
-  cursor: pointer; transition: var(--transition);
+  /* cursor: pointer; transition: var(--transition); */
   text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center;
 }
 /* .plan-card-new:hover { border-color: var(--pc); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); } */

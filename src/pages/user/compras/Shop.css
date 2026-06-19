@@ -45,8 +45,8 @@
   color: var(--text);
   font-size: 1rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+  /* cursor: pointer; */
+  /* transition: var(--transition); */
 }
 
 /* .cart-btn:hover { border-color: var(--primary-light); background: var(--surface-3); } */
@@ -84,8 +84,8 @@
   color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+  /* cursor: pointer; */
+  /* transition: var(--transition); */
 }
 
 /* .cat-chip:hover { border-color: var(--primary-light); color: var(--text); } */

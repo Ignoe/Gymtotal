@@ -312,7 +312,7 @@ export default function Validation() {
                         borderRadius: 12,
                         border: selectedPlanId === plan.id ? '2px solid var(--primary)' : '1px solid var(--border)',
                         background: selectedPlanId === plan.id ? 'var(--primary-light-alpha, rgba(33, 150, 243, 0.05))' : 'var(--card-bg, #ffffff)',
-                        cursor: 'pointer',
+                        /* cursor: 'pointer', */
                         textAlign: 'left',
                         width: '100%',
                         transition: 'all 0.2s ease',

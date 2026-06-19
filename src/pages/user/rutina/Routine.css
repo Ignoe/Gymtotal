@@ -49,17 +49,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* background: var(--bg); */
-
-  /* border: 2px solid var(--text-muted); */
-      border-bottom: 1px solid var(--text-muted);
-  /* border-radius: var(--radius); */
+  border-bottom: 1px solid var(--text-muted);
   padding: 12px 20px;
   font-weight: 600;
 }
 
 .routine-display {
-  /* background: var(--bg); */
+
   border: 2px solid var(--text-muted);
   border-radius: var(--radius-lg);
   padding: 24px;
@@ -84,7 +80,6 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  background: none;
   border: 1px solid var(--text-muted);
   border-radius: var(--radius);
   padding: 12px 16px;
@@ -94,7 +89,6 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,28 +123,20 @@
   gap: 6px;
   padding: 8px 16px;
   border-radius: var(--radius-full);
-  background: var(--surface-2);
   border: 1.5px solid var(--border);
   color: var(--text);
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+  /* cursor: pointer; */
+  /* transition: var(--transition); */
 }
-
-/* .group-chip:hover {
-  border-color: var(--g-color);
-  color: var(--g-color);
-} */
 
 .group-active {
   border-color: var(--g-color) !important;
-  background: rgba(255, 255, 255, 0.05);
   color: var(--g-color) !important;
 }
 
 .builder-exercises {
-  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 20px;
@@ -166,18 +152,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--surface-2);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 12px 14px;
-  cursor: pointer;
-  transition: var(--transition);
+  background: none;
+  /* transition: var(--transition); */
 }
-
-/* .exercise-card:hover {
-  border-color: var(--primary-light);
-  background: var(--surface-3);
-} */
 
 .exercise-selected {
   border-color: var(--accent) !important;
@@ -210,21 +190,19 @@
   color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 600;
-  background: var(--surface-2);
   border-radius: var(--radius);
 }
 
-.excercise-detail{
+.excercise-detail {
   display: flex;
   gap: 0.5rem;
   /* flex-direction: column;
   gap: 5px; */
 }
 
-.daily-ex-tags-rutina{
+.daily-ex-tags-rutina {
   display: flex;
   flex-direction: column;
   gap: 8px;
   flex-wrap: wrap;
 }
-
