@@ -18,13 +18,14 @@
   gap: 4px;
   min-height: 70px;
   transition: border-color 0.2s;
+  height: 83.2px;
 }
 
-.keypad-display:focus-within,
+/* .keypad-display:focus-within,
 .keypad-display.has-value {
   border-color: var(--border);
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.12);
-}
+} */
 
 .keypad-display-value {
   font-size: 2rem;

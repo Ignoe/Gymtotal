@@ -56,7 +56,7 @@ export default function AdminUsers() {
         <input
           type="text"
           className="form-input"
-          style={{ maxWidth: 320 }}
+          style={{ maxWidth: 320, background:'none' }}
           placeholder="Buscar por nombre, DNI o email..."
           value={search}
           onChange={e => setSearch(e.target.value)}
@@ -69,7 +69,7 @@ export default function AdminUsers() {
         </div>
       </div>
 
-      <div className="table-wrap">
+      <div className="table-wrap" >
         <table>
           <thead>
             <tr>

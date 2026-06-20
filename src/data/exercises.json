@@ -4,7 +4,7 @@
       "id": "pecho",
       "nombre": "Pecho",
       "icono": "💪",
-      "color": "#2196F3",
+      "color": "#357bed",
       "ejercicios": [
         {
           "id": "pecho-1",
@@ -57,7 +57,7 @@
       "id": "espalda",
       "nombre": "Espalda",
       "icono": "🔙",
-      "color": "#1565C0",
+      "color": "#357bed",
       "ejercicios": [
         {
           "id": "esp-1",
@@ -110,7 +110,7 @@
       "id": "piernas",
       "nombre": "Piernas",
       "icono": "🦵",
-      "color": "#00BCD4",
+      "color": "#357bed",
       "ejercicios": [
         {
           "id": "pier-1",
@@ -172,7 +172,7 @@
       "id": "hombros",
       "nombre": "Hombros",
       "icono": "🏋️",
-      "color": "#4DD0E1",
+      "color": "#2995e4",
       "ejercicios": [
         {
           "id": "hom-1",
@@ -216,7 +216,7 @@
       "id": "brazos",
       "nombre": "Brazos",
       "icono": "💪",
-      "color": "#0288D1",
+      "color": "#2995e4",
       "ejercicios": [
         {
           "id": "bra-1",
@@ -269,7 +269,7 @@
       "id": "gluteos",
       "nombre": "Glúteos",
       "icono": "🍑",
-      "color": "#E91E8C",
+      "color": "#2995e4",
       "ejercicios": [
         {
           "id": "glu-1",
@@ -313,7 +313,7 @@
       "id": "core",
       "nombre": "Core / Abdomen",
       "icono": "⬛",
-      "color": "#607D8B",
+      "color": "#1cb1da",
       "ejercicios": [
         {
           "id": "core-1",
@@ -366,7 +366,7 @@
       "id": "cardio",
       "nombre": "Cardio",
       "icono": "🏃",
-      "color": "#FF5722",
+      "color": "#1cb1da",
       "ejercicios": [
         {
           "id": "car-1",

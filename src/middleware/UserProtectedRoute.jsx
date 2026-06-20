@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { InactivityTimer } from '../components/UI/InactivityTimer';
 
 /**
  * UserProtectedRoute — HOC que protege rutas del kiosco que requieren un socio autenticado.
@@ -12,5 +13,9 @@ export function UserProtectedRoute({ children }) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return (
+    <InactivityTimer>
+      {children}
+    </InactivityTimer>
+  );
 }

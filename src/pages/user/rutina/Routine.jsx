@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
 import { BackButton, HomeButton } from '../../../components/UI/BackButton';
 import { NumericKeypad } from '../../../components/UI/NumericKeypad';
+import { Modal } from '../../../components/UI/Modal';
+import { Ticket } from '../../../components/UI/Ticket';
 import { useApp } from '../../../context/AppContext';
 import exercisesData from '../../../data/exercises.json';
 import './Routine.css';
@@ -17,6 +19,7 @@ export default function Routine() {
   const [activeGroup, setActiveGroup] = useState(null);
   const [selected, setSelected] = useState(currentUser?.rutina || []);
   const [mode, setMode] = useState('view'); // view | build
+  const [showTicket, setShowTicket] = useState(false);
 
   const handleDni = () => {
     const found = findUserByDni(dni);
@@ -45,6 +48,10 @@ export default function Routine() {
 
   const handleSave = () => {
     saveRoutine(user.id, selected);
+    setUser(prev => prev ? { ...prev, rutina: selected } : null);
+    if (currentUser && currentUser.id === user.id) {
+      setCurrentUser(prev => prev ? { ...prev, rutina: selected } : null);
+    }
     setStep(STEPS.SAVED);
   };
 
@@ -77,6 +84,11 @@ export default function Routine() {
               <div className="routine-user-bar">
                 <span> {user.nombre}</span>
                 <div style={{ display: 'flex', gap: 8 }}>
+                  {mode === 'view' && selected.length > 0 && (
+                    <button className="btn btn-ghost btn-sm" onClick={() => setShowTicket(true)} id="btn-print-personal-routine">
+                      Imprimir rutina
+                    </button>
+                  )}
                   <button className="btn btn-ghost btn-sm" onClick={() => setMode(mode === 'view' ? 'build' : 'view')}>
                     {mode === 'view' ? '✏️ Editar rutina' : 'Ver mi rutina'}
                   </button>
@@ -194,6 +206,15 @@ export default function Routine() {
           )}
         </div>
       </div>
+      
+      <Modal isOpen={showTicket} onClose={() => setShowTicket(false)} title="Mi Rutina" maxWidth={420}>
+        <Ticket type="routine" data={{
+          goalLabel: 'Mi Rutina',
+          goalDesc: 'Entrenamiento personalizado',
+          goalSubtitle: 'Rutina personal',
+          exercises: selected.map(nombre => exercisesData.grupos.flatMap(g => g.ejercicios).find(e => e.nombre === nombre)).filter(Boolean)
+        }} onClose={() => setShowTicket(false)} />
+      </Modal>
     </KioskLayout>
   );
 }

@@ -54,3 +54,7 @@
 .input-error {
     border-color: var(--danger) !important;
 }
+
+th{
+    background: none;
+}

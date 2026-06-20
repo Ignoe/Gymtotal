@@ -18,8 +18,8 @@ export default function AdminDashboard() {
         <h1>Dashboard</h1>
         <p>Resumen general del gimnasio</p>
       </div>
-
-      <div className="stats-row">
+{/* Esto lo comente */}
+      {/* <div className="stats-row">
         <div className="stat-card">
           <div className="stat-icon" style={{ background: 'rgba(33,150,243,0.1)', color: 'var(--primary-light)' }}>👥</div>
           <div>
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
             <div className="stat-label">Altas este mes</div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="dashboard-grid">
         <div className="card">

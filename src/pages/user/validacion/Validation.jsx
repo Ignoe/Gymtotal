@@ -143,13 +143,13 @@ export default function Validation() {
         <div className="validation-content">
           {/* <BackButton /> */}
 
-          <div className="validation-header">
-         
-            <h1>Por favor ingresa tu DNI</h1>
-          </div>
-
           {!result || result === 'errorDNI' ? (
-            <div className="validation-keypad-area">
+            <>
+              <div className="validation-header">
+                <h1>Por favor ingresá tu DNI</h1>
+              </div>
+
+              <div className="validation-keypad-area">
               <NumericKeypad
                 value={dni}
                 onChange={(val) => {
@@ -170,24 +170,25 @@ export default function Validation() {
                 onClick={handleSoyNuevo}
                 id="btn-soy-nuevo-validation"
               >
-                Soy nuevo, aun no estoy registrado
+                Soy nuevo, aún no estoy registrado
               </button>
             </div>
+            </>
           ) : (
             <div className="validation-result anim-fade-in-scale">
               {result === 'found' && user ? (
                 <div className={`validation-result-card ${user.habilitado && !isVencido(user) ? 'result-ok' : 'result-error'}`}>
                   <div className="result-icon-big">
-                    {user.habilitado && !isVencido(user) ? '✅' : '❌'}
+                    {user.habilitado && !isVencido(user) ? '✅' : ''}
                   </div>
                   <h2 className="result-name">{user.nombre}</h2>
                   <p className="result-id">Socio #{user.id}</p>
 
-                  <div className="result-badges">
+                  {/* <div className="result-badges">
                     <StatusBadge status={user.habilitado} />
                     <StatusBadge status={user.plan} />
                     {isVencido(user) && <StatusBadge status="vencido" />}
-                  </div>
+                  </div> */}
 
                   <div className="result-details">
                     <div className="result-detail-row">
@@ -227,7 +228,7 @@ export default function Validation() {
                             }}
                             id="btn-pay-expired"
                           >
-                            💳 Pagar Cuota Vencida
+                            Pagar Cuota Vencida
                           </button>
                         )}
                         <button className="btn btn-ghost btn-lg" onClick={handleReset} id="btn-try-again">
@@ -239,7 +240,7 @@ export default function Validation() {
                 </div>
               ) : (
                 <div className="validation-result-card result-error">
-                  <div className="result-icon-big">🔍</div>
+                  {/* <div className="result-icon-big">🔍</div> */}
                   <h2>DNI no encontrado</h2>
                   <p style={{ color: 'var(--text-muted)', marginTop: 8 }}>
                     No encontramos un socio con el DNI <strong>{dni}</strong>.
@@ -289,72 +290,72 @@ export default function Validation() {
         maxWidth={500}
       >
         {paymentStep === 'select' && (() => {
-            const planSeleccionado = plans.find(p => p.id === selectedPlanId);
-            return (
-              <div className="validation-payment-modal anim-fade-in" style={{ padding: '10px 0' }}>
-                <p style={{ color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center' }}>
-                  Seleccioná un plan para renovar tu membresía de GymTotal:
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
-                  {plans.map((plan) => (
-                    <div
-                      key={plan.id}
-                      role="button"
-                      tabIndex={0}
-                      className={`plan-card-mini ${selectedPlanId === plan.id ? 'plan-selected' : ''}`}
-                      onClick={() => setSelectedPlanId(plan.id)}
-                      onKeyDown={(e) => e.key === 'Enter' && setSelectedPlanId(plan.id)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '16px 20px',
-                        borderRadius: 12,
-                        border: selectedPlanId === plan.id ? '2px solid var(--primary)' : '1px solid var(--border)',
-                        background: selectedPlanId === plan.id ? 'var(--primary-light-alpha, rgba(33, 150, 243, 0.05))' : 'var(--card-bg, #ffffff)',
-                        textAlign: 'left',
-                        width: '100%',
-                        transition: 'all 0.2s ease',
-                        boxSizing: 'border-box',
-                      }}
-                      id={`btn-val-plan-${plan.id}`}
-                    >
-                      <div>
-                        <div style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
-                          {plan.nombre} {plan.popular && <span style={{ color: 'var(--warning)', fontSize: '0.75rem', fontWeight: 900 }}>⭐ MÁS POPULAR</span>}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 2 }}>{plan.duracionDias || 30} días · {plan.descripcion}</div>
+          const planSeleccionado = plans.find(p => p.id === selectedPlanId);
+          return (
+            <div className="validation-payment-modal anim-fade-in" style={{ padding: '10px 0' }}>
+              <p style={{ color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center' }}>
+                Seleccioná un plan para renovar tu membresía de GymTotal:
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
+                {plans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    role="button"
+                    tabIndex={0}
+                    className={`plan-card-mini ${selectedPlanId === plan.id ? 'plan-selected' : ''}`}
+                    onClick={() => setSelectedPlanId(plan.id)}
+                    onKeyDown={(e) => e.key === 'Enter' && setSelectedPlanId(plan.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '16px 20px',
+                      borderRadius: 12,
+                      border: selectedPlanId === plan.id ? '2px solid var(--primary)' : '1px solid var(--border)',
+                      background: selectedPlanId === plan.id ? 'var(--primary-light-alpha, rgba(33, 150, 243, 0.05))' : 'var(--card-bg, #ffffff)',
+                      textAlign: 'left',
+                      width: '100%',
+                      transition: 'all 0.2s ease',
+                      boxSizing: 'border-box',
+                    }}
+                    id={`btn-val-plan-${plan.id}`}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
+                        {plan.nombre} {plan.popular && <span style={{ color: 'var(--warning)', fontSize: '0.75rem', fontWeight: 900 }}>⭐ MÁS POPULAR</span>}
                       </div>
-                      <div style={{ fontWeight: 900, fontSize: '1.2rem', color: selectedPlanId === plan.id ? 'var(--primary)' : 'var(--text)', marginLeft: 12, whiteSpace: 'nowrap' }}>
-                        ${(plan.precio || 0).toLocaleString('es-AR')}
-                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 2 }}>{plan.duracionDias || 30} días · {plan.descripcion}</div>
                     </div>
-                  ))}
-                </div>
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <button
-                    className="btn btn-ghost"
-                    style={{ flex: 1 }}
-                    onClick={() => setShowPaymentModal(false)}
-                    id="btn-val-pay-cancel"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    style={{ flex: 2 }}
-                    onClick={handleProcessPayment}
-                    disabled={!selectedPlanId}
-                    id="btn-val-pay-confirm"
-                  >
-                    {planSeleccionado
-                      ? `💳 Procesar · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
-                      : '💳 Procesar Pago'}
-                  </button>
-                </div>
+                    <div style={{ fontWeight: 900, fontSize: '1.2rem', color: selectedPlanId === plan.id ? 'var(--primary)' : 'var(--text)', marginLeft: 12, whiteSpace: 'nowrap' }}>
+                      ${(plan.precio || 0).toLocaleString('es-AR')}
+                    </div>
+                  </div>
+                ))}
               </div>
-            );
-          })()}
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button
+                  className="btn btn-ghost"
+                  style={{ flex: 1 }}
+                  onClick={() => setShowPaymentModal(false)}
+                  id="btn-val-pay-cancel"
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="btn btn-primary"
+                  style={{ flex: 2 }}
+                  onClick={handleProcessPayment}
+                  disabled={!selectedPlanId}
+                  id="btn-val-pay-confirm"
+                >
+                  {planSeleccionado
+                    ? `💳 Procesar · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
+                    : '💳 Procesar Pago'}
+                </button>
+              </div>
+            </div>
+          );
+        })()}
 
         {paymentStep === 'processing' && (
           <div style={{ textAlign: 'center', padding: '30px 10px' }} className="anim-fade-in">
@@ -403,20 +404,27 @@ export default function Validation() {
 
       {/* Modal "Soy Nuevo" — aviso de 3 segundos + dispara asistencia administrativa */}
       <Modal isOpen={showNuevoModal} onClose={() => setShowNuevoModal(false)} maxWidth={440}>
-        <div style={{ textAlign: 'center', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
-          <div style={{ fontSize: '4rem' }}>👋</div>
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, lineHeight: 1.2 }}>
-            ¡Hola, bienvenido!<br />
+        <div style={{ textAlign: 'center', padding: '16px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
+
+          <h1>
             <span className="text-gradient">GymTotal</span>
-          </h2>
-          <p style={{ fontSize: '1.05rem', color: 'var(--text)', fontWeight: 500, lineHeight: 1.6, maxWidth: 340 }}>
-            Por favor esperá aquí,<br />
-            en breve un colaborador vendrá a ayudarte.
-          </p>
-          <div style={{ display: 'flex', gap: 6 }}>
-            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out infinite', display: 'inline-block' }} />
-            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out 0.2s infinite', display: 'inline-block' }} />
-            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out 0.4s infinite', display: 'inline-block' }} />
+          </h1>
+
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+
+            <h2 style={{ fontSize: '1.6rem', fontWeight: 800, lineHeight: 1.2 }}>
+              ¡Hola, bienvenido!<br />
+            </h2>
+            <p style={{ fontSize: '1.05rem', color: 'var(--text)', fontWeight: 500, lineHeight: 1.6, maxWidth: 340 }}>
+              Por favor esperá aquí,<br />
+              en breve un colaborador vendrá a ayudarte.
+            </p>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out infinite', display: 'inline-block' }} />
+              <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out 0.2s infinite', display: 'inline-block' }} />
+              <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--primary-light)', animation: 'pulse 1.2s ease-in-out 0.4s infinite', display: 'inline-block' }} />
+            </div>
+
           </div>
         </div>
       </Modal>

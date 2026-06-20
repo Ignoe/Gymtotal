@@ -26,6 +26,7 @@ export default function DailyGoal() {
     goalIcon: goal.icon,
     goalLabel: goal.label,
     goalDesc: goal.desc,
+    goalSubtitle: "Objetivo diario",
     exercises,
   } : {};
 

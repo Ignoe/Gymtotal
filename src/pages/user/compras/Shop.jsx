@@ -45,11 +45,17 @@ export default function Shop() {
   const handleCheckout = () => {
     setProcessing(true);
     setTimeout(() => {
-      const purchase = checkout(currentUser?.id || null);
-      setLastPurchase({ ...purchase, usuarioNombre: currentUser?.nombre });
-      setProcessing(false);
-      setShowCart(false);
-      setShowTicket(true);
+      try {
+        const purchase = checkout(currentUser?.id || null);
+        setLastPurchase({ ...purchase, usuarioNombre: currentUser?.nombre });
+        setShowCart(false);
+        setShowTicket(true);
+      } catch (error) {
+        console.error("Error during checkout:", error);
+        alert("Ocurrió un error al procesar el pago. Por favor intenta de nuevo.");
+      } finally {
+        setProcessing(false);
+      }
     }, 2000);
   };
 
@@ -78,7 +84,9 @@ export default function Shop() {
             {filtered.map((p, i) => (
               <div key={p.id} className="product-card anim-fade-in" style={{ animationDelay: `${i * 0.05}s` }}>
                 <div className="product-emoji">{p.emoji}</div>
-                <div className="product-cat">{p.categoria}</div>
+                <div className="product-img">
+                  <img src={p.imagen} alt="" /></div>
+               
                 <h3 className="product-name">{p.nombre}</h3>
                 <p className="product-desc">{p.descripcion}</p>
                 <div className="product-footer">

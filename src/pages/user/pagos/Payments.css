@@ -139,14 +139,16 @@
 
 
 .plan-selected {
-  border-color: #111111 !important;
-  background: rgba(0, 0, 0, 0.06);
-  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.12);
+   border-color: var(--accent) !important;
+  background: rgba(0, 188, 212, 0.08) !important;
+  /* border-color: #111111 !important;
+  background: rgba(0, 0, 0, 0.06); */
+  /* box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.12); */
 }
 
-.plan-popular {
-  border-color: #1cb1da;
-}
+/* .plan-popular {
+  border-color: #000000;
+} */
 
 .plan-badge {
   font-size: 0.8rem;
@@ -277,4 +279,8 @@
 }
 .boton-back button{
   width:100%
+}
+
+#btn-pay{
+  background: white;
 }

@@ -258,7 +258,7 @@ p {
 }
 
 .form-input {
-  background: var(--surface-2);
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 14px 18px;
@@ -270,8 +270,8 @@ p {
 
 .form-input:focus {
   border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
-  background: var(--surface-3);
+  box-shadow: 0 0 0 3px rgba(87, 174, 245, 0.404);
+  background: var(--bg);
 }
 
 .form-input::placeholder {
@@ -279,7 +279,7 @@ p {
 }
 
 .form-select {
-  background: var(--surface-2);
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 14px 18px;
@@ -291,12 +291,14 @@ p {
 
 .form-select:focus {
   border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+  box-shadow: 0 0 0 3px rgba(87, 174, 245, 0.404);
 }
 
 .form-select option {
-  background: var(--surface-2);
+  background: var(--bg);
 }
+
+
 
 /* ─── Badges ─────────────────────────────────────────────────────────────────── */
 .badge {

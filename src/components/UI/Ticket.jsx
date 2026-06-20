@@ -1,6 +1,6 @@
 import './Ticket.css';
 
-export function Ticket({ type = 'payment', data, onClose, onPrint }) {
+export function Ticket({ type = 'payment', data, onClose, onPrint}) {
   const now = new Date();
   const dateStr = now.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
@@ -18,7 +18,8 @@ export function Ticket({ type = 'payment', data, onClose, onPrint }) {
             <span className="ticket-logo-gt">GT</span>
             <span className="ticket-logo-text">GYMTOTAL</span>
           </div>
-          <p className="ticket-subtitle">Comprobante Oficial</p>
+          {data.goalSubtitle && <p className="ticket-subtitle">{data.goalSubtitle}</p>}
+          {!data.goalSubtitle && <p className="ticket-subtitle">Válido como ticket</p>}
         </div>
 
         <div className="ticket-divider-dashed" />
@@ -136,9 +137,9 @@ export function Ticket({ type = 'payment', data, onClose, onPrint }) {
                       <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{i + 1}. {ex.nombre}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, marginTop: 3, fontSize: '0.75rem', color: '#666' }}>
-                      <span>📊 {ex.series} series</span>
-                      <span>🔁 {ex.reps} reps</span>
-                      <span>⏱ {ex.descanso}</span>
+                      <span> {ex.series} series</span>
+                      <span> {ex.reps} </span>
+                     
                     </div>
                   </div>
                 ))}

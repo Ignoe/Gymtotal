@@ -29,7 +29,7 @@ export function AppProvider({ children }) {
       const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
         const list = [];
         snapshot.forEach((doc) => {
-          list.push(doc.data());
+          list.push({ id: doc.id, ...doc.data() });
         });
         setUsers(list);
       }, (err) => console.error('Error fetching users:', err));
@@ -39,7 +39,7 @@ export function AppProvider({ children }) {
       const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
         const list = [];
         snapshot.forEach((doc) => {
-          list.push(doc.data());
+          list.push({ id: doc.id, ...doc.data() });
         });
         setProducts(list);
       }, (err) => console.error('Error fetching products:', err));
@@ -221,7 +221,12 @@ export function AppProvider({ children }) {
       id,
       fecha: new Date().toISOString(),
       usuarioId: userId || 'anonimo',
-      items: [...cart],
+      items: cart.map(item => ({
+        id: item.id || '',
+        nombre: item.nombre || '',
+        precio: item.precio || 0,
+        cantidad: item.cantidad || 0
+      })),
       total,
     };
     
@@ -231,11 +236,14 @@ export function AppProvider({ children }) {
 
     // Update stock in Firestore for each purchased item
     cart.forEach((item) => {
+      if (!item.id) return;
       const productRef = doc(db, 'products', item.id);
-      const newStock = Math.max(0, item.stock - item.cantidad);
-      updateDoc(productRef, { stock: newStock }).catch((err) =>
-        console.error(`Error updating stock for product ${item.id}:`, err)
-      );
+      const newStock = Math.max(0, (item.stock || 0) - item.cantidad);
+      if (!isNaN(newStock)) {
+        updateDoc(productRef, { stock: newStock }).catch((err) =>
+          console.error(`Error updating stock for product ${item.id}:`, err)
+        );
+      }
     });
     
     clearCart();

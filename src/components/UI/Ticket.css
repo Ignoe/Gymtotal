@@ -160,6 +160,9 @@
 
 .ticket-actions .btn {
   flex: 1;
+  background: none;
+  /* font-weight: 100; */
+  /* border-color: #999 */
 }
 
 @media print {
