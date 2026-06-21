@@ -136,8 +136,8 @@ export default function AdminUsers() {
             </select>
           </div>
           <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-            <button className="btn btn-ghost" style={{ flex: 1 }} onClick={() => setShowAdd(false)}>Cancelar</button>
-            <button className="btn btn-primary" style={{ flex: 2 }} onClick={handleAdd} id="btn-confirm-add-user">Crear socio</button>
+            <button className="btn btn-ghost" style={{ flex: 1, cursor:'pointer' }} onClick={() => setShowAdd(false)}>Cancelar</button>
+            <button className="btn btn-primary" style={{ flex: 2, cursor:'pointer' }} onClick={handleAdd} id="btn-confirm-add-user">Crear socio</button>
           </div>
         </div>
       </Modal>

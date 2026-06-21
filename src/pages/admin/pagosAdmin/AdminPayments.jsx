@@ -62,7 +62,7 @@ export default function AdminPayments() {
                 <td style={{ fontSize: '0.85rem', color: 'var(--text-muted)', maxWidth: 220 }}>
                   {p.type === 'purchase' ? (
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <button className="btn btn-sm btn-ghost" onClick={() => setShowDetail(p)}>Ver detalle</button>
+                      <button style={{cursor:'pointer'}}className="btn btn-sm btn-ghost" onClick={() => setShowDetail(p)}>Ver detalle</button>
                     </div>
                   ) : (
                     p.concepto
@@ -107,7 +107,7 @@ export default function AdminPayments() {
             <span style={{ fontWeight: 800, color: 'var(--success)' }}>${(showDetail.monto || 0).toLocaleString('es-AR')}</span>
           </div>
           <div style={{ marginTop: 16, display: 'flex', justifyContent: 'flex-end' }}>
-            <button className="btn btn-primary" onClick={() => setShowDetail(null)}>Cerrar</button>
+            <button style={{cursor:'pointer'}} className="btn btn-primary" onClick={() => setShowDetail(null)}>Cerrar</button>
           </div>
         </div>
       )}
