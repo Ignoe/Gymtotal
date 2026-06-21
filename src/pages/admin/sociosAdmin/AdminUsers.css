@@ -9,8 +9,13 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    margin-right: 6rem;
 }
 
+#btn-add-user{
+    background: none;
+    cursor: pointer;
+}
 .admin-page-header h1 {
     font-size: 1.8rem;
     font-weight: 800;
@@ -26,6 +31,12 @@
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+}
+.users-toolbar input{
+    color: var(--text)
+}
+.users-toolbar ::placeholder{
+    color: var(--text)
 }
 
 .filter-chips {

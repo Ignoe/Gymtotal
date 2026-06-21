@@ -4,6 +4,7 @@
 
 .admin-page-header {
     margin-bottom: 28px;
+    margin-right: 6rem;
 }
 
 .admin-page-header h1 {
@@ -70,6 +71,7 @@
     justify-content: space-between;
     padding: 10px 0;
     border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
 }
 
 .dash-item:last-child {

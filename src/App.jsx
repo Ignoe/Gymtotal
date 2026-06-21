@@ -16,7 +16,6 @@ import Shop from './pages/user/compras/Shop';
 
 // Admin pages
 import AdminLayout from './pages/admin/AdminLayout';
-import AdminDashboard from './pages/admin/dashboardAdmin/AdminDashboard';
 import AdminUsers from './pages/admin/sociosAdmin/AdminUsers';
 import AdminAssistance from './pages/admin/asistenciaAdmin/AdminAssistance';
 import AdminPayments from './pages/admin/pagosAdmin/AdminPayments';
@@ -73,7 +72,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<AdminDashboard />} />
+          <Route index element={<Navigate to="assistance" replace />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="assistance" element={<AdminAssistance />} />
           <Route path="payments" element={<AdminPayments />} />

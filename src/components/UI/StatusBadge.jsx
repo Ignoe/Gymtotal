@@ -17,7 +17,7 @@ export function StatusBadge({ status }) {
 
   return (
     <span className={`badge ${cfg.cls}`}>
-      <span style={{ width: 7, height: 7, borderRadius: '50%', background: cfg.dot, display: 'inline-block' }} />
+      {/* <span style={{ width: 7, height: 7, borderRadius: '50%', background: cfg.dot, display: 'inline-block' }} /> */}
       {cfg.label}
     </span>
   );

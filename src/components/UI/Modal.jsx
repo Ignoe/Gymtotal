@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 export function Modal({ isOpen, onClose, title, children, maxWidth = 520 }) {
   useEffect(() => {
@@ -12,7 +13,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 520 }) {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal" style={{ maxWidth }}>
         {title && (
@@ -22,6 +23,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 520 }) {
         )}
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

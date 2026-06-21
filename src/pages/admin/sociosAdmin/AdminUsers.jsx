@@ -64,7 +64,7 @@ export default function AdminUsers() {
         />
         <div className="filter-chips">
           {[['todos','Todos'],['habilitados','Habilitados'],['inhabilitados','Inhabilitados']].map(([v,l]) => (
-            <button key={v} className={`cat-chip ${filter === v ? 'cat-active' : ''}`} onClick={() => setFilter(v)}>{l}</button>
+            <button style={{cursor:'pointer'}} key={v} className={`cat-chip ${filter === v ? 'cat-active' : ''}`} onClick={() => setFilter(v)}>{l}</button>
           ))}
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function AdminUsers() {
                   <td>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <span style={{ fontWeight: 600 }}>{u.nombre}</span>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{u.email}</span>
+                      {/* <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{u.email}</span> */}
                     </div>
                   </td>
                   <td style={{ fontFamily: 'monospace', fontSize: '0.9rem' }}>{u.dni}</td>
@@ -100,9 +100,9 @@ export default function AdminUsers() {
                   </td>
                   <td><StatusBadge status={u.habilitado} /></td>
                   <td>
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      <button className="btn btn-ghost btn-sm" onClick={() => setShowDetail(u)} id={`btn-detail-${u.id}`}>Ver</button>
-                      <button
+                    <div style={{ display: 'flex',justifyContent:'center', gap: 8 }}>
+                      <button style={{cursor:'pointer'}} className="btn btn-ghost btn-sm" onClick={() => setShowDetail(u)} id={`btn-detail-${u.id}`}>Ver</button>
+                      <button style={{cursor:'pointer'}} 
                         className={`btn btn-sm ${u.habilitado ? 'btn-danger' : 'btn-success'}`}
                         onClick={() => toggleUserStatus(u.id)}
                         id={`btn-toggle-${u.id}`}
@@ -147,7 +147,7 @@ export default function AdminUsers() {
         {showDetail && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg,var(--primary),var(--accent))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.3rem' }}>{showDetail.nombre[0]}</div>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg,var(--primary),var(--accent))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.3rem', color:'var(--bg)' }}>{showDetail.nombre[0]}</div>
               <div>
                 <p style={{ fontWeight: 700, fontSize: '1.1rem' }}>{showDetail.nombre}</p>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{showDetail.id}</p>
