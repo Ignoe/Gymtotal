@@ -4,7 +4,6 @@ import { ProtectedRoute } from './middleware/ProtectedRoute';
 import { UserProtectedRoute } from './middleware/UserProtectedRoute';
 import { useApp } from './context/AppContext';
 
-// Kiosk pages
 import Home from './pages/user/home/Home';
 import Validation from './pages/user/validacion/Validation';
 import Payments from './pages/user/pagos/Payments';
@@ -14,16 +13,15 @@ import Assistance from './pages/user/asistencia/Assistance';
 import NewMember from './pages/user/nuevoUser/NewMember';
 import Shop from './pages/user/compras/Shop';
 
-// Admin pages
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminUsers from './pages/admin/sociosAdmin/AdminUsers';
 import AdminAssistance from './pages/admin/asistenciaAdmin/AdminAssistance';
 import AdminPayments from './pages/admin/pagosAdmin/AdminPayments';
 
 function AppRoutes() {
-  const { loading } = useApp();
+  const { cargando } = useApp();
 
-  if (loading) {
+  if (cargando) {
     return (
       <div style={{
         minHeight: '100vh',
@@ -53,7 +51,6 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ── Kiosk routes ── */}
         <Route path="/" element={<Validation />} />
         <Route path="/home" element={<UserProtectedRoute><Home /></UserProtectedRoute>} />
         <Route path="/payments" element={<UserProtectedRoute><Payments /></UserProtectedRoute>} />
@@ -63,14 +60,9 @@ function AppRoutes() {
         <Route path="/new-member" element={<NewMember />} />
         <Route path="/shop" element={<UserProtectedRoute><Shop /></UserProtectedRoute>} />
 
-        {/* ── Admin routes ── */}
         <Route
           path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
+          element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}
         >
           <Route index element={<Navigate to="assistance" replace />} />
           <Route path="users" element={<AdminUsers />} />
@@ -78,7 +70,6 @@ function AppRoutes() {
           <Route path="payments" element={<AdminPayments />} />
         </Route>
 
-        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

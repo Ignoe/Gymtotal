@@ -1,67 +1,59 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KioskLayout } from '../../../components/Layout/KioskLayout';
 import { Modal } from '../../../components/UI/Modal';
 import { useApp } from '../../../context/AppContext';
 import './Home.css';
 
-const MENU_ITEMS = [
-   { id: 'payments',    label: 'Pagos',           sublabel: 'Pagá tu cuota', path: '/payments'},
-  { id: 'routine',     label: 'Mi Rutina',       sublabel: 'Administrá tu rutina', path: '/routine'},
-  { id: 'daily-goal',  label: 'Objetivo Diario', sublabel: 'Elegí tu objetivo de hoy', path: '/daily-goal' },
-  { id: 'assistance',  label: 'Asistencia',      sublabel: 'Solicitá la ayuda del entrenador', path: '/assistance' },
-  { id: 'shop',        label: 'Compras',         sublabel: 'Tienda GymTotal', path: '/shop' },
-  { id: 'salir',       label: 'Salir',           sublabel: 'Cerrar sesión', path: '/' },
-  { id: 'ingreso',     label: 'Ingreso',         sublabel: ' ', path: '/validation' },
- 
+const OPCIONES_MENU = [
+  { id: 'payments',   label: 'Pagos',           sublabel: 'Pagá tu cuota',                     path: '/payments' },
+  { id: 'routine',    label: 'Mi Rutina',       sublabel: 'Administrá tu rutina',              path: '/routine' },
+  { id: 'daily-goal', label: 'Objetivo Diario', sublabel: 'Elegí tu objetivo de hoy',          path: '/daily-goal' },
+  { id: 'assistance', label: 'Asistencia',      sublabel: 'Solicitá la ayuda del entrenador',  path: '/assistance' },
+  { id: 'shop',       label: 'Compras',         sublabel: 'Tienda GymTotal',                   path: '/shop' },
+  { id: 'salir',      label: 'Salir',           sublabel: 'Cerrar sesión',                     path: '/' },
+  { id: 'ingreso',    label: 'Ingreso',         sublabel: ' ',                                 path: '/validation' },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useApp();
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const { usuarioActual, setUsuarioActual } = useApp();
+  const [mostrarModalIngreso, setMostrarModalIngreso] = useState(false);
 
-
-  const handleCloseSuccess = () => {
-    setShowSuccessModal(false);
-    setCurrentUser(null);
+  const cerrarModalIngreso = () => {
+    setMostrarModalIngreso(false);
+    setUsuarioActual(null);
     navigate('/');
   };
 
   useEffect(() => {
     let timer;
-    if (showSuccessModal) {
-      timer = setTimeout(() => {
-        handleCloseSuccess();
-      }, 3500);
+    if (mostrarModalIngreso) {
+      timer = setTimeout(cerrarModalIngreso, 3500);
     }
     return () => clearTimeout(timer);
-  }, [showSuccessModal]);
+  }, [mostrarModalIngreso]);
 
-  const handleItemClick = (item) => {
+  const handleClick = (item) => {
     if (item.id === 'ingreso') {
-      setShowSuccessModal(true);
+      setMostrarModalIngreso(true);
     } else if (item.id === 'salir') {
-      setCurrentUser(null);
+      setUsuarioActual(null);
       navigate('/');
     } else {
       navigate(item.path);
     }
   };
 
-  const mainItems = MENU_ITEMS.filter(item => item.id !== 'ingreso');
-  const ingresoItem = MENU_ITEMS.find(item => item.id === 'ingreso');
+  const opcionesPrincipales = OPCIONES_MENU.filter(item => item.id !== 'ingreso');
+  const opcionIngreso = OPCIONES_MENU.find(item => item.id === 'ingreso');
 
-  const renderCard = (item, index) => (
+  const renderTarjeta = (item, index) => (
     <button
       key={item.id}
       className="home-card"
-      style={{
-        '--card-color': item.color,
-        '--card-glow': item.glow,
-        animationDelay: `${index * 0.06}s`,
-      }}
-      onClick={() => handleItemClick(item)}
+      style={{ '--card-color': item.color, '--card-glow': item.glow, animationDelay: `${index * 0.06}s` }}
+      onClick={() => handleClick(item)}
       id={`kiosk-btn-${item.id}`}
     >
       <div className="home-card-icon">{item.icon}</div>
@@ -81,45 +73,32 @@ export default function Home() {
   return (
     <KioskLayout>
       <div className="home-page page-enter">
-        {/* Background orbs */}
         <div className="bg-orb home-orb-1" />
         <div className="bg-orb home-orb-2" />
 
         <div className="home-hero">
-         
-          <h1 className="home-title">
-            ¿Qué querés <span className="text-gradient">hacer hoy?</span>
-          </h1>
-       
+          <h1 className="home-title">¿Qué querés <span className="text-gradient">hacer hoy?</span></h1>
         </div>
 
         <div className="home-grid-container">
           <div className="home-grid">
-            {mainItems.map((item, i) => renderCard(item, i))}
+            {opcionesPrincipales.map((item, i) => renderTarjeta(item, i))}
           </div>
-          {ingresoItem && (
+          {opcionIngreso && (
             <div className="home-footer-action">
-              {renderCard(ingresoItem, mainItems.length)}
+              {renderTarjeta(opcionIngreso, opcionesPrincipales.length)}
             </div>
           )}
         </div>
       </div>
 
-      <Modal 
-        isOpen={showSuccessModal} 
-        onClose={handleCloseSuccess} 
-        title="Ingreso Autorizado"
-        maxWidth={400}
-      >
+      <Modal isOpen={mostrarModalIngreso} onClose={cerrarModalIngreso} title="Ingreso Autorizado" maxWidth={400}>
         <div style={{ textAlign: 'center', padding: '20px 10px' }}>
           <div style={{ fontSize: '4.5rem', marginBottom: '20px' }}>✅</div>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '8px' }}>
-            ¡Ingreso Autorizado!
-          </h2>
+          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '8px' }}>¡Ingreso Autorizado!</h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
-            Molinete habilitado. ¡Que tengas un buen entrenamiento{currentUser ? `, ${currentUser.nombre}` : ''}!
+            Molinete habilitado. ¡Que tengas un buen entrenamiento{usuarioActual ? `, ${usuarioActual.nombre}` : ''}!
           </p>
-        
         </div>
       </Modal>
     </KioskLayout>

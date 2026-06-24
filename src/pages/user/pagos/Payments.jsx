@@ -7,98 +7,91 @@ import { Ticket } from '../../../components/UI/Ticket';
 import { useApp } from '../../../context/AppContext';
 import './Payments.css';
 
-const STEPS = { DNI: 'dni', SELECT: 'select', PROCESSING: 'processing', DONE: 'done' };
+const PASOS = { DNI: 'dni', SELECCION: 'select', PROCESANDO: 'processing', LISTO: 'done' };
 
-/** Returns true if the user has active coverage with MORE than 3 days remaining */
-function hasActiveCoverage(user) {
-  if (!user?.fechaVencimiento) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const expiry = new Date(user.fechaVencimiento + 'T00:00:00');
-  const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
-  return diffDays > 3;
+function tieneCoberturaVigente(usuario) {
+  if (!usuario?.fechaVencimiento) return false;
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const vencimiento = new Date(usuario.fechaVencimiento + 'T00:00:00');
+  const diasRestantes = Math.ceil((vencimiento - hoy) / (1000 * 60 * 60 * 24));
+  return diasRestantes > 3;
 }
 
-/** Formats a date string (YYYY-MM-DD) as readable Spanish date */
-function formatExpiryDate(dateStr) {
-  if (!dateStr) return '';
-  const d = new Date(dateStr + 'T00:00:00');
+function formatearFechaVencimiento(fechaStr) {
+  if (!fechaStr) return '';
+  const d = new Date(fechaStr + 'T00:00:00');
   return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 export default function Payments() {
-  const { findUserByDni, addPaymentToUser, updateUser, currentUser, plans } = useApp();
-  const [step, setStep] = useState(currentUser ? STEPS.SELECT : STEPS.DNI);
-  const [dni, setDni] = useState(currentUser?.dni || '');
-  const [user, setUser] = useState(currentUser || null);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const { buscarPorDni, agregarPagoAUsuario, actualizarUsuario, usuarioActual, planes } = useApp();
+  const [paso, setPaso] = useState(usuarioActual ? PASOS.SELECCION : PASOS.DNI);
+  const [dni, setDni] = useState(usuarioActual?.dni || '');
+  const [usuario, setUsuario] = useState(usuarioActual || null);
+  const [planSeleccionado, setPlanSeleccionado] = useState(null);
   const [ticket, setTicket] = useState(null);
-  const [showTicket, setShowTicket] = useState(false);
+  const [mostrarTicket, setMostrarTicket] = useState(false);
   const [error, setError] = useState('');
-  const [showCoverageModal, setShowCoverageModal] = useState(false);
+  const [mostrarModalCobertura, setMostrarModalCobertura] = useState(false);
 
-  const handleDniConfirm = () => {
+  const confirmarDni = () => {
     if (dni.length < 7) return;
-    const found = findUserByDni(dni);
-    if (!found) { setError('DNI no encontrado en el sistema.'); return; }
-    setUser(found);
+    const encontrado = buscarPorDni(dni);
+    if (!encontrado) { setError('DNI no encontrado en el sistema.'); return; }
+    setUsuario(encontrado);
     setError('');
-    setStep(STEPS.SELECT);
+    setPaso(PASOS.SELECCION);
   };
 
-  const handlePay = () => {
-    if (!selectedPlan) return;
-
-    // ── Coverage guard ────────────────────────────────────────────────────────
-    // Block payment if user still has more than 3 days of active coverage
-    if (hasActiveCoverage(user)) {
-      setShowCoverageModal(true);
+  const pagar = () => {
+    if (!planSeleccionado) return;
+    if (tieneCoberturaVigente(usuario)) {
+      setMostrarModalCobertura(true);
       return;
     }
-
-    setStep(STEPS.PROCESSING);
+    setPaso(PASOS.PROCESANDO);
     setTimeout(() => {
-      const plan = plans.find(p => p.id === selectedPlan);
-      const today = new Date();
-      const vto = new Date(today);
-      vto.setDate(vto.getDate() + (plan?.duracionDias || 30));
+      const plan = planes.find(p => p.id === planSeleccionado);
+      const hoy = new Date();
+      const vencimiento = new Date(hoy);
+      vencimiento.setDate(vencimiento.getDate() + (plan?.duracionDias || 30));
 
-      const payment = addPaymentToUser(user.id, {
+      const pago = agregarPagoAUsuario(usuario.id, {
         monto: plan?.precio || 0,
-        concepto: `${plan?.nombre || 'Plan'} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
+        concepto: `${plan?.nombre || 'Plan'} — ${hoy.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
       });
 
-      // Update vencimiento in database
-      updateUser(user.id, {
-        fechaVencimiento: vto.toISOString().slice(0, 10),
+      actualizarUsuario(usuario.id, {
+        fechaVencimiento: vencimiento.toISOString().slice(0, 10),
         plan: plan.id,
         habilitado: true
       });
-      const newTicket = {
-        ...payment,
-        nombre: user.nombre,
-        dni: user.dni,
+
+      setTicket({
+        ...pago,
+        nombre: usuario.nombre,
+        dni: usuario.dni,
         monto: plan?.precio || 0,
-        concepto: `${plan?.nombre || 'Plan'} — ${today.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
-      };
-      setTicket(newTicket);
-      setStep(STEPS.DONE);
+        concepto: `${plan?.nombre || 'Plan'} — ${hoy.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}`,
+      });
+      setPaso(PASOS.LISTO);
     }, 2200);
   };
 
-  const handleReset = () => {
-    if (currentUser) {
-      setStep(STEPS.SELECT);
-      setDni(currentUser.dni || '');
-      setUser(currentUser);
+  const reiniciar = () => {
+    if (usuarioActual) {
+      setPaso(PASOS.SELECCION);
+      setDni(usuarioActual.dni || '');
+      setUsuario(usuarioActual);
     } else {
-      setStep(STEPS.DNI);
+      setPaso(PASOS.DNI);
       setDni('');
-      setUser(null);
+      setUsuario(null);
     }
-    setSelectedPlan(null);
+    setPlanSeleccionado(null);
     setTicket(null);
-    setShowTicket(false);
+    setMostrarTicket(false);
     setError('');
   };
 
@@ -107,56 +100,44 @@ export default function Payments() {
       <div className="payments-page page-enter">
         <div className="payments-content">
 
-
-
-          {/* Step indicators */}
-
-
-          {step === STEPS.DNI && (
+          {paso === PASOS.DNI && (
             <div className="payments-step anim-fade-in">
-              <NumericKeypad value={dni} onChange={setDni} onConfirm={handleDniConfirm} maxLength={8} placeholder="Tu DNI" />
+              <NumericKeypad value={dni} onChange={setDni} onConfirm={confirmarDni} maxLength={8} placeholder="Tu DNI" />
               {error && <p className="payments-error">{error}</p>}
-              <button className="btn btn-primary btn-xl" style={{ width: 340 }} onClick={handleDniConfirm} disabled={dni.length < 7} id="btn-confirm-dni-payment">
+              <button className="btn btn-primary btn-xl" style={{ width: 340 }} onClick={confirmarDni} disabled={dni.length < 7} id="btn-confirm-dni-payment">
                 Continuar
               </button>
             </div>
           )}
 
-          {step === STEPS.SELECT && user && (() => {
-            const planSeleccionado = plans.find(p => p.id === selectedPlan);
+          {paso === PASOS.SELECCION && usuario && (() => {
+            const planActual = planes.find(p => p.id === planSeleccionado);
             return (
               <div className="payments-step anim-fade-in">
-                <div className="boton-back">
-
-                <BackButton />
-
-                </div>
-                <div className="payments-header">
-                  <h1>Pagos</h1>
-                </div>
+                <div className="boton-back"><BackButton /></div>
+                <div className="payments-header"><h1>Pagos</h1></div>
 
                 <div className="payments-user-info">
                   <span>👤</span>
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: '1.1rem' }}>{user.nombre}</p>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Socio #{user.id} · DNI {user.dni}</p>
+                    <p style={{ fontWeight: 700, fontSize: '1.1rem' }}>{usuario.nombre}</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Socio #{usuario.id} · DNI {usuario.dni}</p>
                   </div>
                 </div>
 
                 <h3 style={{ textAlign: 'center', marginBottom: 8 }}>Elegí tu plan</h3>
                 <div className="plans-grid">
-                  {plans.map((plan) => (
+                  {planes.map((plan) => (
                     <div
                       key={plan.id}
                       role="button"
                       tabIndex={0}
-                      className={`plan-card ${selectedPlan === plan.id ? 'plan-selected' : ''} ${plan.popular ? 'plan-popular' : ''}`}
-                      style={{ '--plan-color': plan.color}}
-                      onClick={() => setSelectedPlan(plan.id)}
-                      onKeyDown={(e) => e.key === 'Enter' && setSelectedPlan(plan.id)}
+                      className={`plan-card ${planSeleccionado === plan.id ? 'plan-selected' : ''} ${plan.popular ? 'plan-popular' : ''}`}
+                      style={{ '--plan-color': plan.color }}
+                      onClick={() => setPlanSeleccionado(plan.id)}
+                      onKeyDown={(e) => e.key === 'Enter' && setPlanSeleccionado(plan.id)}
                       id={`btn-plan-${plan.id}`}
                     >
-
                       <div className="plan-name">{plan.nombre}</div>
                       <div className="plan-price">${(plan.precio || 0).toLocaleString('es-AR')}</div>
                       <div className="plan-duration">{plan.duracionDias || 30} días</div>
@@ -171,19 +152,17 @@ export default function Payments() {
                 <button
                   className="btn btn-primary btn-xl"
                   style={{ width: '100%', maxWidth: 480 }}
-                  onClick={handlePay}
-                  disabled={!selectedPlan}
+                  onClick={pagar}
+                  disabled={!planSeleccionado}
                   id="btn-pay"
                 >
-                  {planSeleccionado
-                    ? `Procesar pago · $${(planSeleccionado.precio || 0).toLocaleString('es-AR')}`
-                    : 'Seleccioná un plan'}
+                  {planActual ? `Procesar pago · $${(planActual.precio || 0).toLocaleString('es-AR')}` : 'Seleccioná un plan'}
                 </button>
               </div>
             );
           })()}
 
-          {step === STEPS.PROCESSING && (
+          {paso === PASOS.PROCESANDO && (
             <div className="payments-processing anim-fade-in-scale">
               <div className="processing-animation">
                 <div className="processing-ring" />
@@ -191,22 +170,18 @@ export default function Payments() {
               </div>
               <h2>Procesando pago...</h2>
               <p>Aguardá mientras procesamos tu transacción</p>
-              <div className="processing-dots">
-                <span /><span /><span />
-              </div>
+              <div className="processing-dots"><span /><span /><span /></div>
             </div>
           )}
 
-          {step === STEPS.DONE && ticket && (
+          {paso === PASOS.LISTO && ticket && (
             <div className="payments-done anim-fade-in-scale">
               <div className="done-icon">🎉</div>
               <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>¡Pago exitoso!</h2>
               <p style={{ color: 'var(--text-muted)' }}>Tu cuota fue acreditada correctamente</p>
               <div className="done-amount">${ticket.monto?.toLocaleString('es-AR')}</div>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                <button className="btn btn-primary btn-lg btn-grande" onClick={() => setShowTicket(true)} id="btn-show-ticket">
-                  Ver ticket
-                </button>
+                <button className="btn btn-primary btn-lg btn-grande" onClick={() => setMostrarTicket(true)} id="btn-show-ticket">Ver ticket</button>
                 <HomeButton />
               </div>
             </div>
@@ -214,31 +189,18 @@ export default function Payments() {
         </div>
       </div>
 
-      {/* Ticket modal */}
-      <Modal isOpen={showTicket} onClose={() => setShowTicket(false)} title="Comprobante de pago" maxWidth={420}>
-        <Ticket type="payment" data={ticket || {}} onClose={() => setShowTicket(false)} />
+      <Modal isOpen={mostrarTicket} onClose={() => setMostrarTicket(false)} title="Comprobante de pago" maxWidth={420}>
+        <Ticket type="payment" data={ticket || {}} onClose={() => setMostrarTicket(false)} />
       </Modal>
 
-      {/* Active coverage warning modal */}
-      <Modal isOpen={showCoverageModal} onClose={() => setShowCoverageModal(false)} title="" maxWidth={480}>
+      <Modal isOpen={mostrarModalCobertura} onClose={() => setMostrarModalCobertura(false)} title="" maxWidth={480}>
         <div className="coverage-modal-body">
-          <div className="coverage-modal-icon">🛡️</div>
-          <h2 className="coverage-modal-title">Plan vigente</h2>
-          <p className="coverage-modal-text">
-            Actualmente tenés un plan vigente, que vence el día
-          </p>
-          <div className="coverage-modal-date">
-            {formatExpiryDate(user?.fechaVencimiento)}
-          </div>
-          <p className="coverage-modal-hint">
-            Podés renovar cuando falten 3 días o menos para el vencimiento.
-          </p>
-          <button
-            className="btn btn-primary btn-lg"
-            style={{ width: '100%', marginTop: 8 }}
-            onClick={() => setShowCoverageModal(false)}
-            id="btn-coverage-close"
-          >
+
+
+          <p className="coverage-modal-text">Actualmente tenés un plan vigente, que vence el día</p>
+          <p className="coverage-modal-date">{formatearFechaVencimiento(usuario?.fechaVencimiento)}</p>
+          <p className="coverage-modal-text">Podés renovar cuando falten 3 días o menos para el vencimiento.</p>
+          <button className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: 8 }} onClick={() => setMostrarModalCobertura(false)} id="btn-coverage-close">
             Entendido
           </button>
         </div>

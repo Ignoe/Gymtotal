@@ -1,10 +1,7 @@
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
-// Datos iniciales embebidos — solo se usan en la primera ejecución cuando Firestore está vacío.
-// NO modificar estos datos aquí; para actualizar socios usá el panel de admin.
-
-const INITIAL_USERS = [
+const USUARIOS_INICIALES = [
   {
     id: 'USR-001', dni: '12345678', nombre: 'Carlos Rodríguez',
     email: 'carlos.rodriguez@gmail.com', telefono: '1152341234',
@@ -73,7 +70,7 @@ const INITIAL_USERS = [
   }
 ];
 
-const INITIAL_PRODUCTS = [
+const PRODUCTOS_INICIALES = [
   { id: 'PRD-001', nombre: 'Remera GymTotal Dry-Fit', categoria: 'Ropa', precio: 18000, stock: 25, descripcion: 'Remera de alto rendimiento con tecnología Dry-Fit.', colores: ['Negro', 'Azul', 'Blanco'], tallas: ['S', 'M', 'L', 'XL'], emoji: '👕' },
   { id: 'PRD-002', nombre: 'Short GymTotal Training', categoria: 'Ropa', precio: 14000, stock: 18, descripcion: 'Short deportivo con bolsillo lateral.', colores: ['Negro', 'Azul'], tallas: ['S', 'M', 'L', 'XL'], emoji: '🩳' },
   { id: 'PRD-003', nombre: 'Bidón GymTotal 1L', categoria: 'Accesorios', precio: 8500, stock: 40, descripcion: 'Bidón de 1 litro con tapa a presión. Libre de BPA.', colores: ['Negro', 'Azul', 'Gris'], tallas: null, emoji: '🧴' },
@@ -86,13 +83,13 @@ const INITIAL_PRODUCTS = [
   { id: 'PRD-010', nombre: 'Mochila GymTotal', categoria: 'Accesorios', precio: 32000, stock: 8, descripcion: 'Mochila deportiva 30L con compartimento para zapatillas.', colores: ['Negro', 'Azul'], tallas: null, emoji: '🎒' }
 ];
 
-const INITIAL_ASSISTANCE = [
+const ASISTENCIAS_INICIALES = [
   { id: 'AST-001', usuarioId: 'USR-001', usuarioNombre: 'Carlos Rodríguez', tipo: 'tecnica', descripcion: 'Necesito corrección en la técnica de sentadillas', estado: 'atendido', fecha: '2026-05-25T10:30:00', atendidoPor: 'Prof. Marcos Gómez' },
   { id: 'AST-002', usuarioId: 'USR-004', usuarioNombre: 'Valentina Suárez', tipo: 'nueva_rutina', descripcion: 'Quiero actualizar mi rutina de glúteos', estado: 'pendiente', fecha: '2026-05-26T09:15:00', atendidoPor: null },
   { id: 'AST-003', usuarioId: 'USR-002', usuarioNombre: 'María González', tipo: 'lesion', descripcion: 'Siento molestias en el hombro derecho al hacer press', estado: 'en_curso', fecha: '2026-05-26T11:00:00', atendidoPor: 'Prof. Laura Sánchez' }
 ];
 
-const INITIAL_PLANS = [
+const PLANES_INICIALES = [
   {
     id: 'mensual',
     nombre: 'Plan Mensual',
@@ -144,34 +141,24 @@ const INITIAL_PLANS = [
   }
 ];
 
-export async function seedDatabaseIfEmpty() {
+export async function sembrarBaseSiEstaVacia() {
   try {
-    // 1. Verificar y sembrar planes de forma independiente (siempre requerido si es una colección nueva)
-    const plansSnapshot = await getDocs(collection(db, 'plans'));
-    if (plansSnapshot.empty) {
-      console.log('Colección "plans" vacía. Cargando planes iniciales...');
-      const planWrites = INITIAL_PLANS.map((p) => setDoc(doc(db, 'plans', p.id), p));
-      await Promise.all(planWrites);
-      console.log('Planes sembrados con éxito.');
+    const planesSnapshot = await getDocs(collection(db, 'plans'));
+    if (planesSnapshot.empty) {
+      const escrituras = PLANES_INICIALES.map((p) => setDoc(doc(db, 'plans', p.id), p));
+      await Promise.all(escrituras);
     }
 
-    // 2. Verificar y sembrar otros datos iniciales
-    const usersSnapshot = await getDocs(collection(db, 'users'));
-    if (!usersSnapshot.empty) {
-      console.log('Firestore ya tiene datos de usuarios. Saltando resto de la siembra.');
-      return;
-    }
+    const usuariosSnapshot = await getDocs(collection(db, 'users'));
+    if (!usuariosSnapshot.empty) return;
 
-    console.log('Firestore vacío. Cargando resto de datos iniciales...');
-
-    const writes = [
-      ...INITIAL_USERS.map((u) => setDoc(doc(db, 'users', u.id), u)),
-      ...INITIAL_PRODUCTS.map((p) => setDoc(doc(db, 'products', p.id), p)),
-      ...INITIAL_ASSISTANCE.map((a) => setDoc(doc(db, 'assistance', a.id), a)),
+    const escrituras = [
+      ...USUARIOS_INICIALES.map((u) => setDoc(doc(db, 'users', u.id), u)),
+      ...PRODUCTOS_INICIALES.map((p) => setDoc(doc(db, 'products', p.id), p)),
+      ...ASISTENCIAS_INICIALES.map((a) => setDoc(doc(db, 'assistance', a.id), a)),
     ];
 
-    await Promise.all(writes);
-    console.log('Siembra de datos de usuario/productos completada con éxito.');
+    await Promise.all(escrituras);
   } catch (error) {
     console.error('Error durante la siembra:', error);
   }

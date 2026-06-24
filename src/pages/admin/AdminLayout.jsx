@@ -5,19 +5,19 @@ import { useApp } from '../../context/AppContext';
 import './AdminLayout.css';
 
 const NAV = [
-  { to: '/admin/assistance',  label: 'Asistencia',   icon: '🆘' },
-  { to: '/admin/users',       label: 'Socios',       icon: '👥' },
-  { to: '/admin/payments',    label: 'Pagos',        icon: '💳' },
+  { to: '/admin/assistance', label: 'Asistencia', icon: '🆘' },
+  { to: '/admin/users',      label: 'Socios',     icon: '👥' },
+  { to: '/admin/payments',   label: 'Pagos',      icon: '💳' },
 ];
 
 export default function AdminLayout() {
   const navigate = useNavigate();
-  const session = adminAuth.getSession();
-  const { assistance } = useApp();
+  const sesion = adminAuth.getSession();
+  const { asistencias } = useApp();
 
-  const pendingCount = (assistance || []).filter(a => a.estado === 'pendiente').length;
+  const pendientes = (asistencias || []).filter(a => a.estado === 'pendiente').length;
 
-  const handleLogout = () => {
+  const cerrarSesion = () => {
     adminAuth.logout();
     navigate('/validacion');
   };
@@ -51,17 +51,15 @@ export default function AdminLayout() {
 
         <div className="admin-sidebar-footer">
           <div className="admin-user-info">
-            <div className="admin-user-avatar">
-              {session?.nombre?.[0] || 'A'}
-            </div>
+            <div className="admin-user-avatar">{sesion?.nombre?.[0] || 'A'}</div>
             <div>
-              <p style={{ fontWeight: 600, fontSize: '0.88rem' }}>{session?.nombre}</p>
-              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{session?.rol}</p>
+              <p style={{ fontWeight: 600, fontSize: '0.88rem' }}>{sesion?.nombre}</p>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{sesion?.rol}</p>
             </div>
           </div>
-          <button className="btn btn-ghost btn-sm admin-logout" onClick={handleLogout} id="btn-admin-logout">
+          <button className="btn btn-ghost btn-sm admin-logout" onClick={cerrarSesion} id="btn-admin-logout">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
             </svg>
             Cerrar sesión
           </button>
@@ -70,23 +68,23 @@ export default function AdminLayout() {
 
       <main className="admin-main" style={{ position: 'relative' }}>
         <div style={{ position: 'absolute', top: 24, right: 32, zIndex: 1000 }}>
-          <button 
-            className="btn btn-ghost" 
-            style={{ 
-              position: 'relative', 
+          <button
+            className="btn btn-ghost"
+            style={{
+              position: 'relative',
               padding: '10px',
               borderRadius: '50%',
               background: 'var(--bg)',
               boxShadow: 'var(--shadow-sm)',
-              color: pendingCount > 0 ? 'var(--danger)' : 'var(--text-muted)',
-              border: pendingCount > 0 ? '1px solid var(--danger)' : '1px solid var(--border)',
+              color: pendientes > 0 ? 'var(--danger)' : 'var(--text-muted)',
+              border: pendientes > 0 ? '1px solid var(--danger)' : '1px solid var(--border)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               width: 44,
               height: 44,
               overflow: 'visible',
-              cursor:'pointer'
+              cursor: 'pointer'
             }}
             onClick={() => navigate('/admin/assistance')}
             title="Solicitudes de Asistencia"
@@ -95,28 +93,20 @@ export default function AdminLayout() {
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
-            {pendingCount > 0 && (
+            {pendientes > 0 && (
               <span style={{
-                position: 'absolute',
-                top: -6,
-                right: -6,
-                background: 'var(--danger)',
-                color: 'white',
-                fontSize: '0.75rem',
-                fontWeight: 900,
-                width: 20,
-                height: 20,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                position: 'absolute', top: -6, right: -6,
+                background: 'var(--danger)', color: 'white',
+                fontSize: '0.75rem', fontWeight: 900,
+                width: 20, height: 20,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
                 borderRadius: '50%'
               }}>
-                {pendingCount}
+                {pendientes}
               </span>
             )}
           </button>
         </div>
-
         <Outlet />
       </main>
     </div>

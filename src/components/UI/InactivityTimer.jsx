@@ -3,95 +3,86 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { Modal } from './Modal';
 
+const TIEMPO_INACTIVIDAD_MS = 30000;
+
 export function InactivityTimer({ children }) {
-  const [showWarning, setShowWarning] = useState(false);
-  const [countdown, setCountdown] = useState(10);
-  const { setCurrentUser } = useApp();
+  const [mostrarAviso, setMostrarAviso] = useState(false);
+  const [cuenta, setCuenta] = useState(10);
+  const { setUsuarioActual } = useApp();
   const navigate = useNavigate();
 
-  const idleTimeoutRef = useRef(null);
-  const countdownIntervalRef = useRef(null);
+  const timerInactividad = useRef(null);
+  const intervalCuenta = useRef(null);
 
-  const IDLE_TIMEOUT_MS = 30000; // 30 segundos
+  const reiniciarTimer = useCallback(() => {
+    if (mostrarAviso) return;
+    if (timerInactividad.current) clearTimeout(timerInactividad.current);
 
-  const resetIdleTimer = useCallback(() => {
-    if (showWarning) return; // No reiniciar si ya se está mostrando el modal
-    if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
-
-    idleTimeoutRef.current = setTimeout(() => {
-      setShowWarning(true);
-      setCountdown(10);
-    }, IDLE_TIMEOUT_MS);
-  }, [showWarning]);
-
-  const handleUserActivity = useCallback(() => {
-    resetIdleTimer();
-  }, [resetIdleTimer]);
+    timerInactividad.current = setTimeout(() => {
+      setMostrarAviso(true);
+      setCuenta(10);
+    }, TIEMPO_INACTIVIDAD_MS);
+  }, [mostrarAviso]);
 
   useEffect(() => {
-    // Escuchar eventos de actividad del usuario
-    const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
-    events.forEach(event => window.addEventListener(event, handleUserActivity));
-
-    // Inicio inicial
-    resetIdleTimer();
+    const eventos = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
+    eventos.forEach(ev => window.addEventListener(ev, reiniciarTimer));
+    reiniciarTimer();
 
     return () => {
-      events.forEach(event => window.removeEventListener(event, handleUserActivity));
-      if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
-      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+      eventos.forEach(ev => window.removeEventListener(ev, reiniciarTimer));
+      if (timerInactividad.current) clearTimeout(timerInactividad.current);
+      if (intervalCuenta.current) clearInterval(intervalCuenta.current);
     };
-  }, [handleUserActivity]);
+  }, [reiniciarTimer]);
 
-  const logout = useCallback(() => {
-    if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
-    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-    setShowWarning(false);
-    setCurrentUser(null);
+  const cerrarSesion = useCallback(() => {
+    if (timerInactividad.current) clearTimeout(timerInactividad.current);
+    if (intervalCuenta.current) clearInterval(intervalCuenta.current);
+    setMostrarAviso(false);
+    setUsuarioActual(null);
     navigate('/', { replace: true });
-  }, [setCurrentUser, navigate]);
+  }, [setUsuarioActual, navigate]);
 
   useEffect(() => {
-    if (showWarning) {
-      countdownIntervalRef.current = setInterval(() => {
-        setCountdown((prev) => {
+    if (mostrarAviso) {
+      intervalCuenta.current = setInterval(() => {
+        setCuenta((prev) => {
           if (prev <= 1) {
-            clearInterval(countdownIntervalRef.current);
-            logout(); // Tiempo terminado, cerrar sesión
+            clearInterval(intervalCuenta.current);
+            cerrarSesion();
             return 0;
           }
           return prev - 1;
         });
       }, 10000);
     } else {
-      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+      if (intervalCuenta.current) clearInterval(intervalCuenta.current);
     }
 
     return () => {
-      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+      if (intervalCuenta.current) clearInterval(intervalCuenta.current);
     };
-  }, [showWarning, logout]);
+  }, [mostrarAviso, cerrarSesion]);
 
-  const handleExtendSession = () => {
-    setShowWarning(false);
-    resetIdleTimer();
+  const seguirUsando = () => {
+    setMostrarAviso(false);
+    reiniciarTimer();
   };
 
   return (
     <>
       {children}
-      <Modal isOpen={showWarning} onClose={logout} title="¿Necesitás más tiempo?" maxWidth={400}>
+      <Modal isOpen={mostrarAviso} onClose={cerrarSesion} title="¿Necesitás más tiempo?" maxWidth={400}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'center', padding: '16px 0' }}>
-          {/* <div style={{ fontSize: '3rem', marginBottom: '12px' }}>⏳</div> */}
           <p style={{ fontSize: '1.1rem', marginBottom: '16px' }}>
-            Tu sesión se cerrará en <strong style={{color: 'var(--danger)', fontSize: '1.2rem'}}>{countdown}</strong> segundos.
+            Tu sesión se cerrará en <strong style={{color: 'var(--danger)', fontSize: '1.2rem'}}>{cuenta}</strong> segundos.
           </p>
-         
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <button className="btn btn-ghost" onClick={logout}>
+            <button className="btn btn-ghost" onClick={cerrarSesion}>
               Salir
             </button>
-            <button className="btn btn-primary" style={{background: 'none', color: 'var(--text)'}} onClick={handleExtendSession}>
+            <button className="btn btn-primary" style={{background: 'none', color: 'var(--text)'}} onClick={seguirUsando}>
               Sí, necesito más tiempo
             </button>
           </div>

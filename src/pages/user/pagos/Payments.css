@@ -310,7 +310,7 @@
 
 .coverage-modal-text {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.3rem;
   margin: 0;
   line-height: 1.5;
 }
@@ -323,14 +323,12 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   padding: 10px 20px;
-  border: 1.5px solid var(--border);
   border-radius: var(--radius);
   width: 100%;
   text-transform: capitalize;
 }
 
-.coverage-modal-hint {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  margin: 0;
+#btn-coverage-close{
+  background: white;
+  color: black;
 }

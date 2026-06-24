@@ -2,22 +2,21 @@ import { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import './KioskLayout.css';
 
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  // dateStr is YYYY-MM-DD, convert to DD-MM-AAAA avoiding timezone shift
-  const [y, m, d] = dateStr.split('-');
+function formatearFecha(fechaStr) {
+  if (!fechaStr) return '';
+  const [y, m, d] = fechaStr.split('-');
   return `${d}-${m}-${y}`;
 }
 
 export function KioskLayout({ children }) {
-  const { currentUser } = useApp();
-  const [time, setTime] = useState('');
+  const { usuarioActual } = useApp();
+  const [hora, setHora] = useState('');
 
   useEffect(() => {
-    const update = () =>
-      setTime(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
-    update();
-    const t = setInterval(update, 1000);
+    const actualizar = () =>
+      setHora(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+    actualizar();
+    const t = setInterval(actualizar, 1000);
     return () => clearInterval(t);
   }, []);
 
@@ -29,23 +28,22 @@ export function KioskLayout({ children }) {
           <span className="kiosk-brand-name">GYMTOTAL</span>
         </div>
         <div className='kiosk-user'>
-          {currentUser && (
+          {usuarioActual && (
             <div className="kiosk-user-status">
               <span className="kiosk-welcome-text">
-                Bienvenido, <strong>{currentUser.nombre}. </strong>
+                Bienvenido, <strong>{usuarioActual.nombre}. </strong>
               </span>
-              <span>Tu pase vence el {formatDate(currentUser.fechaVencimiento)}</span>
+              <span>Tu pase vence el {formatearFecha(usuarioActual.fechaVencimiento)}</span>
             </div>
           )}
           <div className="kiosk-header-right">
-            <div className="kiosk-time">{time}</div>
+            <div className="kiosk-time">{hora}</div>
           </div>
         </div>
       </header>
       <main className="kiosk-main">
         {children}
       </main>
-
     </div>
   );
 }

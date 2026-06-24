@@ -7,80 +7,78 @@ import { Modal } from '../../../components/UI/Modal';
 import { useApp } from '../../../context/AppContext';
 import './Assistance.css';
 
-const STEPS = { DNI: 'dni', SENT: 'sent' };
+const PASOS = { DNI: 'dni', ENVIADO: 'sent' };
 
-let lastRequestTime = 0;
+let ultimaSolicitud = 0;
 
 export default function Assistance() {
-  const { findUserByDni, addAssistanceRequest, currentUser, assistance } = useApp();
+  const { buscarPorDni, agregarSolicitudAsistencia, usuarioActual, asistencias } = useApp();
   const navigate = useNavigate();
-  const [step, setStep] = useState(STEPS.DNI);
+  const [paso, setPaso] = useState(PASOS.DNI);
   const [dni, setDni] = useState('');
-  const [user, setUser] = useState(null);
+  const [usuario, setUsuario] = useState(null);
   const [error, setError] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [isAlreadyRequested, setIsAlreadyRequested] = useState(false);
-  const [hasChecked, setHasChecked] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [yaFueSolicitada, setYaFueSolicitada] = useState(false);
+  const [verificado, setVerificado] = useState(false);
 
-  // Si hay sesión activa, enviar solicitud automáticamente al entrar
   useEffect(() => {
-    if (currentUser && !hasChecked) {
-      const activeRequest = assistance.find(
-        a => a.usuarioId === currentUser.id && a.estado !== 'atendido'
+    if (usuarioActual && !verificado) {
+      const solicitudActiva = asistencias.find(
+        a => a.usuarioId === usuarioActual.id && a.estado !== 'atendido'
       );
-      if (activeRequest) {
-        setIsAlreadyRequested(true);
+      if (solicitudActiva) {
+        setYaFueSolicitada(true);
       } else {
-        const now = Date.now();
-        if (now - lastRequestTime > 2000) {
-          lastRequestTime = now;
-          addAssistanceRequest({
-            usuarioId: currentUser.id,
-            usuarioNombre: currentUser.nombre,
+        const ahora = Date.now();
+        if (ahora - ultimaSolicitud > 2000) {
+          ultimaSolicitud = ahora;
+          agregarSolicitudAsistencia({
+            usuarioId: usuarioActual.id,
+            usuarioNombre: usuarioActual.nombre,
             tipo: 'general',
             descripcion: 'Solicitud desde el totem',
           });
         }
-        setIsAlreadyRequested(false);
+        setYaFueSolicitada(false);
       }
-      setUser(currentUser);
-      setShowModal(true);
-      setHasChecked(true);
+      setUsuario(usuarioActual);
+      setMostrarModal(true);
+      setVerificado(true);
     }
-  }, [currentUser, assistance, hasChecked]);
+  }, [usuarioActual, asistencias, verificado]);
 
-  // Auto-cerrar modal y volver al home tras 3 segundos
   useEffect(() => {
-    if (!showModal) return;
+    if (!mostrarModal) return;
     const timer = setTimeout(() => {
-      setShowModal(false);
+      setMostrarModal(false);
       navigate('/home');
     }, 3000);
     return () => clearTimeout(timer);
-  }, [showModal]);
+  }, [mostrarModal]);
 
-  const handleDni = () => {
-    const found = findUserByDni(dni);
-    if (!found) { setError('DNI no encontrado.'); return; }
-    
-    const activeRequest = assistance.find(
-      a => a.usuarioId === found.id && a.estado !== 'atendido'
+  const confirmarDni = () => {
+    const encontrado = buscarPorDni(dni);
+    if (!encontrado) { setError('DNI no encontrado.'); return; }
+
+    const solicitudActiva = asistencias.find(
+      a => a.usuarioId === encontrado.id && a.estado !== 'atendido'
     );
-    if (activeRequest) {
-      setIsAlreadyRequested(true);
+    if (solicitudActiva) {
+      setYaFueSolicitada(true);
     } else {
-      addAssistanceRequest({
-        usuarioId: found.id,
-        usuarioNombre: found.nombre,
+      agregarSolicitudAsistencia({
+        usuarioId: encontrado.id,
+        usuarioNombre: encontrado.nombre,
         tipo: 'general',
         descripcion: 'Solicitud desde el totem',
       });
-      setIsAlreadyRequested(false);
+      setYaFueSolicitada(false);
     }
-    
-    setUser(found);
+
+    setUsuario(encontrado);
     setError('');
-    setShowModal(true);
+    setMostrarModal(true);
   };
 
   return (
@@ -88,21 +86,20 @@ export default function Assistance() {
       <div className="assistance-page page-enter">
         <div className="assistance-content">
           <BackButton />
-
           <div className="assistance-header">
             <div style={{ fontSize: '3rem' }}>🆘</div>
             <h1>Solicitar Asistencia</h1>
             <p>Un entrenador se acercará a ayudarte</p>
           </div>
 
-          {step === STEPS.DNI && !showModal && (
+          {paso === PASOS.DNI && !mostrarModal && (
             <div className="assistance-step anim-fade-in">
-              <NumericKeypad value={dni} onChange={setDni} onConfirm={handleDni} maxLength={8} placeholder="Tu DNI" />
+              <NumericKeypad value={dni} onChange={setDni} onConfirm={confirmarDni} maxLength={8} placeholder="Tu DNI" />
               {error && <p style={{ color: 'var(--danger)', textAlign: 'center' }}>{error}</p>}
               <button
                 className="btn btn-accent btn-xl"
                 style={{ width: 340 }}
-                onClick={handleDni}
+                onClick={confirmarDni}
                 disabled={dni.length < 7}
                 id="btn-confirm-dni-assist"
               >
@@ -114,18 +111,18 @@ export default function Assistance() {
       </div>
 
       <Modal
-        isOpen={showModal}
-        onClose={() => { setShowModal(false); navigate('/home'); }}
-        title={isAlreadyRequested ? "Asistencia pendiente" : "¡Asistencia solicitada!"}
+        isOpen={mostrarModal}
+        onClose={() => { setMostrarModal(false); navigate('/home'); }}
+        title={yaFueSolicitada ? 'Asistencia pendiente' : '¡Asistencia solicitada!'}
         maxWidth={420}
       >
         <div style={{ textAlign: 'center', padding: '20px 10px' }}>
-          {isAlreadyRequested ? (
+          {yaFueSolicitada ? (
             <>
               <div style={{ fontSize: '5rem', marginBottom: 16, animation: 'floatUp 2s ease-in-out infinite' }}>⏳</div>
               <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: 8 }}>Aguarda un momento</h2>
               <p style={{ color: 'var(--text-muted)', marginBottom: 20 }}>
-                Aguarda, la asistencia ya ha sido solicitada. Un entrenador se acercará a ayudarte en breve.
+                La asistencia ya fue solicitada. Un entrenador se acercará a ayudarte en breve.
               </p>
             </>
           ) : (

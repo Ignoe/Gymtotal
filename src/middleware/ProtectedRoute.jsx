@@ -6,17 +6,12 @@ import { adminAuth } from './adminAuth';
  * Si el usuario no está autenticado, redirige a /admin/login
  * conservando la ruta original en el state para redirigir tras el login.
  */
+
 export function ProtectedRoute({ children }) {
   const location = useLocation();
 
   if (!adminAuth.isAuthenticated()) {
-    return (
-      <Navigate
-        to="/"
-        state={{ from: location }}
-        replace
-      />
-    );
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;
