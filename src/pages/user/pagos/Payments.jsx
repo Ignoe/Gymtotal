@@ -9,6 +9,23 @@ import './Payments.css';
 
 const STEPS = { DNI: 'dni', SELECT: 'select', PROCESSING: 'processing', DONE: 'done' };
 
+/** Returns true if the user has active coverage with MORE than 3 days remaining */
+function hasActiveCoverage(user) {
+  if (!user?.fechaVencimiento) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const expiry = new Date(user.fechaVencimiento + 'T00:00:00');
+  const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+  return diffDays > 3;
+}
+
+/** Formats a date string (YYYY-MM-DD) as readable Spanish date */
+function formatExpiryDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 export default function Payments() {
   const { findUserByDni, addPaymentToUser, updateUser, currentUser, plans } = useApp();
   const [step, setStep] = useState(currentUser ? STEPS.SELECT : STEPS.DNI);
@@ -18,6 +35,7 @@ export default function Payments() {
   const [ticket, setTicket] = useState(null);
   const [showTicket, setShowTicket] = useState(false);
   const [error, setError] = useState('');
+  const [showCoverageModal, setShowCoverageModal] = useState(false);
 
   const handleDniConfirm = () => {
     if (dni.length < 7) return;
@@ -30,6 +48,14 @@ export default function Payments() {
 
   const handlePay = () => {
     if (!selectedPlan) return;
+
+    // ── Coverage guard ────────────────────────────────────────────────────────
+    // Block payment if user still has more than 3 days of active coverage
+    if (hasActiveCoverage(user)) {
+      setShowCoverageModal(true);
+      return;
+    }
+
     setStep(STEPS.PROCESSING);
     setTimeout(() => {
       const plan = plans.find(p => p.id === selectedPlan);
@@ -188,8 +214,34 @@ export default function Payments() {
         </div>
       </div>
 
+      {/* Ticket modal */}
       <Modal isOpen={showTicket} onClose={() => setShowTicket(false)} title="Comprobante de pago" maxWidth={420}>
         <Ticket type="payment" data={ticket || {}} onClose={() => setShowTicket(false)} />
+      </Modal>
+
+      {/* Active coverage warning modal */}
+      <Modal isOpen={showCoverageModal} onClose={() => setShowCoverageModal(false)} title="" maxWidth={480}>
+        <div className="coverage-modal-body">
+          <div className="coverage-modal-icon">🛡️</div>
+          <h2 className="coverage-modal-title">Plan vigente</h2>
+          <p className="coverage-modal-text">
+            Actualmente tenés un plan vigente, que vence el día
+          </p>
+          <div className="coverage-modal-date">
+            {formatExpiryDate(user?.fechaVencimiento)}
+          </div>
+          <p className="coverage-modal-hint">
+            Podés renovar cuando falten 3 días o menos para el vencimiento.
+          </p>
+          <button
+            className="btn btn-primary btn-lg"
+            style={{ width: '100%', marginTop: 8 }}
+            onClick={() => setShowCoverageModal(false)}
+            id="btn-coverage-close"
+          >
+            Entendido
+          </button>
+        </div>
       </Modal>
     </KioskLayout>
   );

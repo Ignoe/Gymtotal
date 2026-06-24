@@ -380,7 +380,7 @@ export default function Validation() {
                 onClick={() => setShowTicketModal(true)}
                 id="btn-val-show-ticket"
               >
-                🖨️ Ver Ticket
+                Ver Ticket
               </button>
               <button
                 className="btn btn-primary btn-lg"
@@ -390,7 +390,7 @@ export default function Validation() {
                 }}
                 id="btn-val-enter-gym"
               >
-                Ingresar al gimnasio
+                Ir a pantalla principal
               </button>
             </div>
           </div>

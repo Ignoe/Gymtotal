@@ -156,3 +156,13 @@
   width: 100%;
   max-width: 340px;
 }
+
+#btn-val-show-ticket {
+  background: none;
+  width: 16rem;
+}
+
+#btn-val-enter-gym {
+  background: none;
+  width: 16rem;
+}

@@ -14,7 +14,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 520 }) {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="modal-overlay">
       <div className="modal" style={{ maxWidth }}>
         {title && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
