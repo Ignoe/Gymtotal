@@ -197,9 +197,9 @@ export default function Payments() {
         <div className="coverage-modal-body">
 
 
-          <p className="coverage-modal-text">Actualmente tenés un plan vigente, que vence el día</p>
+          <p className="coverage-modal-text">Actualmente contás con un plan vigente que vence el día</p>
           <p className="coverage-modal-date">{formatearFechaVencimiento(usuario?.fechaVencimiento)}</p>
-          <p className="coverage-modal-text">Podés renovar cuando falten 3 días o menos para el vencimiento.</p>
+          <p className="coverage-modal-text">Podras renovarlo cuando falten 3 o menos días para su vencimiento.</p>
           <button className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: 8 }} onClick={() => setMostrarModalCobertura(false)} id="btn-coverage-close">
             Entendido
           </button>

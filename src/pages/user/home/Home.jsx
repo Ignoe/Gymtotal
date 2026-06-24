@@ -92,7 +92,7 @@ export default function Home() {
         </div>
       </div>
 
-      <Modal isOpen={mostrarModalIngreso} onClose={cerrarModalIngreso} title="Ingreso Autorizado" maxWidth={400}>
+      <Modal isOpen={mostrarModalIngreso} onClose={cerrarModalIngreso}>
         <div style={{ textAlign: 'center', padding: '20px 10px' }}>
           <div style={{ fontSize: '4.5rem', marginBottom: '20px' }}>✅</div>
           <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '8px' }}>¡Ingreso Autorizado!</h2>

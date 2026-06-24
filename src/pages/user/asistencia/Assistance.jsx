@@ -113,7 +113,7 @@ export default function Assistance() {
       <Modal
         isOpen={mostrarModal}
         onClose={() => { setMostrarModal(false); navigate('/home'); }}
-        title={yaFueSolicitada ? 'Asistencia pendiente' : '¡Asistencia solicitada!'}
+        title={yaFueSolicitada ? '' : ''}
         maxWidth={420}
       >
         <div style={{ textAlign: 'center', padding: '20px 10px' }}>
