@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { db } from '../config/firebase';
 import { collection, onSnapshot, doc, setDoc, updateDoc } from 'firebase/firestore';
-import { sembrarBaseSiEstaVacia } from '../utils/dbSeeder';
+//import { sembrarBaseSiEstaVacia } from '../utils/dbSeeder';
 
 const AppContext = createContext(null);
 
@@ -20,7 +20,7 @@ export function AppProvider({ children }) {
     let desuscripciones = [];
 
     async function init() {
-      await sembrarBaseSiEstaVacia();
+      //await sembrarBaseSiEstaVacia();
       if (!activo) return;
 
       desuscripciones.push(
